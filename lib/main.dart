@@ -1,7 +1,8 @@
+import 'package:agroera_project/admin/admin.dart';
 import 'package:agroera_project/landing_page/landing_page.dart';
-import 'package:agroera_project/customer/login_page/login_page.dart';
-import 'package:agroera_project/customer/main_page.dart/main_page.dart';
-import 'package:agroera_project/customer/signup_page.dart/signup_page.dart';
+import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
+import 'package:agroera_project/customer/main_page_customer.dart/main_page.dart';
+import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
 import 'package:agroera_project/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,9 +21,10 @@ class AgroEraApp extends StatelessWidget {
       routes: {
         "SplashScreen": (context) => SplashScreen(),
         "LandingPage": (context) => LandingPage(),
-        "LoginPage": (context) => LoginPage(),
+        "LoginPage": (context) => LoginPageCustomer(),
         "SignupPage": (context) => SignupPage(),
-        "MainPage": (context) => MainPage(),
+        "MainPage": (context) => MainPageCustomer(),
+        "AdminPage" :(context) => AdminPage(),
       },
     );
   }

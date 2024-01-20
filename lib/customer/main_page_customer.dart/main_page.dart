@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MainPage extends StatelessWidget {
+class MainPageCustomer extends StatelessWidget {
   static const nameRoutes = "MainPage";
-  const MainPage({super.key});
+  const MainPageCustomer({super.key});
 
   @override
   Widget build(BuildContext context) {

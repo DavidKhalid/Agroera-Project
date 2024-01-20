@@ -1,32 +1,32 @@
-import 'package:agroera_project/customer/login_page/login_page.dart';
-import 'package:agroera_project/customer/main_page.dart/main_page.dart';
+import 'package:agroera_project/customer/main_page_customer.dart/main_page.dart';
+import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignupPage extends StatelessWidget {
-  static const nameRoutes = "SignupPage";
-  const SignupPage({super.key});
+class LoginPageCustomer extends StatelessWidget {
+  static const nameRoutes = "LoginPage";
+  const LoginPageCustomer({super.key});
 
   @override
   Widget build(BuildContext context) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
     final mediaqueryWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            _logoapp(mediaqueryHeight, mediaqueryWidth),
-            _welcometext(),
-            _pleaselogintext(),
-            _inputemail(),
-            _inputusername(),
-            _inputpassword(),
-            _buttonsignup(context, mediaqueryHeight, mediaqueryWidth),
-            _bottomtext(context)
-          ],
-        ));
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          _logoapp(mediaqueryHeight, mediaqueryWidth),
+          _welcometext(),
+          _pleaselogintext(),
+          _inputemail(),
+          _inputpassword(),
+          _buttonlogin(context, mediaqueryHeight, mediaqueryWidth),
+          _bottomtext(context)
+        ],
+      ),
+    );
   }
 
   Positioned _bottomtext(BuildContext context) {
@@ -39,7 +39,7 @@ class SignupPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Sudah punya akun?",
+            "Belum punya akun?",
             style: GoogleFonts.roboto(
                 fontSize: 14,
                 color: Colors.black,
@@ -50,10 +50,10 @@ class SignupPage extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(LoginPage.nameRoutes);
+              Navigator.of(context).pushNamed(SignupPage.nameRoutes);
             },
             child: Text(
-              "Login",
+              "Sign Up",
               style: GoogleFonts.roboto(
                   fontSize: 14,
                   color: Colors.green.shade900,
@@ -65,7 +65,7 @@ class SignupPage extends StatelessWidget {
     );
   }
 
-  Positioned _buttonsignup(
+  Positioned _buttonlogin(
       BuildContext context, double mediaqueryHeight, double mediaqueryWidth) {
     return Positioned(
         top: 730,
@@ -74,7 +74,7 @@ class SignupPage extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(MainPage.nameRoutes);
+            Navigator.of(context).pushNamed(MainPageCustomer.nameRoutes);
           },
           child: Container(
             height: mediaqueryHeight / 15,
@@ -84,7 +84,7 @@ class SignupPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30)),
             child: Center(
               child: Text(
-                "SIGN UP",
+                "LOGIN",
                 style: GoogleFonts.roboto(
                     fontSize: 18,
                     color: Colors.white,
@@ -99,7 +99,7 @@ class SignupPage extends StatelessWidget {
     return Positioned(
       left: 30,
       right: 65,
-      top: 510,
+      top: 470,
       child: TextField(
         obscureText: true,
         //controller: passwordController,
@@ -124,7 +124,7 @@ class SignupPage extends StatelessWidget {
     return Positioned(
       left: 30,
       right: 65,
-      top: 440,
+      top: 400,
       //margin: EdgeInsets.symmetric(horizontal: 60),
       child: TextField(
         //controller: emailController,
@@ -134,31 +134,6 @@ class SignupPage extends StatelessWidget {
         decoration: const InputDecoration(
           icon: Icon(FeatherIcons.user, color: Colors.grey),
           hintText: "EMAIL",
-          border: UnderlineInputBorder(),
-          hintStyle: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-              fontWeight: FontWeight.w400,
-              fontStyle: FontStyle.normal),
-        ),
-      ),
-    );
-  }
-
-  Positioned _inputusername() {
-    return Positioned(
-      left: 30,
-      right: 65,
-      top: 380,
-      child: TextField(
-        obscureText: false,
-        //controller: passwordController,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
-        ],
-        decoration: const InputDecoration(
-          icon: Icon(FeatherIcons.mail, color: Colors.grey),
-          hintText: "USERNAME",
           border: UnderlineInputBorder(),
           hintStyle: TextStyle(
               fontSize: 16,

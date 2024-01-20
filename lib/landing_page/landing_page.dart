@@ -1,6 +1,8 @@
-import 'package:agroera_project/customer/login_page/login_page.dart';
-import 'package:agroera_project/customer/signup_page.dart/signup_page.dart';
+import 'package:agroera_project/admin/admin.dart';
+import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
+import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LandingPage extends StatelessWidget {
@@ -19,17 +21,81 @@ class LandingPage extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _login(context, mediaqueryHeight, mediaqueryWidth),
-              SizedBox(
-                height: 15,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    height: mediaqueryHeight / 6,
+                    width: mediaqueryWidth / 2.4,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(100),
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Column(
+                      children: [
+                        Image(
+                            image:
+                                AssetImage("assets/images/customerlogo.png")),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _login(context, mediaqueryHeight, mediaqueryWidth),
+                            _signup(context, mediaqueryHeight, mediaqueryWidth),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: mediaqueryHeight / 6,
+                    width: mediaqueryWidth / 2.4,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(100),
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Column(
+                      children: [
+                        Image(
+                            height: 80,
+                            image: AssetImage("assets/images/sellerlogo.png")),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _login(context, mediaqueryHeight, mediaqueryWidth),
+                            _signup(context, mediaqueryHeight, mediaqueryWidth),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              _signup(context, mediaqueryHeight, mediaqueryWidth),
-              SizedBox(
-                height: 25,
-              )
             ],
           ),
+          _admin(context, mediaqueryHeight, mediaqueryWidth)
         ],
+      ),
+    );
+  }
+
+  Align _admin(
+      BuildContext context, double mediaqueryHeight, double mediaqueryWidth) {
+    return Align(
+      alignment: Alignment(1, -0.88),
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed(AdminPage.nameRoutes);
+        },
+        child: Container(
+          height: mediaqueryHeight / 15,
+          width: mediaqueryWidth / 8,
+          decoration: BoxDecoration(
+              //color: Colors.amber,
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage("assets/images/logoadmin.png"))),
+        ),
       ),
     );
   }
@@ -51,19 +117,22 @@ class LandingPage extends StatelessWidget {
       BuildContext context, double mediaqueryHeight, double mediaqueryWidth) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(LoginPage.nameRoutes);
+        Navigator.of(context).pushNamed(LoginPageCustomer.nameRoutes);
       },
       child: Container(
-        margin: EdgeInsets.only(left: 30, right: 30),
-        height: mediaqueryHeight / 15,
-        width: mediaqueryWidth,
+        //  margin: EdgeInsets.only(left: 30, right: 30),
+        height: mediaqueryHeight / 30,
+        width: mediaqueryWidth / 6,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30), color: Colors.white),
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.grey.shade100.withAlpha(230)),
         child: Center(
             child: Text(
           "LOGIN",
           style: GoogleFonts.roboto(
-              fontSize: 18, color: Colors.green, fontWeight: FontWeight.w900),
+              fontSize: 14,
+              color: Colors.green.withAlpha(230),
+              fontWeight: FontWeight.w900),
         )),
       ),
     );
@@ -76,16 +145,19 @@ class LandingPage extends StatelessWidget {
         Navigator.of(context).pushNamed(SignupPage.nameRoutes);
       },
       child: Container(
-        margin: EdgeInsets.only(left: 30, right: 30),
-        height: mediaqueryHeight / 15,
-        width: mediaqueryWidth,
+        //  margin: EdgeInsets.only(left: 30, right: 30),
+        height: mediaqueryHeight / 30,
+        width: mediaqueryWidth / 6,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30), color: Colors.white),
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.grey.shade100.withAlpha(230)),
         child: Center(
             child: Text(
           "SIGN UP",
           style: GoogleFonts.roboto(
-              fontSize: 18, color: Colors.green, fontWeight: FontWeight.w900),
+              fontSize: 14,
+              color: Colors.green.withAlpha(230),
+              fontWeight: FontWeight.w900),
         )),
       ),
     );
