@@ -30,6 +30,7 @@ class SplashScreen extends StatelessWidget {
         onAnimationEnd: () => debugPrint("On Fade In End"),
         duration: const Duration(seconds: 3),
         nextScreen: const LandingPage(),
+        animationCurve: Curves.easeOutSine,
       ),
     );
   }

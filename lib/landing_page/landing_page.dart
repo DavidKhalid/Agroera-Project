@@ -1,6 +1,7 @@
 import 'package:agroera_project/admin/admin.dart';
 import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
+import 'package:agroera_project/seller/signup_page_seller/signup_page_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,49 +25,66 @@ class LandingPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    height: mediaqueryHeight / 6,
-                    width: mediaqueryWidth / 2.4,
-                    decoration: BoxDecoration(
-                        color: Colors.white.withAlpha(100),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Column(
-                      children: [
-                        Image(
-                            image:
-                                AssetImage("assets/images/customerlogo.png")),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _login(context, mediaqueryHeight, mediaqueryWidth),
-                            _signup(context, mediaqueryHeight, mediaqueryWidth),
-                          ],
-                        )
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(SignupPageCustomer.nameRoutes);
+                    },
+                    child: Container(
+                      height: mediaqueryHeight / 6,
+                      width: mediaqueryWidth / 2.2,
+                      decoration: BoxDecoration(
+                          color: Colors.white.withAlpha(100),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Column(
+                        children: [
+                          Image(
+                              image:
+                                  AssetImage("assets/images/customerlogo.png")),
+                          _signupcustomer(
+                              context, mediaqueryHeight, mediaqueryWidth)
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    height: mediaqueryHeight / 6,
-                    width: mediaqueryWidth / 2.4,
-                    decoration: BoxDecoration(
-                        color: Colors.white.withAlpha(100),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Column(
-                      children: [
-                        Image(
-                            height: 80,
-                            image: AssetImage("assets/images/sellerlogo.png")),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _login(context, mediaqueryHeight, mediaqueryWidth),
-                            _signup(context, mediaqueryHeight, mediaqueryWidth),
-                          ],
-                        )
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(SignupPageSeller.nameRoutes);
+                    },
+                    child: Container(
+                      height: mediaqueryHeight / 6,
+                      width: mediaqueryWidth / 2.2,
+                      decoration: BoxDecoration(
+                          color: Colors.white.withAlpha(100),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Column(
+                        children: [
+                          Image(
+                              height: 80,
+                              image:
+                                  AssetImage("assets/images/sellerlogo.png")),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            //  margin: EdgeInsets.only(left: 30, right: 30),
+                            height: mediaqueryHeight / 30,
+                            width: mediaqueryWidth / 2.2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.grey.shade100.withAlpha(230)),
+                            child: Center(
+                                child: Text(
+                              "SIGN UP FOR CELLERS",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 14,
+                                  color: Colors.green.withAlpha(230),
+                                  fontWeight: FontWeight.w900),
+                            )),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -113,47 +131,22 @@ class LandingPage extends StatelessWidget {
     );
   }
 
-  InkWell _login(
+  InkWell _signupcustomer(
       BuildContext context, double mediaqueryHeight, double mediaqueryWidth) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(LoginPageCustomer.nameRoutes);
+        Navigator.of(context).pushNamed(SignupPageCustomer.nameRoutes);
       },
       child: Container(
         //  margin: EdgeInsets.only(left: 30, right: 30),
         height: mediaqueryHeight / 30,
-        width: mediaqueryWidth / 6,
+        width: mediaqueryWidth / 2.2,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: Colors.grey.shade100.withAlpha(230)),
         child: Center(
             child: Text(
-          "LOGIN",
-          style: GoogleFonts.roboto(
-              fontSize: 14,
-              color: Colors.green.withAlpha(230),
-              fontWeight: FontWeight.w900),
-        )),
-      ),
-    );
-  }
-
-  InkWell _signup(
-      BuildContext context, double mediaqueryHeight, double mediaqueryWidth) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed(SignupPage.nameRoutes);
-      },
-      child: Container(
-        //  margin: EdgeInsets.only(left: 30, right: 30),
-        height: mediaqueryHeight / 30,
-        width: mediaqueryWidth / 6,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.grey.shade100.withAlpha(230)),
-        child: Center(
-            child: Text(
-          "SIGN UP",
+          "SIGN UP FOR CUSTOMERS",
           style: GoogleFonts.roboto(
               fontSize: 14,
               color: Colors.green.withAlpha(230),

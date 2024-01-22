@@ -6,7 +6,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPageCustomer extends StatelessWidget {
-  static const nameRoutes = "LoginPage";
+  static const nameRoutes = "LoginPageCustomer";
   const LoginPageCustomer({super.key});
 
   @override
@@ -50,7 +50,7 @@ class LoginPageCustomer extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(SignupPage.nameRoutes);
+              Navigator.of(context).pushNamed(SignupPageCustomer.nameRoutes);
             },
             child: Text(
               "Sign Up",
@@ -157,12 +157,12 @@ class LoginPageCustomer extends StatelessWidget {
     );
   }
 
-  Positioned _welcometext() {
+  Positioned _welcometext() { 
     return Positioned(
       top: 300,
       left: 20,
       child: Text(
-        "Welcome !",
+        "Welcome Customer !",
         style: GoogleFonts.roboto(
             fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
       ),

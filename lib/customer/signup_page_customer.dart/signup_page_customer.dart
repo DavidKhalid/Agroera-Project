@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignupPage extends StatelessWidget {
-  static const nameRoutes = "SignupPage";
-  const SignupPage({super.key});
+class SignupPageCustomer extends StatelessWidget {
+  static const nameRoutes = "SignupPageCustomer";
+  const SignupPageCustomer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +187,7 @@ class SignupPage extends StatelessWidget {
       top: 300,
       left: 20,
       child: Text(
-        "Welcome !",
+        "Welcome Customer !",
         style: GoogleFonts.roboto(
             fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
       ),
