@@ -1,9 +1,7 @@
 import 'package:agroera_project/admin/admin.dart';
-import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
 import 'package:agroera_project/seller/signup_page_seller/signup_page_seller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LandingPage extends StatelessWidget {

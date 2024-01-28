@@ -1,4 +1,4 @@
-import 'package:agroera_project/customer/main_page_customer.dart/main_page.dart';
+import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
