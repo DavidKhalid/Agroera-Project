@@ -42,17 +42,12 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
       ),
       // <--- End Home Page >
 
+      // <--- Start shopping Cart Page --->
       SafeArea(
         child: Stack(children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-            child: Text(
-              "My Cart",
-              style: GoogleFonts.roboto(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w900),
-            ),
+            child: _textmycart(),
           ),
           Align(
             alignment: Alignment(0, -0.4),
@@ -60,139 +55,33 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
               height: mediaqueryHeight / 1.5,
               width: mediaqueryWidth,
               //color: Colors.pink.shade300,
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        height: mediaqueryHeight / 7,
-                        width: mediaqueryWidth,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3))
-                            ]),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          "https://picsum.photos/id/1/200/300"))),
-                            ),
-                            Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                  child: Text(
-                                    "Product Name",
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 40, 0, 10),
-                                  child: Text(
-                                    "Price",
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  );
-                },
-              ),
+              child: _listviewbuilder(mediaqueryHeight, mediaqueryWidth),
             ),
           ),
           Align(
             alignment: Alignment(0, 0.75),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Total (3 item) :",
-                    style: GoogleFonts.alegreya(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black54),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Rp. 500.000",
-                    style: GoogleFonts.roboto(
-                        fontSize: 20, fontWeight: FontWeight.w800),
-                  ),
-                )
-              ],
+              children: [_texttotal(), _nominal()],
             ),
           ),
-          Align(
-            alignment: Alignment(0, 1),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed(PaymentPageCustomer.nameRoutes);
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                margin: EdgeInsets.all(20),
-                height: mediaqueryHeight / 15,
-                width: mediaqueryWidth,
-                decoration: BoxDecoration(
-                    color: Colors.green.shade800,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Proceed to Checkout",
-                        style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900),
-                      ),
-                      Icon(
-                        FeatherIcons.chevronRight,
-                        color: Colors.white,
-                        size: 30,
-                        weight: 30,
-                      )
-                    ]),
-              ),
-            ),
-          ),
+          _buttonchekout(context, mediaqueryHeight, mediaqueryWidth),
         ]),
       ),
-      // shopping cart
-      Center(child: Text("profile page")), // profiel page
+      // <--- End shopping Cart Page --->
+
+      // <--- Start Profile Page --->
+      SafeArea(
+        child: Stack(
+          children: [
+            _imageprofile(mediaqueryHeight, mediaqueryWidth),
+            Column(
+              children: [_username(), _email()],
+            )
+          ],
+        ),
+      ),
+      // <--- End Profile Page ---> // profiel page
     ];
 
     return Scaffold(
@@ -216,7 +105,211 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
     );
   }
 
-  // <--- Start Home Page --->
+// <--- End shopping Cart Page --->
+  Row _email() {
+    return Row(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        //
+        Padding(
+          padding: const EdgeInsets.only(top: 50, left: 20),
+          child: Text(
+            "Email",
+            style: GoogleFonts.roboto(
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 50, right: 20),
+          child: Text(
+            "example@gmail.com",
+            style: GoogleFonts.roboto(
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _username() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 100, left: 20),
+          child: Text(
+            "Username",
+            style: GoogleFonts.roboto(
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 100, right: 20),
+          child: Text(
+            "Alberto",
+            style: GoogleFonts.roboto(
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Container _imageprofile(double mediaqueryHeight, double mediaqueryWidth) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 25),
+      padding: EdgeInsets.only(top: 5),
+      height: mediaqueryHeight / 13,
+      width: mediaqueryWidth,
+      decoration: BoxDecoration(color: Colors.green.shade800),
+      child: ListTile(
+        leading: CircleAvatar(
+          radius: 30,
+          backgroundImage: NetworkImage("https://picsum.photos/id/65/200/300"),
+        ),
+      ),
+    );
+  }
+// <--- Start shopping Cart Page --->
+
+// <--- End shopping Cart Page --->
+  Align _buttonchekout(
+      BuildContext context, double mediaqueryHeight, double mediaqueryWidth) {
+    return Align(
+      alignment: Alignment(0, 1),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(PaymentPageCustomer.nameRoutes);
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          margin: EdgeInsets.all(20),
+          height: mediaqueryHeight / 15,
+          width: mediaqueryWidth,
+          decoration: BoxDecoration(
+              color: Colors.green.shade800,
+              borderRadius: BorderRadius.circular(20)),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+              "Proceed to Checkout",
+              style: GoogleFonts.roboto(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900),
+            ),
+            Icon(
+              FeatherIcons.chevronRight,
+              color: Colors.white,
+              size: 30,
+              weight: 30,
+            )
+          ]),
+        ),
+      ),
+    );
+  }
+
+  Padding _nominal() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Text(
+        "Rp. 500.000",
+        style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w800),
+      ),
+    );
+  }
+
+  Padding _texttotal() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Text(
+        "Total (3 item) :",
+        style: GoogleFonts.alegreya(
+            fontSize: 16, fontWeight: FontWeight.w800, color: Colors.black54),
+      ),
+    );
+  }
+
+  ListView _listviewbuilder(double mediaqueryHeight, double mediaqueryWidth) {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return Column(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              height: mediaqueryHeight / 7,
+              width: mediaqueryWidth,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3))
+                  ]),
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.amber,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                "https://picsum.photos/id/1/200/300"))),
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: Text(
+                          "Product Name",
+                          style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 40, 0, 10),
+                        child: Text(
+                          "Price",
+                          style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Text _textmycart() {
+    return Text(
+      "My Cart",
+      style: GoogleFonts.roboto(
+          fontSize: 25, color: Colors.black, fontWeight: FontWeight.w900),
+    );
+  }
+// <--- Start shopping Cart Page --->
+
+  // <--- End Home Page --->
   Positioned _categoryproduct(double mediaqueryHeight, double mediaqueryWidth) {
     return Positioned(
       top: 200,
@@ -324,5 +417,5 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
       ),
     );
   }
-  // <--- End Home Page --->
+  // <--- Start Home Page --->
 }
