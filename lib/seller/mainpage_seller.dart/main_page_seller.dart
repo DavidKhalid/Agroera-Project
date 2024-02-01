@@ -8,7 +8,7 @@ class MainPageSeller extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Main Page Seller"),
+        child: Text("Create Main Page Seller"),
       ),
     );
   }
