@@ -1,5 +1,5 @@
 import 'package:agroera_project/seller/login_page_seller/login_page_seller.dart';
-import 'package:agroera_project/seller/mainpage_seller.dart/main_page_seller.dart';
+import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';

@@ -87,6 +87,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
     return Scaffold(
       body: pageView[indexbuttomNavigationBar],
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.green.shade800,
         currentIndex: indexbuttomNavigationBar,
         items: [
           BottomNavigationBarItem(icon: Icon(FeatherIcons.home), label: "Home"),
@@ -105,7 +106,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
     );
   }
 
-// <--- End shopping Cart Page --->
+// <--- End Profile Cart Page --->
   Row _email() {
     return Row(
       // crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +172,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
       ),
     );
   }
-// <--- Start shopping Cart Page --->
+// <--- Start Profile Cart Page --->
 
 // <--- End shopping Cart Page --->
   Align _buttonchekout(
