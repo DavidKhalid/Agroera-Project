@@ -9,6 +9,7 @@ import 'package:agroera_project/customer/login_page_customer/login_page_customer
 import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
 import 'package:agroera_project/models/model_category_product.dart';
+import 'package:agroera_project/seller/add%20product%20seller/addpage_productseller.dart';
 import 'package:agroera_project/seller/createpage_store_seller/createpage_store_seller.dart';
 import 'package:agroera_project/seller/login_page_seller/login_page_seller.dart';
 import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
@@ -44,7 +45,8 @@ class AgroEraApp extends StatelessWidget {
         "SignupPageSeller": (context) => SignupPageSeller(),
         "LoginPageSeller": (context) => LoginPageSeller(),
         "MainPageSeller": (context) => MainPageSeller(),
-        "CreatePageStoreSeller" :(context) => CreatePageStoreSeller(),
+        "CreatePageStoreSeller": (context) => CreatePageStoreSeller(),
+        "ProductSellerPage": (context) => ProductSellerPage(),
       },
     );
   }

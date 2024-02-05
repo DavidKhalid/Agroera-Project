@@ -1,3 +1,4 @@
+import 'package:agroera_project/seller/add%20product%20seller/addpage_productseller.dart';
 import 'package:agroera_project/seller/createpage_store_seller/createpage_store_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -18,19 +19,34 @@ class _MainPageSellerState extends State<MainPageSeller> {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
     final mediaqueryWidth = MediaQuery.of(context).size.width;
     List<dynamic> pageView = [
-      Center(
-        child: Text("Home Page Seller"),
-      ),
+      // <--- Start Store Page Status "0"--->
+      // Ini akan dibuat status toko pada database dengan nilai status default
+      // yaitu "0". Status default ini akan didapat oleh seller yang kita pertama
+      // kali registrasi pada aplikasi dan belum membuat online storenya. Ketika
+      // online store telah dibuat dan di Submit maka status akan berubah menjadi
+      // "1", dimana state akan berubah dan menampilkan online store si seller.
+      // Cara ini dilakukan untuk merubah state pada halaman yang sama tergantung
+      // dari kondisi yang diperlukan, dimana kondisi ini contohnya adalah "status."
+      // SafeArea(
+      //   child: Stack(children: [
+      //     _imagestore(),
+      //     _text_haveastore(),
+      //     _button_createstore(mediaqueryHeight, mediaqueryWidth),
+      //   ]),
+      // ),
+      // <--- End Store Page Status "0"--->
 
-      // <--- Start Store Page --->
+      // <--- Start Store Page Status "1"--->
       SafeArea(
-        child: Stack(children: [
-          _imagestore(),
-          _text_haveastore(),
-          _button_createstore(mediaqueryHeight, mediaqueryWidth),
-        ]),
+        child: Stack(
+          children: [
+            _textmystore(),
+            _logoandnamestore(mediaqueryWidth),
+            _bodycontent(mediaqueryWidth)
+          ],
+        ),
       ),
-      // <--- End Store Page --->
+      // <--- End Store Page Status "1"--->
 
       Center(
         child: Text("Store Order History Seller"),
@@ -55,13 +71,12 @@ class _MainPageSellerState extends State<MainPageSeller> {
     return Scaffold(
       body: pageView[indexbuttomNavigationBar],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.amber,
+        // backgroundColor: Colors.amber,
         // elevation: 50,
         selectedItemColor: Colors.green.shade800,
         unselectedItemColor: Colors.black,
         currentIndex: indexbuttomNavigationBar,
         items: [
-          BottomNavigationBarItem(icon: Icon(FeatherIcons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.store), label: "Store"),
           BottomNavigationBarItem(
               icon: Icon(FeatherIcons.fileText), label: "Order History"),
@@ -75,6 +90,109 @@ class _MainPageSellerState extends State<MainPageSeller> {
             // value = indexbuttomNavigationBar;
           });
         },
+      ),
+    );
+  }
+
+  Positioned _bodycontent(double mediaqueryWidth) {
+    return Positioned(
+      top: 260,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Container(
+        width: mediaqueryWidth,
+        color: Colors.grey.shade100,
+        child: Column(
+          children: [
+            _textyoudonthave(),
+            _buttonaddproduct(mediaqueryWidth),
+          ],
+        ),
+      ),
+    );
+  }
+
+  GestureDetector _buttonaddproduct(double mediaqueryWidth) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) {
+            return ProductSellerPage();
+          },
+        ));
+      },
+      child: Container(
+        height: 50,
+        width: mediaqueryWidth / 1.7,
+        decoration: BoxDecoration(
+            color: Colors.green.shade800,
+            borderRadius: BorderRadius.all(Radius.elliptical(30, 30))),
+        child: Center(
+          child: Text(
+            "Add Product",
+            style: GoogleFonts.roboto(
+              fontSize: 18,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding _textyoudonthave() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 50),
+      child: Text(
+        "You dont have product",
+        style: GoogleFonts.roboto(
+          fontSize: 18,
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+  Align _logoandnamestore(double mediaqueryWidth) {
+    return Align(
+      alignment: Alignment(0, -0.73),
+      child: Container(
+        height: 180,
+        width: mediaqueryWidth,
+        // color: Colors.grey.shade100,
+        child: Column(
+          children: [
+            CircleAvatar(
+              radius: 50,
+              backgroundImage:
+                  NetworkImage("https://picsum.photos/seed/picsum/200/300"),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Text(
+                "Store Name",
+                style: GoogleFonts.roboto(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w800),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding _textmystore() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Text(
+        "My Store",
+        style: GoogleFonts.alegreya(
+            fontSize: 28, color: Colors.black, fontWeight: FontWeight.w800),
       ),
     );
   }
