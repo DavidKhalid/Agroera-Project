@@ -1,3 +1,4 @@
+import 'package:agroera_project/seller/login_page_seller/contoller_seller.dart';
 import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
 import 'package:agroera_project/seller/signup_page_seller/signup_page_seller.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class LoginPageSeller extends StatelessWidget {
   static const nameRoutes = "LoginPageSeller";
-  const LoginPageSeller({super.key});
+  loginControllerSeller emailController = loginControllerSeller();
+  loginControllerSeller passwordController = loginControllerSeller();
+  LoginPageSeller({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +105,7 @@ class LoginPageSeller extends StatelessWidget {
       top: 470,
       child: TextField(
         obscureText: true,
-        //controller: passwordController,
+        controller: passwordController.passwordC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -127,7 +130,7 @@ class LoginPageSeller extends StatelessWidget {
       top: 400,
       //margin: EdgeInsets.symmetric(horizontal: 60),
       child: TextField(
-        //controller: emailController,
+        controller: emailController.emailC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],

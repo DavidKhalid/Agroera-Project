@@ -1,9 +1,13 @@
+import 'package:agroera_project/seller/createpage_store_seller/controllerstore_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CreatePageStoreSeller extends StatelessWidget {
   static const nameRoutes = "CreatePageStoreSeller";
-  const CreatePageStoreSeller({super.key});
+  controllerStoreSeller namatokoController = controllerStoreSeller();
+  controllerStoreSeller alamatController = controllerStoreSeller();
+  controllerStoreSeller deskripsitokoController = controllerStoreSeller();
+  CreatePageStoreSeller({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +62,7 @@ class CreatePageStoreSeller extends StatelessWidget {
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(10)),
                     child: TextField(
+                      controller: namatokoController.namatoko,
                       maxLines: 3,
                       decoration: InputDecoration(
                           hintText: "Nama Toko",
@@ -77,6 +82,7 @@ class CreatePageStoreSeller extends StatelessWidget {
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(10)),
                     child: TextField(
+                      controller: alamatController.alamat,
                       maxLines: 3,
                       decoration: InputDecoration(
                           hintText: "Alamat",
@@ -96,6 +102,7 @@ class CreatePageStoreSeller extends StatelessWidget {
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(10)),
                     child: TextField(
+                      controller: deskripsitokoController.deskripsitoko,
                       maxLines: 3,
                       decoration: InputDecoration(
                           hintText: "Deskripsi Toko",

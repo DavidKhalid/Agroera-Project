@@ -134,7 +134,7 @@ class PaymentPageCustomer extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
                             child: Text(
-                              "BANK",
+                              "JASA PENGIRIMAN",
                               style: GoogleFonts.alegreya(
                                   fontSize: 25,
                                   color: Colors.black,

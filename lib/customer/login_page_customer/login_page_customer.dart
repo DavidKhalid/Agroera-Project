@@ -1,3 +1,4 @@
+import 'package:agroera_project/customer/login_page_customer/controller_customer.dart';
 import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class LoginPageCustomer extends StatelessWidget {
   static const nameRoutes = "LoginPageCustomer";
-  const LoginPageCustomer({super.key});
+  loginControllerCustomer emailController = loginControllerCustomer();
+  loginControllerCustomer passwordController = loginControllerCustomer();
+  LoginPageCustomer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +105,7 @@ class LoginPageCustomer extends StatelessWidget {
       top: 470,
       child: TextField(
         obscureText: true,
-        //controller: passwordController,
+        controller: passwordController.passwordC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -127,7 +130,7 @@ class LoginPageCustomer extends StatelessWidget {
       top: 400,
       //margin: EdgeInsets.symmetric(horizontal: 60),
       child: TextField(
-        //controller: emailController,
+        controller: emailController.emailC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -157,7 +160,7 @@ class LoginPageCustomer extends StatelessWidget {
     );
   }
 
-  Positioned _welcometext() { 
+  Positioned _welcometext() {
     return Positioned(
       top: 300,
       left: 20,
