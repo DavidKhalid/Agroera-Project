@@ -1,5 +1,6 @@
-import 'package:agroera_project/seller/add%20product%20seller/addpage_productseller.dart';
+import 'package:agroera_project/seller/addproduct_seller/addpage_productseller.dart';
 import 'package:agroera_project/seller/createpage_store_seller/createpage_store_seller.dart';
+import 'package:agroera_project/seller/detail_orderhistory_seller/detail_orderhistory_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -81,7 +82,7 @@ class _MainPageSellerState extends State<MainPageSeller> {
             margin: EdgeInsets.only(top: 50),
             height: 150,
             width: mediaqueryWidth,
-            color: Colors.green.shade100,
+            color: Colors.green.shade100.withOpacity(1),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -92,7 +93,7 @@ class _MainPageSellerState extends State<MainPageSeller> {
                       style: GoogleFonts.roboto(
                           fontSize: 20,
                           color: Colors.black,
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
@@ -145,16 +146,89 @@ class _MainPageSellerState extends State<MainPageSeller> {
             child: Container(
               height: mediaqueryHeight / 1.5,
               width: mediaqueryWidth,
-              color: Colors.pink.shade100,
+              // color: Colors.pink.shade100,
               child: ListView.builder(
                 itemCount: 30,
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
                       Container(
-                        height: 100,
+                        height: 200,
                         width: mediaqueryWidth,
-                        color: Colors.blue.shade100,
+                        decoration: BoxDecoration(
+                          // color: Colors.blue.shade100,
+                          image: DecorationImage(
+                            alignment: Alignment(-0.9, 0),
+                            scale: 2,
+                            image: NetworkImage(
+                              "https://picsum.photos/id/${index + 1}/200/300",
+                            ),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 150),
+                                  child: Text(
+                                    "Nama Produk",
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 150),
+                                  child: Text(
+                                    "Jumlah",
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 150),
+                                  child: Text(
+                                    "Harga Total",
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    fixedSize:
+                                        MaterialStatePropertyAll(Size(91, 40)),
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Colors.green.shade800)),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) {
+                                      return DetailOrderHistorySeller();
+                                    },
+                                  ));
+                                },
+                                child: Text(
+                                  "Detail",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 5,
@@ -178,6 +252,8 @@ class _MainPageSellerState extends State<MainPageSeller> {
               children: [
                 _username(),
                 _email(),
+                _phone(),
+                _address(),
               ],
             )
           ],
@@ -188,7 +264,7 @@ class _MainPageSellerState extends State<MainPageSeller> {
     return Scaffold(
       body: pageView[indexbuttomNavigationBar],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.amber,
+        // backgroundColor: Colors.amber,
         // elevation: 50,
         selectedItemColor: Colors.green.shade800,
         unselectedItemColor: Colors.black,
@@ -476,6 +552,58 @@ class _MainPageSellerState extends State<MainPageSeller> {
   // <--- Start Store Page Status "0"--->
 
   // <--- End Profile Cart Page --->
+  Row _address() {
+    return Row(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        //
+        Padding(
+          padding: const EdgeInsets.only(top: 50, left: 20),
+          child: Text(
+            "Address",
+            style: GoogleFonts.roboto(
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 50, right: 20),
+          child: Text(
+            "Blangkolam, No. F8",
+            style: GoogleFonts.roboto(
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _phone() {
+    return Row(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        //
+        Padding(
+          padding: const EdgeInsets.only(top: 50, left: 20),
+          child: Text(
+            "Phone",
+            style: GoogleFonts.roboto(
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 50, right: 20),
+          child: Text(
+            "082246516632",
+            style: GoogleFonts.roboto(
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+        ),
+      ],
+    );
+  }
+
   Row _email() {
     return Row(
       // crossAxisAlignment: CrossAxisAlignment.start,
@@ -517,9 +645,8 @@ class _MainPageSellerState extends State<MainPageSeller> {
         Padding(
           padding: const EdgeInsets.only(top: 100, right: 20),
           child: Text(
-            "Alberto",
+            "Editor as Fauzan Arobi",
             style: GoogleFonts.roboto(
-              
                 fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
           ),
         ),

@@ -1,5 +1,5 @@
 import 'package:agroera_project/models/model_category_product.dart';
-import 'package:agroera_project/seller/add%20product%20seller/controlleraddproduct_seller.dart';
+import 'package:agroera_project/seller/addproduct_seller/controlleraddproduct_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
