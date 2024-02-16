@@ -1,4 +1,6 @@
-import 'package:agroera_project/admin/admin.dart';
+import 'package:agroera_project/admin/datacustomer/datacustomer.dart';
+import 'package:agroera_project/admin/dataseller/dataseller.dart';
+import 'package:agroera_project/admin/mainpage_admin/mainpage_admin.dart';
 import 'package:agroera_project/customer/cart_page_customer/cart_page_customer.dart';
 import 'package:agroera_project/customer/deliverypage_status_customer/deliverypage_status_customer.dart';
 import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_customer.dart';
@@ -43,6 +45,8 @@ class AgroEraApp extends StatelessWidget {
         "PaymentPageCustomer": (context) => PaymentPageCustomer(),
         "DeliveryPageStatusCustomer": (context) => DeliveryPageStatusCustomer(),
         "AdminPage": (context) => AdminPage(),
+        "DataCustomer": (context) => DataCustomer(),
+        "DataSeller": (context) => DataSeller(),
         "SignupPageSeller": (context) => SignupPageSeller(),
         "LoginPageSeller": (context) => LoginPageSeller(),
         "MainPageSeller": (context) => MainPageSeller(),
