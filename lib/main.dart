@@ -17,43 +17,67 @@ import 'package:agroera_project/seller/detail_orderhistory_seller/detail_orderhi
 import 'package:agroera_project/seller/login_page_seller/login_page_seller.dart';
 import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
 import 'package:agroera_project/seller/signup_page_seller/signup_page_seller.dart';
+import 'package:agroera_project/services/auth_services.dart';
 import 'package:agroera_project/splash_screen/splash_screen.dart';
+import 'package:agroera_project/utils/loadingview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(AgroEraApp());
 }
 
 class AgroEraApp extends StatelessWidget {
+  final AuthServices _authServices = AuthServices();
   AgroEraApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: SplashScreen.nameRoutes,
-      routes: {
-        "SplashScreen": (context) => SplashScreen(),
-        "LandingPage": (context) => LandingPage(),
-        "LoginPageCustomer": (context) => LoginPageCustomer(),
-        "SignupPageCustomer": (context) => SignupPageCustomer(),
-        "MainPageCustomer": (context) => MainPageCustomer(),
-        "ProductForCustomer": (context) => ProductForCustomer(),
-        "DetailProductPageCustomer": (context) =>
-            DetailProductPageCustomer(categoryP: CategoryProduct()),
-        "CartPageCustomer": (context) => CartPageCustomer(),
-        "PaymentPageCustomer": (context) => PaymentPageCustomer(),
-        "DeliveryPageStatusCustomer": (context) => DeliveryPageStatusCustomer(),
-        "AdminPage": (context) => AdminPage(),
-        "DataCustomer": (context) => DataCustomer(),
-        "DataSeller": (context) => DataSeller(),
-        "SignupPageSeller": (context) => SignupPageSeller(),
-        "LoginPageSeller": (context) => LoginPageSeller(),
-        "MainPageSeller": (context) => MainPageSeller(),
-        "CreatePageStoreSeller": (context) => CreatePageStoreSeller(),
-        "ProductSellerPage": (context) => ProductSellerPage(),
-        "DetailOrderHistorySeller": (context) => DetailOrderHistorySeller(),
-      },
-    );
+    return StreamBuilder<User?>(
+        stream: _authServices.streamAuthStatus,
+        builder: (context, snapshot) {
+          print(snapshot);
+          if (snapshot.connectionState == ConnectionState.active) {
+            print("this is ${snapshot.data}");
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              initialRoute: snapshot.data == null
+                  ? SplashScreen().toString()
+                  : MainPageCustomer().toString(),
+              routes: {
+                "SplashScreen": (context) => SplashScreen(),
+                "LandingPage": (context) => LandingPage(),
+                "LoginPageCustomer": (context) => LoginPageCustomer(),
+                "SignupPageCustomer": (context) => SignupPageCustomer(),
+                "MainPageCustomer": (context) => MainPageCustomer(),
+                "ProductForCustomer": (context) => ProductForCustomer(),
+                "DetailProductPageCustomer": (context) =>
+                    DetailProductPageCustomer(categoryP: CategoryProduct()),
+                "CartPageCustomer": (context) => CartPageCustomer(),
+                "PaymentPageCustomer": (context) => PaymentPageCustomer(),
+                "DeliveryPageStatusCustomer": (context) =>
+                    DeliveryPageStatusCustomer(),
+                "AdminPage": (context) => AdminPage(),
+                "DataCustomer": (context) => DataCustomer(),
+                "DataSeller": (context) => DataSeller(),
+                "SignupPageSeller": (context) => SignupPageSeller(),
+                "LoginPageSeller": (context) => LoginPageSeller(),
+                "MainPageSeller": (context) => MainPageSeller(),
+                "CreatePageStoreSeller": (context) => CreatePageStoreSeller(),
+                "ProductSellerPage": (context) => ProductSellerPage(),
+                "DetailOrderHistorySeller": (context) =>
+                    DetailOrderHistorySeller(),
+              },
+            );
+          } else {
+            return LoadingView();
+          }
+        });
   }
 }

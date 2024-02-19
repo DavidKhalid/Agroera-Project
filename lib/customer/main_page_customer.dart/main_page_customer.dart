@@ -1,6 +1,8 @@
+import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
 import 'package:agroera_project/customer/payment_page_customer/payment_page_customer.dart';
 import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer.dart';
 import 'package:agroera_project/models/model_category_product.dart';
+import 'package:agroera_project/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +11,7 @@ final List<CategoryProduct> categoryproduct = categoryProduct;
 
 class MainPageCustomer extends StatefulWidget {
   static const nameRoutes = "MainPageCustomer";
+
   MainPageCustomer({super.key});
 
   @override
@@ -17,7 +20,7 @@ class MainPageCustomer extends StatefulWidget {
 
 class _MainPageCustomerState extends State<MainPageCustomer> {
   int indexbuttomNavigationBar = 0;
-
+  AuthServices _authServices = AuthServices();
   @override
   Widget build(BuildContext context) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
@@ -76,7 +79,36 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
           children: [
             _imageprofile(mediaqueryHeight, mediaqueryWidth),
             Column(
-              children: [_username(), _email()],
+              children: [
+                _username(),
+                _email(),
+                SizedBox(
+                  height: 500,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _authServices.logOut();
+                    Navigator.of(context)
+                        .pushNamed(LoginPageCustomer.nameRoutes);
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        color: Colors.green.shade800,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Center(
+                      child: Text(
+                        "Logout",
+                        style: GoogleFonts.roboto(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             )
           ],
         ),
@@ -352,7 +384,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
                         ),
                       )),
                   decoration: BoxDecoration(
-                      color: Colors.pink,
+                      color: Colors.green.shade100,
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(categoryproduct.image.toString())),

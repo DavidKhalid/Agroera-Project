@@ -1,6 +1,7 @@
 import 'package:agroera_project/customer/login_page_customer/controller_customer.dart';
 import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
+import 'package:agroera_project/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -8,8 +9,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 class LoginPageCustomer extends StatelessWidget {
   static const nameRoutes = "LoginPageCustomer";
-  loginControllerCustomer emailController = loginControllerCustomer();
-  loginControllerCustomer passwordController = loginControllerCustomer();
+  AuthServices _authServices = AuthServices();
+  loginControllerCustomer loginC = loginControllerCustomer();
+  // loginControllerCustomer emailController = loginControllerCustomer();
+  // loginControllerCustomer passwordController = loginControllerCustomer();
   LoginPageCustomer({super.key});
 
   @override
@@ -77,6 +80,7 @@ class LoginPageCustomer extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
+            _authServices.login(loginC.emailC.text, loginC.passwordC.text);
             Navigator.of(context).pushNamed(MainPageCustomer.nameRoutes);
           },
           child: Container(
@@ -105,7 +109,7 @@ class LoginPageCustomer extends StatelessWidget {
       top: 470,
       child: TextField(
         obscureText: true,
-        controller: passwordController.passwordC,
+        controller: loginC.passwordC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -130,7 +134,7 @@ class LoginPageCustomer extends StatelessWidget {
       top: 400,
       //margin: EdgeInsets.symmetric(horizontal: 60),
       child: TextField(
-        controller: emailController.emailC,
+        controller: loginC.emailC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],

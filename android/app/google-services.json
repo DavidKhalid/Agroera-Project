@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "634621795193",
+    "project_id": "agroera-project",
+    "storage_bucket": "agroera-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634621795193:android:79dbcdc17d4a8a6e062da8",
+        "android_client_info": {
+          "package_name": "com.example.agroera_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXuGDGY--Sn4hcnzKbyD96Gg2uCYkj4-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
