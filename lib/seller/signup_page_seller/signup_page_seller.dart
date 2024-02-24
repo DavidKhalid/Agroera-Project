@@ -1,6 +1,7 @@
 import 'package:agroera_project/seller/login_page_seller/login_page_seller.dart';
 import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
 import 'package:agroera_project/seller/signup_page_seller/controller_seller.dart';
+import 'package:agroera_project/services/auth_services_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -8,9 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SignupPageSeller extends StatelessWidget {
   static const nameRoutes = "SignupPageSeller";
-  signupControllerSeller usernameController = signupControllerSeller();
-  signupControllerSeller emailController = signupControllerSeller();
-  signupControllerSeller passwordController = signupControllerSeller();
+  AuthServicesSeller _authServicesSeller = AuthServicesSeller();
+  signupControllerSeller _signupcontrollerSeller = signupControllerSeller();
+
   SignupPageSeller({super.key});
 
   @override
@@ -78,7 +79,16 @@ class SignupPageSeller extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(MainPageSeller.nameRoutes);
+            _authServicesSeller.signupSeller(
+                _signupcontrollerSeller.usernameC.text,
+                _signupcontrollerSeller.emailC.text,
+                _signupcontrollerSeller.passwordC.text);
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return LoginPageSeller();
+              },
+            ));
+            // Navigator.of(context).pushNamed(MainPageSeller.nameRoutes);
           },
           child: Container(
             height: mediaqueryHeight / 15,
@@ -106,7 +116,7 @@ class SignupPageSeller extends StatelessWidget {
       top: 510,
       child: TextField(
         obscureText: true,
-        controller: passwordController.passwordC,
+        controller: _signupcontrollerSeller.passwordC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -131,7 +141,7 @@ class SignupPageSeller extends StatelessWidget {
       top: 440,
       //margin: EdgeInsets.symmetric(horizontal: 60),
       child: TextField(
-        controller: emailController.emailC,
+        controller: _signupcontrollerSeller.emailC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -156,7 +166,7 @@ class SignupPageSeller extends StatelessWidget {
       top: 380,
       child: TextField(
         obscureText: false,
-        controller: usernameController.usernameC,
+        controller: _signupcontrollerSeller.usernameC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],

@@ -1,3 +1,4 @@
+import 'package:agroera_project/admin/login_page_admin/login_page_admin.dart';
 import 'package:agroera_project/admin/mainpage_admin/mainpage_admin.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
 import 'package:agroera_project/seller/signup_page_seller/signup_page_seller.dart';
@@ -25,8 +26,13 @@ class LandingPage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(SignupPageCustomer.nameRoutes);
+                      // Navigator.of(context)
+                      //     .pushNamed(SignupPageCustomer.nameRoutes);
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return SignupPageCustomer();
+                        },
+                      ));
                     },
                     child: Container(
                       height: mediaqueryHeight / 6,
@@ -47,8 +53,13 @@ class LandingPage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(SignupPageSeller.nameRoutes);
+                      // Navigator.of(context)
+                      //     .pushNamed(SignupPageSeller.nameRoutes);
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return SignupPageSeller();
+                        },
+                      ));
                     },
                     child: Container(
                       height: mediaqueryHeight / 6,
@@ -101,7 +112,12 @@ class LandingPage extends StatelessWidget {
       alignment: Alignment(1, -0.88),
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed(AdminPage.nameRoutes);
+          // Navigator.of(context).pushNamed(AdminPage.nameRoutes);
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return LoginPageAdmin();
+            },
+          ));
         },
         child: Container(
           height: mediaqueryHeight / 15,
@@ -133,7 +149,12 @@ class LandingPage extends StatelessWidget {
       BuildContext context, double mediaqueryHeight, double mediaqueryWidth) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(SignupPageCustomer.nameRoutes);
+        // Navigator.of(context).pushNamed(SignupPageCustomer.nameRoutes);
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) {
+            return SignupPageCustomer();
+          },
+        ));
       },
       child: Container(
         //  margin: EdgeInsets.only(left: 30, right: 30),

@@ -1,6 +1,7 @@
 import 'package:agroera_project/seller/login_page_seller/contoller_seller.dart';
 import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
 import 'package:agroera_project/seller/signup_page_seller/signup_page_seller.dart';
+import 'package:agroera_project/services/auth_services_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -8,8 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class LoginPageSeller extends StatelessWidget {
   static const nameRoutes = "LoginPageSeller";
-  loginControllerSeller emailController = loginControllerSeller();
-  loginControllerSeller passwordController = loginControllerSeller();
+  AuthServicesSeller _authServicesSeller = AuthServicesSeller();
+  loginControllerSeller _logincontrollerSeller = loginControllerSeller();
+
   LoginPageSeller({super.key});
 
   @override
@@ -77,7 +79,9 @@ class LoginPageSeller extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(MainPageSeller.nameRoutes);
+            _authServicesSeller.loginSeller(_logincontrollerSeller.emailC.text,
+                _logincontrollerSeller.passwordC.text);
+            // Navigator.of(context).pushNamed(MainPageSeller.nameRoutes);
           },
           child: Container(
             height: mediaqueryHeight / 15,
@@ -105,7 +109,7 @@ class LoginPageSeller extends StatelessWidget {
       top: 470,
       child: TextField(
         obscureText: true,
-        controller: passwordController.passwordC,
+        controller: _logincontrollerSeller.passwordC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -130,7 +134,7 @@ class LoginPageSeller extends StatelessWidget {
       top: 400,
       //margin: EdgeInsets.symmetric(horizontal: 60),
       child: TextField(
-        controller: emailController.emailC,
+        controller: _logincontrollerSeller.emailC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],

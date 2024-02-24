@@ -1,6 +1,7 @@
 import 'package:agroera_project/seller/addproduct_seller/addpage_productseller.dart';
 import 'package:agroera_project/seller/createpage_store_seller/createpage_store_seller.dart';
 import 'package:agroera_project/seller/detail_orderhistory_seller/detail_orderhistory_seller.dart';
+import 'package:agroera_project/services/auth_services_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +17,7 @@ class MainPageSeller extends StatefulWidget {
 class _MainPageSellerState extends State<MainPageSeller> {
   int indexbuttomNavigationBar = 0;
   DateTime selecDate = DateTime.now();
+  AuthServicesSeller _authServicesSeller = AuthServicesSeller();
   @override
   Widget build(BuildContext context) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
@@ -254,6 +256,24 @@ class _MainPageSellerState extends State<MainPageSeller> {
                 _email(),
                 _phone(),
                 _address(),
+                SizedBox(
+                  height: 350,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _authServicesSeller.logoutSeller();
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade100,
+                    ),
+                    child: Center(
+                      child: Text("Logout"),
+                    ),
+                  ),
+                )
               ],
             )
           ],

@@ -1,7 +1,9 @@
 import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
 import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/controller_customer.dart';
-import 'package:agroera_project/services/auth_services.dart';
+// import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
+// import 'package:agroera_project/customer/signup_page_customer.dart/controller_customer.dart';
+import 'package:agroera_project/services/auth_services_customer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -9,11 +11,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SignupPageCustomer extends StatelessWidget {
   static const nameRoutes = "SignupPageCustomer";
-  signupControllerCustomer signupC = signupControllerCustomer();
+  // signupControllerCustomer signupC = signupControllerCustomer();
+  signupControllerCustomer _signupcontrollerCustomer =
+      signupControllerCustomer();
   AuthServices _authServices = AuthServices();
-  // signupControllerCustomer usernameController = signupControllerCustomer();
-  // signupControllerCustomer emailController = signupControllerCustomer();
-  // signupControllerCustomer passwordController = signupControllerCustomer();
+  //
 
   SignupPageCustomer({super.key});
 
@@ -58,7 +60,12 @@ class SignupPageCustomer extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(LoginPageCustomer.nameRoutes);
+              // Navigator.of(context).pushNamed(LoginPageCustomer.nameRoutes);
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return LoginPageCustomer();
+                },
+              ));
             },
             child: Text(
               "Login",
@@ -82,9 +89,16 @@ class SignupPageCustomer extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            _authServices.signUp(signupC.usernameC.text, signupC.emailC.text,
-                signupC.passwordC.text);
-            Navigator.of(context).pushNamed(MainPageCustomer.nameRoutes);
+            _authServices.signUp(
+                _signupcontrollerCustomer.usernameC.text,
+                _signupcontrollerCustomer.emailC.text,
+                _signupcontrollerCustomer.passwordC.text);
+            // Navigator.of(context).pushNamed(MainPageCustomer.nameRoutes);
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return LoginPageCustomer();
+              },
+            ));
           },
           child: Container(
             height: mediaqueryHeight / 15,
@@ -112,7 +126,7 @@ class SignupPageCustomer extends StatelessWidget {
       top: 510,
       child: TextField(
         obscureText: true,
-        controller: signupC.passwordC,
+        controller: _signupcontrollerCustomer.passwordC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -137,7 +151,7 @@ class SignupPageCustomer extends StatelessWidget {
       top: 440,
       //margin: EdgeInsets.symmetric(horizontal: 60),
       child: TextField(
-        controller: signupC.emailC,
+        controller: _signupcontrollerCustomer.emailC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -162,7 +176,7 @@ class SignupPageCustomer extends StatelessWidget {
       top: 380,
       child: TextField(
         obscureText: false,
-        controller: signupC.usernameC,
+        controller: _signupcontrollerCustomer.usernameC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],

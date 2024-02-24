@@ -17,7 +17,7 @@ import 'package:agroera_project/seller/detail_orderhistory_seller/detail_orderhi
 import 'package:agroera_project/seller/login_page_seller/login_page_seller.dart';
 import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
 import 'package:agroera_project/seller/signup_page_seller/signup_page_seller.dart';
-import 'package:agroera_project/services/auth_services.dart';
+import 'package:agroera_project/services/auth_services_customer.dart';
 import 'package:agroera_project/splash_screen/splash_screen.dart';
 import 'package:agroera_project/utils/loadingview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,9 +47,10 @@ class AgroEraApp extends StatelessWidget {
             print("this is ${snapshot.data}");
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              initialRoute: snapshot.data == null
-                  ? SplashScreen().toString()
-                  : MainPageCustomer().toString(),
+              // initialRoute: snapshot.data == null
+              //     ? SplashScreen().toString()
+              //     : MainPageCustomer().toString(),
+              home: snapshot.data != null ? AdminPage() : SplashScreen(),
               routes: {
                 "SplashScreen": (context) => SplashScreen(),
                 "LandingPage": (context) => LandingPage(),

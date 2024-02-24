@@ -1,20 +1,15 @@
-import 'package:agroera_project/customer/login_page_customer/controller_customer.dart';
-import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
+import 'package:agroera_project/admin/login_page_admin/controller_admin.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
-import 'package:agroera_project/services/auth_services_customer.dart';
+import 'package:agroera_project/services/auth_service_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPageCustomer extends StatelessWidget {
-  static const nameRoutes = "LoginPageCustomer";
-
-  LoginPageCustomer({super.key});
-
-  AuthServices _authServices = AuthServices();
-
-  loginControllerCustomer _logincontrollerCustomer = loginControllerCustomer();
+class LoginPageAdmin extends StatelessWidget {
+  loginControllerAdmin _logincontrollerAdmin = loginControllerAdmin();
+  AuthServiceAdmin _authServiceAdmin = AuthServiceAdmin();
+  LoginPageAdmin({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,48 +25,6 @@ class LoginPageCustomer extends StatelessWidget {
           _inputemail(),
           _inputpassword(),
           _buttonlogin(context, mediaqueryHeight, mediaqueryWidth),
-          _bottomtext(context)
-        ],
-      ),
-    );
-  }
-
-  Positioned _bottomtext(BuildContext context) {
-    return Positioned(
-      top: 820,
-      left: 110,
-      bottom: 5,
-      right: 50,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Belum punya akun?",
-            style: GoogleFonts.roboto(
-                fontSize: 14,
-                color: Colors.black,
-                fontWeight: FontWeight.normal),
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          InkWell(
-            onTap: () {
-              // Navigator.of(context).pushNamed(SignupPageCustomer.nameRoutes);
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) {
-                  return SignupPageCustomer();
-                },
-              ));
-            },
-            child: Text(
-              "Sign Up",
-              style: GoogleFonts.roboto(
-                  fontSize: 14,
-                  color: Colors.green.shade900,
-                  fontWeight: FontWeight.w900),
-            ),
-          ),
         ],
       ),
     );
@@ -86,8 +39,8 @@ class LoginPageCustomer extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            _authServices.login(_logincontrollerCustomer.emailC.text,
-                _logincontrollerCustomer.passwordC.text);
+            _authServiceAdmin.loginAdmin(_logincontrollerAdmin.emailC.text,
+                _logincontrollerAdmin.passwordC.text);
             // Navigator.of(context).pushNamed(MainPageCustomer.nameRoutes);
           },
           child: Container(
@@ -116,7 +69,7 @@ class LoginPageCustomer extends StatelessWidget {
       top: 470,
       child: TextField(
         obscureText: true,
-        controller: _logincontrollerCustomer.passwordC,
+        controller: _logincontrollerAdmin.passwordC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -141,7 +94,7 @@ class LoginPageCustomer extends StatelessWidget {
       top: 400,
       //margin: EdgeInsets.symmetric(horizontal: 60),
       child: TextField(
-        controller: _logincontrollerCustomer.emailC,
+        controller: _logincontrollerAdmin.emailC,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -176,7 +129,7 @@ class LoginPageCustomer extends StatelessWidget {
       top: 300,
       left: 20,
       child: Text(
-        "Welcome Customer !",
+        "Welcome Admin !",
         style: GoogleFonts.roboto(
             fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
       ),

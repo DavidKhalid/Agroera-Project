@@ -2,7 +2,7 @@ import 'package:agroera_project/customer/login_page_customer/login_page_customer
 import 'package:agroera_project/customer/payment_page_customer/payment_page_customer.dart';
 import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer.dart';
 import 'package:agroera_project/models/model_category_product.dart';
-import 'package:agroera_project/services/auth_services.dart';
+import 'package:agroera_project/services/auth_services_customer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,8 +88,8 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
                 GestureDetector(
                   onTap: () {
                     _authServices.logOut();
-                    Navigator.of(context)
-                        .pushNamed(LoginPageCustomer.nameRoutes);
+                    // Navigator.of(context)
+                    //     .pushNamed(LoginPageCustomer.nameRoutes);
                   },
                   child: Container(
                     height: 50,

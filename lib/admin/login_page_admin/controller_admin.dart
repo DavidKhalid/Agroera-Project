@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-class signupControllerCustomer {  
-  TextEditingController usernameC = TextEditingController();
+class loginControllerAdmin {
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
 
   void dispose() {
-    usernameC.dispose();
     emailC.dispose();
     passwordC.dispose();
   }

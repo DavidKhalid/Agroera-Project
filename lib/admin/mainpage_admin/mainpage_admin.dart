@@ -1,5 +1,6 @@
 import 'package:agroera_project/admin/datacustomer/datacustomer.dart';
 import 'package:agroera_project/admin/dataseller/dataseller.dart';
+import 'package:agroera_project/services/auth_service_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,7 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   int indexbuttomNavigationBar = 0;
+  AuthServiceAdmin _authServiceAdmin = AuthServiceAdmin();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,27 @@ class _AdminPageState extends State<AdminPage> {
       ),
       SafeArea(
           child: Stack(
-        children: [_appbar(mediaqueryWidth), _username(), _password()],
+        children: [
+          _appbar(mediaqueryWidth),
+          _username(),
+          _password(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: GestureDetector(
+              onTap: () {
+                _authServiceAdmin.logout();
+              },
+              child: Container(
+                height: 80,
+                width: 200,
+                decoration: BoxDecoration(color: Colors.green.shade100),
+                child: Center(
+                  child: Text("Logout"),
+                ),
+              ),
+            ),
+          )
+        ],
       ))
     ];
 
