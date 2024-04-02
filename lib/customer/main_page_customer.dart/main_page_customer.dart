@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../deliverypage_status_customer/deliverypage_status_customer.dart';
+
 final List<CategoryProduct> categoryproduct = categoryProduct;
 
 class MainPageCustomer extends StatefulWidget {
@@ -21,6 +23,7 @@ class MainPageCustomer extends StatefulWidget {
 class _MainPageCustomerState extends State<MainPageCustomer> {
   int indexbuttomNavigationBar = 0;
   AuthServices _authServices = AuthServices();
+
   @override
   Widget build(BuildContext context) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
@@ -45,33 +48,143 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
       ),
       // <--- End Home Page >
 
-      // <--- Start shopping Cart Page --->
+      // <--- Start History Page --->
       SafeArea(
-        child: Stack(children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-            child: _textmycart(),
-          ),
-          Align(
-            alignment: Alignment(0, -0.4),
-            child: Container(
-              height: mediaqueryHeight / 1.5,
-              width: mediaqueryWidth,
-              //color: Colors.pink.shade300,
-              child: _listviewbuilder(mediaqueryHeight, mediaqueryWidth),
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                "Delivery Status",
+                style: GoogleFonts.roboto(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w900),
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment(0, 0.75),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [_texttotal(), _nominal()],
+            Align(
+              alignment: Alignment(0, -0.7),
+              child: Container(
+                height: mediaqueryHeight / 4,
+                width: mediaqueryWidth,
+                decoration: BoxDecoration(
+                  //color: Colors.amber,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Card(
+                  color: Colors.grey.shade100,
+                  elevation: 10,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 0, 10),
+                        child: RichText(
+                            text: TextSpan(
+                                text: "Order ID : ",
+                                style: GoogleFonts.alegreya(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                                children: <TextSpan>[
+                              TextSpan(
+                                text: "12345678",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w100),
+                              )
+                            ])),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+                        child: RichText(
+                            text: TextSpan(
+                                text: "Product Name : ",
+                                style: GoogleFonts.alegreya(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                                children: <TextSpan>[
+                              TextSpan(
+                                text: "Bibit 1",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w100),
+                              )
+                            ])),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+                        child: RichText(
+                          text: TextSpan(
+                            text: "Jumlah : ",
+                            style: GoogleFonts.alegreya(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "3",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w100),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+                        child: RichText(
+                          text: TextSpan(
+                            text: "Total : ",
+                            style: GoogleFonts.alegreya(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Rp. 300.000",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w100),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+                        child: RichText(
+                          text: TextSpan(
+                            text: "Status : ",
+                            style: GoogleFonts.alegreya(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Belum Dibayar",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w100),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-          _buttonchekout(context, mediaqueryHeight, mediaqueryWidth),
-        ]),
+          ],
+        ),
       ),
-      // <--- End shopping Cart Page --->
+      // <--- End History Page --->
 
       // <--- Start Profile Page --->
       SafeArea(
@@ -87,7 +200,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    _authServices.logOut();
+                    _authServices.logOut(context);
                     // Navigator.of(context)
                     //     .pushNamed(LoginPageCustomer.nameRoutes);
                   },
@@ -124,7 +237,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
         items: [
           BottomNavigationBarItem(icon: Icon(FeatherIcons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(FeatherIcons.shoppingCart), label: "Shopping Cart"),
+              icon: Icon(FeatherIcons.shoppingCart), label: "History"),
           BottomNavigationBarItem(
               icon: Icon(FeatherIcons.user), label: "Profile"),
         ],

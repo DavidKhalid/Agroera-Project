@@ -63,7 +63,6 @@ class _MainPageSellerState extends State<MainPageSeller> {
           ],
         ),
       ),
-
       // <--- End Store Page Status "2"--->
 
       // <--- Start Order Histrory Page--->
@@ -261,16 +260,22 @@ class _MainPageSellerState extends State<MainPageSeller> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    _authServicesSeller.logoutSeller();
+                    _authServicesSeller.logoutSeller(context);
                   },
                   child: Container(
                     height: 50,
                     width: 200,
                     decoration: BoxDecoration(
-                      color: Colors.green.shade100,
-                    ),
+                        color: Colors.green.shade800,
+                        borderRadius: BorderRadius.circular(20)),
                     child: Center(
-                      child: Text("Logout"),
+                      child: Text(
+                        "Logout",
+                        style: GoogleFonts.roboto(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 )

@@ -79,7 +79,9 @@ class LoginPageSeller extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            _authServicesSeller.loginSeller(_logincontrollerSeller.emailC.text,
+            _authServicesSeller.loginSeller(
+                context,
+                _logincontrollerSeller.emailC.text,
                 _logincontrollerSeller.passwordC.text);
             // Navigator.of(context).pushNamed(MainPageSeller.nameRoutes);
           },

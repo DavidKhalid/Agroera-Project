@@ -90,15 +90,10 @@ class SignupPageCustomer extends StatelessWidget {
         child: InkWell(
           onTap: () {
             _authServices.signUp(
+                context,
                 _signupcontrollerCustomer.usernameC.text,
                 _signupcontrollerCustomer.emailC.text,
                 _signupcontrollerCustomer.passwordC.text);
-            // Navigator.of(context).pushNamed(MainPageCustomer.nameRoutes);
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return LoginPageCustomer();
-              },
-            ));
           },
           child: Container(
             height: mediaqueryHeight / 15,

@@ -86,9 +86,8 @@ class LoginPageCustomer extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            _authServices.login(_logincontrollerCustomer.emailC.text,
+            _authServices.login(context, _logincontrollerCustomer.emailC.text,
                 _logincontrollerCustomer.passwordC.text);
-            // Navigator.of(context).pushNamed(MainPageCustomer.nameRoutes);
           },
           child: Container(
             height: mediaqueryHeight / 15,

@@ -156,7 +156,7 @@ class ProductSellerPage extends StatelessWidget {
                     controller: storedescriptionController.storedescriptionC,
                     maxLines: 3,
                     decoration: InputDecoration(
-                        hintText: "Store Description",
+                        hintText: "Product Description",
                         border: OutlineInputBorder(
                             borderSide: BorderSide(),
                             borderRadius: BorderRadius.circular(10))),

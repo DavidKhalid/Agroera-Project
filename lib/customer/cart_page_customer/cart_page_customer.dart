@@ -3,9 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CartPageCustomer extends StatelessWidget {
+class CartPageCustomer extends StatefulWidget {
   static const nameRoutes = "CartPageCustomer";
   const CartPageCustomer({super.key});
+
+  @override
+  State<CartPageCustomer> createState() => _CartPageCustomerState();
+}
+
+class _CartPageCustomerState extends State<CartPageCustomer> {
+  int counter = 0;
+
+  void _increment() {
+    setState(() {
+      counter++;
+    });
+  }
+
+  void _decrement() {
+    setState(() {
+      counter--;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,77 +59,106 @@ class CartPageCustomer extends StatelessWidget {
         Align(
           alignment: Alignment(0, -0.4),
           child: Container(
-            height: mediaqueryHeight / 1.5,
-            width: mediaqueryWidth,
-            //color: Colors.pink.shade300,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      height: mediaqueryHeight / 7,
-                      width: mediaqueryWidth,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: Offset(0, 3))
-                          ]),
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: Colors.amber,
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        "https://picsum.photos/id/1/200/300"))),
-                          ),
-                          Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                child: Text(
-                                  "Product Name",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
+              height: mediaqueryHeight / 1.5,
+              width: mediaqueryWidth,
+              //color: Colors.pink.shade300,
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    height: mediaqueryHeight / 5,
+                    width: mediaqueryWidth,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: Offset(0, 3))
+                        ]),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              // color: Colors.amber,
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                      "https://picsum.photos/id/1/200/300"))),
+                        ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                              child: Text(
+                                "Product Namelllll",
+                                style: GoogleFonts.roboto(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 40, 0, 10),
-                                child: Text(
-                                  "Price",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 40, 0, 10),
+                              child: Text(
+                                "Price",
+                                style: GoogleFonts.roboto(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 125),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        _increment();
+                                      },
+                                      child: Icon(FeatherIcons.plusSquare,
+                                          size: 30)),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 125),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (counter > 0) {
+                                        _decrement();
+                                      } else {
+                                        return;
+                                      }
+                                    },
+                                    child: Icon(
+                                      FeatherIcons.minusSquare,
+                                      size: 30,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    )
-                  ],
-                );
-              },
-            ),
-          ),
+                  ),
+                ],
+              )),
         ),
         Align(
           alignment: Alignment(0, 0.75),
@@ -120,7 +168,7 @@ class CartPageCustomer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  "Total (3 item) :",
+                  "Total ($counter item) :",
                   style: GoogleFonts.alegreya(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,

@@ -39,7 +39,9 @@ class LoginPageAdmin extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            _authServiceAdmin.loginAdmin(_logincontrollerAdmin.emailC.text,
+            _authServiceAdmin.loginAdmin(
+                context,
+                _logincontrollerAdmin.emailC.text,
                 _logincontrollerAdmin.passwordC.text);
             // Navigator.of(context).pushNamed(MainPageCustomer.nameRoutes);
           },

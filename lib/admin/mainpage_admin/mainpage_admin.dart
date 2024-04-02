@@ -41,22 +41,33 @@ class _AdminPageState extends State<AdminPage> {
           _appbar(mediaqueryWidth),
           _username(),
           _password(),
-          Align(
-            alignment: Alignment.bottomCenter,
+          Positioned(
+            top: 690,
+            bottom: 20,
+            left: 90,
+            right: 90,
             child: GestureDetector(
               onTap: () {
-                _authServiceAdmin.logout();
+                _authServiceAdmin.logout(context);
               },
               child: Container(
-                height: 80,
+                height: 60,
                 width: 200,
-                decoration: BoxDecoration(color: Colors.green.shade100),
+                decoration: BoxDecoration(
+                    color: Colors.green.shade800,
+                    borderRadius: BorderRadius.circular(20)),
                 child: Center(
-                  child: Text("Logout"),
+                  child: Text(
+                    "Logout",
+                    style: GoogleFonts.roboto(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800),
+                  ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ))
     ];
@@ -131,7 +142,7 @@ class _AdminPageState extends State<AdminPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
-              "Username",
+              "Email",
               style: GoogleFonts.roboto(
                   fontSize: 16,
                   color: Colors.black,
