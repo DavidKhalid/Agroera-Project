@@ -1,5 +1,6 @@
 import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
 import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
+import 'package:agroera_project/controller/controller_customer/controller_signup_customer.dart';
 import 'package:agroera_project/landing_page/landing_page.dart';
 import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AuthServices {
   FirebaseAuth auth = FirebaseAuth.instance;
+  signupControllerCustomer _controllerCustomer = signupControllerCustomer();
 
 //  Stream<User?> streamAuthStatus() { /// cara pertama dalam bentuk function
 //     return auth.authStateChanges();
@@ -48,6 +50,9 @@ class AuthServices {
             actions: [
               TextButton(
                   onPressed: () {
+                    _controllerCustomer.usernameC.clear();
+                    _controllerCustomer.emailC.clear();
+                    _controllerCustomer.passwordC.clear();
                     Navigator.pushReplacementNamed(
                         context, LoginPageCustomer.nameRoutes);
                   },
@@ -130,8 +135,11 @@ class AuthServices {
             actions: [
               TextButton(
                   onPressed: () {
+                    _controllerCustomer.emailC.clear();
+                    _controllerCustomer.passwordC.clear();
+                    // Navigator.of(context).pop();
                     Navigator.pushReplacementNamed(
-                        context, MainPageSeller.nameRoutes);
+                        context, MainPageCustomer.nameRoutes);
                   },
                   child: Text("Ok"))
             ],

@@ -1,4 +1,4 @@
-import 'package:agroera_project/seller/login_page_seller/contoller_seller.dart';
+import 'package:agroera_project/controller/controller_seller/contoller_login_seller.dart';
 import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
 import 'package:agroera_project/seller/signup_page_seller/signup_page_seller.dart';
 import 'package:agroera_project/services/auth_services_seller.dart';

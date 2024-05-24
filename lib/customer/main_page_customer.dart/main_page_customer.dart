@@ -1,9 +1,13 @@
-import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
+import 'package:agroera_project/controller/controller_customer/controller_signup_customer.dart';
+import 'package:agroera_project/controller/controller_customer/controller_homepage_customer.dart';
 import 'package:agroera_project/customer/payment_page_customer/payment_page_customer.dart';
 import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer.dart';
 import 'package:agroera_project/models/model_category_product.dart';
 import 'package:agroera_project/services/auth_services_customer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,11 +25,17 @@ class MainPageCustomer extends StatefulWidget {
 }
 
 class _MainPageCustomerState extends State<MainPageCustomer> {
-  int indexbuttomNavigationBar = 0;
+  int _initialindex = 0;
   AuthServices _authServices = AuthServices();
+  MainPageCustomerController _mainPageCustomerController =
+      MainPageCustomerController();
+  signupControllerCustomer _signupcontrollerCustomer =
+      signupControllerCustomer();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
     final mediaqueryWidth = MediaQuery.of(context).size.width;
 
@@ -46,6 +56,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
           ],
         ),
       ),
+
       // <--- End Home Page >
 
       // <--- Start History Page --->
@@ -184,56 +195,271 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
           ],
         ),
       ),
+
       // <--- End History Page --->
 
       // <--- Start Profile Page --->
-      SafeArea(
-        child: Stack(
-          children: [
-            _imageprofile(mediaqueryHeight, mediaqueryWidth),
-            Column(
-              children: [
-                _username(),
-                _email(),
-                SizedBox(
-                  height: 500,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _authServices.logOut(context);
-                    // Navigator.of(context)
-                    //     .pushNamed(LoginPageCustomer.nameRoutes);
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        color: Colors.green.shade800,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Center(
-                      child: Text(
-                        "Logout",
-                        style: GoogleFonts.roboto(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white),
+
+      StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: _mainPageCustomerController.streamUser(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            var users = snapshot.data!.data();
+            Map<String, dynamic> finaldata = users as Map<String, dynamic>;
+            return SafeArea(
+              child: Stack(
+                children: [
+                  _imageprofile(mediaqueryHeight, mediaqueryWidth),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 100, left: 20),
+                            child: Text(
+                              "username",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 100, right: 20),
+                            child: Text(
+                              "${finaldata["username"]}",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
+                      Row(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          //
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50, left: 20),
+                            child: Text(
+                              "Email",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50, right: 20),
+                            child: Text(
+                              "${finaldata["email"]}",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 500,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _signupcontrollerCustomer.logOutcustomer(context);
+                          // Navigator.of(context)
+                          //     .pushNamed(LoginPageCustomer.nameRoutes);
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              color: Colors.green.shade800,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Center(
+                            child: Text(
+                              "Logout",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      )
+
+      // FutureBuilder<QuerySnapshot<Object?>>(
+      //     future: _mainPageCustomerController.ReadData(),
+      //     builder: (
+      //       context,
+      //       snapshot,
+      //     ) {
+      //       if (snapshot.connectionState == ConnectionState.done) {
+      //         print("This is ${snapshot.data!.docs}");
+      //         var listAlldocs = snapshot.data!.docs;
+      //         int Index = 0;
+      //         return SafeArea(
+      //           child: Stack(
+      //             children: [
+      //               _imageprofile(mediaqueryHeight, mediaqueryWidth),
+      //               Column(
+      //                 children: [
+      //                   Row(
+      //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //                     children: [
+      //                       Padding(
+      //                         padding:
+      //                             const EdgeInsets.only(top: 100, left: 20),
+      //                         child: Text(
+      //                           "username",
+      //                           style: GoogleFonts.roboto(
+      //                               fontSize: 16,
+      //                               color: Colors.black,
+      //                               fontWeight: FontWeight.w500),
+      //                         ),
+      //                       ),
+      //                       Padding(
+      //                         padding:
+      //                             const EdgeInsets.only(top: 100, right: 20),
+      //                         child: Text(
+      //                           "${(listAlldocs[Index].data() as Map<String, dynamic>)["username"]}",
+      //                           style: GoogleFonts.roboto(
+      //                               fontSize: 16,
+      //                               color: Colors.black,
+      //                               fontWeight: FontWeight.w500),
+      //                         ),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                   Row(
+      //                     // crossAxisAlignment: CrossAxisAlignment.start,
+      //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //                     children: [
+      //                       //
+      //                       Padding(
+      //                         padding: const EdgeInsets.only(top: 50, left: 20),
+      //                         child: Text(
+      //                           "Email",
+      //                           style: GoogleFonts.roboto(
+      //                               fontSize: 16,
+      //                               color: Colors.black,
+      //                               fontWeight: FontWeight.w500),
+      //                         ),
+      //                       ),
+      //                       Padding(
+      //                         padding:
+      //                             const EdgeInsets.only(top: 50, right: 20),
+      //                         child: Text(
+      //                           "${(listAlldocs[Index].data() as Map<String, dynamic>)["email"]}",
+      //                           style: GoogleFonts.roboto(
+      //                               fontSize: 16,
+      //                               color: Colors.black,
+      //                               fontWeight: FontWeight.w500),
+      //                         ),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                   SizedBox(
+      //                     height: 500,
+      //                   ),
+      //                   GestureDetector(
+      //                     onTap: () {
+      //                       _signupcontrollerCustomer.logOutcustomer(context);
+      //                       // Navigator.of(context)
+      //                       //     .pushNamed(LoginPageCustomer.nameRoutes);
+      //                     },
+      //                     child: Container(
+      //                       height: 50,
+      //                       width: 200,
+      //                       decoration: BoxDecoration(
+      //                           color: Colors.green.shade800,
+      //                           borderRadius: BorderRadius.circular(20)),
+      //                       child: Center(
+      //                         child: Text(
+      //                           "Logout",
+      //                           style: GoogleFonts.roboto(
+      //                               fontSize: 20,
+      //                               fontWeight: FontWeight.w900,
+      //                               color: Colors.white),
+      //                         ),
+      //                       ),
+      //                     ),
+      //                   )
+      //                 ],
+      //               )
+      //             ],
+      //           ),
+      //         );
+      //       } else {
+      //         return Center(
+      //           child: CircularProgressIndicator(),
+      //         );
+      //       }
+      //     }),
+
       // <--- End Profile Page ---> // profiel page
     ];
 
     return Scaffold(
-      body: pageView[indexbuttomNavigationBar],
+      body: pageView[_initialindex],
+      // body: PageView.builder(
+      //   itemCount: pageView.length,
+      //   onPageChanged: (value) {
+      //     setState(() {
+      //       _initialindex = value;
+      //     });
+      //   },
+      //   itemBuilder: (
+      //     context,
+      //     index,
+      //   ) {
+      //     return FutureBuilder<QuerySnapshot<Object?>>(
+      //       future: _mainPageCustomerController.ReadData(),
+      //       builder: (context, snapshot) {
+      //         // var listAllDocs = snapshot.data!.docs;
+      //         if (snapshot.connectionState == ConnectionState.done) {
+      //           return SafeArea(
+      //             child: Stack(
+      //               children: [
+      //                 Column(
+      //                   crossAxisAlignment: CrossAxisAlignment.start,
+      //                   children: [
+      //                     _textselamatdatang(),
+      //                     _texttemukanyangandabutuhkan(),
+      //                   ],
+      //                 ),
+      //                 _search(mediaqueryHeight, mediaqueryWidth),
+      //                 _categoryproduct(mediaqueryHeight, mediaqueryWidth)
+      //               ],
+      //             ),
+      //           );
+      //         } else {
+      //           return Center(
+      //             child: CircularProgressIndicator(),
+      //           );
+      //         }
+      //       },
+      //     );
+      //   },
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.green.shade800,
-        currentIndex: indexbuttomNavigationBar,
+        currentIndex: _initialindex,
         items: [
           BottomNavigationBarItem(icon: Icon(FeatherIcons.home), label: "Home"),
           BottomNavigationBarItem(
@@ -244,7 +470,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
         onTap: (value) {
           setState(() {
             print(value);
-            indexbuttomNavigationBar = value;
+            _initialindex = value;
           });
         },
       ),
@@ -252,55 +478,56 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
   }
 
 // <--- End Profile Cart Page --->
-  Row _email() {
-    return Row(
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        //
-        Padding(
-          padding: const EdgeInsets.only(top: 50, left: 20),
-          child: Text(
-            "Email",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 50, right: 20),
-          child: Text(
-            "example@gmail.com",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ],
-    );
-  }
 
-  Row _username() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 100, left: 20),
-          child: Text(
-            "Username",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 100, right: 20),
-          child: Text(
-            "Alberto",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _email() {
+  //   return Row(
+  //     // crossAxisAlignment: CrossAxisAlignment.start,
+  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //     children: [
+  //       //
+  //       Padding(
+  //         padding: const EdgeInsets.only(top: 50, left: 20),
+  //         child: Text(
+  //           "Email",
+  //           style: GoogleFonts.roboto(
+  //               fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+  //         ),
+  //       ),
+  //       Padding(
+  //         padding: const EdgeInsets.only(top: 50, right: 20),
+  //         child: Text(
+  //           "example@gmail.com",
+  //           style: GoogleFonts.roboto(
+  //               fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  // Widget _username() {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.only(top: 100, left: 20),
+  //         child: Text(
+  //           "username",
+  //           style: GoogleFonts.roboto(
+  //               fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+  //         ),
+  //       ),
+  //       Padding(
+  //         padding: const EdgeInsets.only(top: 100, right: 20),
+  //         child: Text(
+  //           "Alberto",
+  //           style: GoogleFonts.roboto(
+  //               fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Container _imageprofile(double mediaqueryHeight, double mediaqueryWidth) {
     return Container(
@@ -564,4 +791,28 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
     );
   }
   // <--- Start Home Page --->
+
+//  Widget testingUsername (AsyncSnapshot<QuerySnapshot> snapshot) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//       children: [
+//         Padding(
+//           padding: const EdgeInsets.only(top: 100, left: 20),
+//           child: Text(
+//             "username",
+//             style: GoogleFonts.roboto(
+//                 fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+//           ),
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(top: 100, right: 20),
+//           child: Text(
+//             "Alberto",
+//             style: GoogleFonts.roboto(
+//                 fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
 }

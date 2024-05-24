@@ -1,6 +1,6 @@
 import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
 import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
-import 'package:agroera_project/customer/signup_page_customer.dart/controller_customer.dart';
+import 'package:agroera_project/controller/controller_customer/controller_signup_customer.dart';
 // import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
 // import 'package:agroera_project/customer/signup_page_customer.dart/controller_customer.dart';
 import 'package:agroera_project/services/auth_services_customer.dart';
@@ -14,7 +14,8 @@ class SignupPageCustomer extends StatelessWidget {
   // signupControllerCustomer signupC = signupControllerCustomer();
   signupControllerCustomer _signupcontrollerCustomer =
       signupControllerCustomer();
-  AuthServices _authServices = AuthServices();
+  // AuthServices _authServices = AuthServices();
+  // AddCustomer _addCustomer = AddCustomer();
   //
 
   SignupPageCustomer({super.key});
@@ -83,17 +84,23 @@ class SignupPageCustomer extends StatelessWidget {
   Positioned _buttonsignup(
       BuildContext context, double mediaqueryHeight, double mediaqueryWidth) {
     return Positioned(
-        top: 730,
-        bottom: 80,
-        left: 20,
-        right: 20,
-        child: InkWell(
+      top: 730,
+      bottom: 80,
+      left: 20,
+      right: 20,
+      child: InkWell(
           onTap: () {
-            _authServices.signUp(
-                context,
+            _signupcontrollerCustomer.signupcustomer(
                 _signupcontrollerCustomer.usernameC.text,
                 _signupcontrollerCustomer.emailC.text,
-                _signupcontrollerCustomer.passwordC.text);
+                _signupcontrollerCustomer.passwordC.text,
+                context);
+            //   _authServices.signUp(
+            //       context,
+            //       _signupcontrollerCustomer.usernameC.text,
+            //       _signupcontrollerCustomer.emailC.text,
+            //       _signupcontrollerCustomer.passwordC.text);
+            // },
           },
           child: Container(
             height: mediaqueryHeight / 15,
@@ -110,8 +117,8 @@ class SignupPageCustomer extends StatelessWidget {
                     fontWeight: FontWeight.w900),
               ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 
   Positioned _inputpassword() {
@@ -122,6 +129,8 @@ class SignupPageCustomer extends StatelessWidget {
       child: TextField(
         obscureText: true,
         controller: _signupcontrollerCustomer.passwordC,
+        autocorrect: false,
+        textInputAction: TextInputAction.done,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -147,6 +156,8 @@ class SignupPageCustomer extends StatelessWidget {
       //margin: EdgeInsets.symmetric(horizontal: 60),
       child: TextField(
         controller: _signupcontrollerCustomer.emailC,
+        autocorrect: false,
+        textInputAction: TextInputAction.next,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
@@ -172,6 +183,8 @@ class SignupPageCustomer extends StatelessWidget {
       child: TextField(
         obscureText: false,
         controller: _signupcontrollerCustomer.usernameC,
+        autocorrect: false,
+        textInputAction: TextInputAction.next,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],

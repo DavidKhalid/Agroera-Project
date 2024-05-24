@@ -42,7 +42,7 @@ class AgroEraApp extends StatelessWidget {
     return StreamBuilder<User?>(
         stream: _authServices.streamAuthStatus,
         builder: (context, snapshot) {
-          print(snapshot);
+          print(snapshot.data);
           if (snapshot.connectionState == ConnectionState.active) {
             print("this is ${snapshot.data}");
             return MaterialApp(
@@ -50,7 +50,7 @@ class AgroEraApp extends StatelessWidget {
               // initialRoute: snapshot.data == null
               //     ? SplashScreen().toString()
               //     : MainPageCustomer().toString(),
-              home: snapshot.data != null ? AdminPage() : SplashScreen(),
+              home: snapshot.data != null ? MainPageCustomer() : SplashScreen(),
               routes: {
                 "SplashScreen": (context) => SplashScreen(),
                 "LandingPage": (context) => LandingPage(),

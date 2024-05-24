@@ -1,4 +1,4 @@
-import 'package:agroera_project/customer/login_page_customer/controller_customer.dart';
+import 'package:agroera_project/controller/controller_customer/controller_login_customer.dart';
 import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
 import 'package:agroera_project/customer/signup_page_customer.dart/signup_page_customer.dart';
 import 'package:agroera_project/services/auth_services_customer.dart';
@@ -12,7 +12,7 @@ class LoginPageCustomer extends StatelessWidget {
 
   LoginPageCustomer({super.key});
 
-  AuthServices _authServices = AuthServices();
+  // AuthServices _authServices = AuthServices();
 
   loginControllerCustomer _logincontrollerCustomer = loginControllerCustomer();
 
@@ -86,8 +86,12 @@ class LoginPageCustomer extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            _authServices.login(context, _logincontrollerCustomer.emailC.text,
-                _logincontrollerCustomer.passwordC.text);
+            // _authServices.login(context, _logincontrollerCustomer.emailC.text,
+            //     _logincontrollerCustomer.passwordC.text);
+            _logincontrollerCustomer.logincustomer(
+                _logincontrollerCustomer.emailC.text,
+                _logincontrollerCustomer.passwordC.text,
+                context);
           },
           child: Container(
             height: mediaqueryHeight / 15,
