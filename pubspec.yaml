@@ -33,8 +33,10 @@ dependencies:
   cloud_firestore: ^4.16.0
   cupertino_icons: ^1.0.2
   dropdown_search: ^5.0.6
+  file_picker: ^8.0.3
   firebase_auth: ^4.17.4
   firebase_core: ^2.25.4
+  firebase_storage: ^11.7.6
   flutter:
     sdk: flutter
   flutter_feather_icons: ^2.0.0+1

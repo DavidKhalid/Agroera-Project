@@ -201,7 +201,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
       // <--- Start Profile Page --->
 
       StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        stream: _mainPageCustomerController.streamUser(),
+        stream: _mainPageCustomerController.streamUserCustomer(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             var users = snapshot.data!.data();
@@ -209,9 +209,33 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
             return SafeArea(
               child: Stack(
                 children: [
-                  _imageprofile(mediaqueryHeight, mediaqueryWidth),
+                  Positioned(
+                    top: 20,
+                    left: 160,
+                    right: 160,
+                    child: GestureDetector(
+                      onTap: () {
+                        _mainPageCustomerController.updateprofilePicture();
+                      },
+                      child: ClipOval(
+                        child: Container(
+                          // height: 100,
+                          // width: 100,
+                          child: Image.network(
+                              fit: BoxFit.cover,
+                              "https://ui-avatars.com/api/?name=${finaldata["username"]}"),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Column(
                     children: [
+                      SizedBox(
+                        height: 40,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -265,7 +289,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
                         ],
                       ),
                       SizedBox(
-                        height: 500,
+                        height: 450,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -529,21 +553,21 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
   //   );
   // }
 
-  Container _imageprofile(double mediaqueryHeight, double mediaqueryWidth) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 25),
-      padding: EdgeInsets.only(top: 5),
-      height: mediaqueryHeight / 13,
-      width: mediaqueryWidth,
-      decoration: BoxDecoration(color: Colors.green.shade800),
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 30,
-          backgroundImage: NetworkImage("https://picsum.photos/id/65/200/300"),
-        ),
-      ),
-    );
-  }
+  // Container _imageprofile(double mediaqueryHeight, double mediaqueryWidth) {
+  //   return Container(
+  //     margin: EdgeInsets.symmetric(vertical: 25),
+  //     padding: EdgeInsets.only(top: 5),
+  //     height: mediaqueryHeight / 13,
+  //     width: mediaqueryWidth,
+  //     decoration: BoxDecoration(color: Colors.green.shade800),
+  //     child: ListTile(
+  //       leading: CircleAvatar(
+  //         radius: 30,
+  //         backgroundImage: NetworkImage("https://ui-avatars.com/api/?name=John+Doe"),
+  //       ),
+  //     ),
+  //   );
+  // }
 // <--- Start Profile Cart Page --->
 
 // <--- End shopping Cart Page --->

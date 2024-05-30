@@ -1,8 +1,10 @@
+import 'package:agroera_project/controller/controller_seller/controller_mainpage_seller.dart';
 import 'package:agroera_project/seller/addproduct_seller/addpage_productseller.dart';
 import 'package:agroera_project/seller/createpage_store_seller/createpage_store_seller.dart';
 import 'package:agroera_project/seller/detail_orderhistory_seller/detail_orderhistory_seller.dart';
 import 'package:agroera_project/services/auth_services_seller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,6 +20,8 @@ class _MainPageSellerState extends State<MainPageSeller> {
   int indexbuttomNavigationBar = 0;
   DateTime selecDate = DateTime.now();
   AuthServicesSeller _authServicesSeller = AuthServicesSeller();
+  MainPageSellerController _mainPageSellerController =
+      MainPageSellerController();
   @override
   Widget build(BuildContext context) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
@@ -245,45 +249,214 @@ class _MainPageSellerState extends State<MainPageSeller> {
       // <--- End Order Histrory Page--->
 
       // <--- Start Profile Cart Page --->
-      SafeArea(
-        child: Stack(
-          children: [
-            _imageprofile(mediaqueryHeight, mediaqueryWidth),
-            Column(
-              children: [
-                _username(),
-                _email(),
-                _phone(),
-                _address(),
-                SizedBox(
-                  height: 350,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _authServicesSeller.logoutSeller(context);
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        color: Colors.green.shade800,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Center(
-                      child: Text(
-                        "Logout",
-                        style: GoogleFonts.roboto(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+      StreamBuilder(
+          stream: _mainPageSellerController.streamuserSeller(),
+          builder: (context, snapshot) {
+            print(snapshot);
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.connectionState == ConnectionState.active) {
+              print("coba cek data  ${snapshot.hasData}");
+              if (snapshot.hasData == true) {
+                print(snapshot.data!.data() as Map<String, dynamic>);
+                var finalDataseller =
+                    snapshot.data!.data() as Map<String, dynamic>;
+                String profileImageUrl = finalDataseller["profile"];
+                print("ini adalah profile image user ${profileImageUrl}");
+                return SafeArea(
+                  child: Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _mainPageSellerController
+                              .pickAndUploadFileSeller(context);
+                        },
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 20),
+                            // color: Colors.amber,
+                            width: 100,
+                            height: 100,
+                            child: CircleAvatar(
+                              backgroundImage: profileImageUrl == ""
+                                  ? NetworkImage(
+                                      "https://ui-avatars.com/api/?name=${finalDataseller["username"]}")
+                                  : NetworkImage(profileImageUrl),
+                            ),
+                          ),
+                        ),
+                        // child: ListTile(
+                        //   leading: CircleAvatar(
+                        //     radius: 30,
+                        //     backgroundImage: profileImageUrl == ""
+                        //         ? NetworkImage(
+                        //             "https://ui-avatars.com/api/?name=${finalDataseller["username"]}")
+                        //         : NetworkImage(profileImageUrl),
+                        //   ),
+                        // ),
                       ),
-                    ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 100, left: 20),
+                                child: Text(
+                                  "Username",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 100, right: 20),
+                                child: Text(
+                                  "${finalDataseller["username"]}",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 50, left: 20),
+                                child: Text(
+                                  "Email",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 50, right: 20),
+                                child: Text(
+                                  "${finalDataseller["email"]}",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 50, left: 20),
+                                child: Text(
+                                  "UID",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 50, right: 20),
+                                child: Text(
+                                  "${finalDataseller["uid"]}",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 50, left: 20),
+                                child: Text(
+                                  "Address",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 50, right: 20),
+                                child: Text(
+                                  "Blangkolam, No. F8",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 300,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _authServicesSeller.logoutSeller(context);
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  color: Colors.green.shade800,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Center(
+                                child: Text(
+                                  "Logout",
+                                  style: GoogleFonts.roboto(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
+                );
+              } else {
+                return Center(
+                  child: Text("Tidak dapat memuat data"),
+                );
+              }
+            } else {
+              return Center(
+                child: Text("Terjadi kesalahan"),
+              );
+            }
+          }),
       // <--- End Profile Cart Page --->
     ];
     return Scaffold(
@@ -577,122 +750,6 @@ class _MainPageSellerState extends State<MainPageSeller> {
   // <--- Start Store Page Status "0"--->
 
   // <--- End Profile Cart Page --->
-  Row _address() {
-    return Row(
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        //
-        Padding(
-          padding: const EdgeInsets.only(top: 50, left: 20),
-          child: Text(
-            "Address",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 50, right: 20),
-          child: Text(
-            "Blangkolam, No. F8",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ],
-    );
-  }
 
-  Row _phone() {
-    return Row(
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        //
-        Padding(
-          padding: const EdgeInsets.only(top: 50, left: 20),
-          child: Text(
-            "Phone",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 50, right: 20),
-          child: Text(
-            "082246516632",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row _email() {
-    return Row(
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        //
-        Padding(
-          padding: const EdgeInsets.only(top: 50, left: 20),
-          child: Text(
-            "Email",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 50, right: 20),
-          child: Text(
-            "example@gmail.com",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row _username() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 100, left: 20),
-          child: Text(
-            "Username",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 100, right: 20),
-          child: Text(
-            "Editor as Fauzan Arobi",
-            style: GoogleFonts.roboto(
-                fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Container _imageprofile(double mediaqueryHeight, double mediaqueryWidth) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 25),
-      padding: EdgeInsets.only(top: 5),
-      height: mediaqueryHeight / 13,
-      width: mediaqueryWidth,
-      decoration: BoxDecoration(color: Colors.green.shade800),
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 30,
-          backgroundImage: NetworkImage("https://picsum.photos/id/70/200/300"),
-        ),
-      ),
-    );
-  }
 // <--- Start Profile Cart Page --->
 }

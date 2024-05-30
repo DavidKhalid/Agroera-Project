@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SignupPageSeller extends StatelessWidget {
   static const nameRoutes = "SignupPageSeller";
-  AuthServicesSeller _authServicesSeller = AuthServicesSeller();
+  // AuthServicesSeller _authServicesSeller = AuthServicesSeller();
   signupControllerSeller _signupcontrollerSeller = signupControllerSeller();
 
   SignupPageSeller({super.key});
@@ -79,11 +79,16 @@ class SignupPageSeller extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            _authServicesSeller.signupSeller(
-                context,
+            // _authServicesSeller.signupSeller(
+            //     context,
+            //     _signupcontrollerSeller.usernameC.text,
+            //     _signupcontrollerSeller.emailC.text,
+            //     _signupcontrollerSeller.passwordC.text);
+            _signupcontrollerSeller.signupseller(
                 _signupcontrollerSeller.usernameC.text,
                 _signupcontrollerSeller.emailC.text,
-                _signupcontrollerSeller.passwordC.text);
+                _signupcontrollerSeller.passwordC.text,
+                context);
           },
           child: Container(
             height: mediaqueryHeight / 15,

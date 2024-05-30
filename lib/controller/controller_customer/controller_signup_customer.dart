@@ -71,6 +71,7 @@ class signupControllerCustomer {
           "email": email,
           "uid": uid,
           "role": "customer",
+          "profile" : "",
           "createAt": DateTime.now().toIso8601String()
         });
 
