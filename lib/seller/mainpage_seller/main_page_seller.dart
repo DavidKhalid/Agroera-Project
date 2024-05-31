@@ -283,7 +283,7 @@ class _MainPageSellerState extends State<MainPageSeller> {
                             child: CircleAvatar(
                               backgroundImage: profileImageUrl == ""
                                   ? NetworkImage(
-                                      "https://ui-avatars.com/api/?name=${finalDataseller["username"]}")
+                                      "https://ui-avatars.com/api/?background=random&color=fff&name=${finalDataseller["username"]}")
                                   : NetworkImage(profileImageUrl),
                             ),
                           ),
@@ -388,37 +388,8 @@ class _MainPageSellerState extends State<MainPageSeller> {
                               ),
                             ],
                           ),
-                          Row(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              //
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 50, left: 20),
-                                child: Text(
-                                  "Address",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 50, right: 20),
-                                child: Text(
-                                  "Blangkolam, No. F8",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ],
-                          ),
                           SizedBox(
-                            height: 300,
+                            height: 380,
                           ),
                           GestureDetector(
                             onTap: () {

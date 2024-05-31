@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class LoginPageAdmin extends StatelessWidget {
   loginControllerAdmin _logincontrollerAdmin = loginControllerAdmin();
-  AuthServiceAdmin _authServiceAdmin = AuthServiceAdmin();
+  // AuthServiceAdmin _authServiceAdmin = AuthServiceAdmin();
   LoginPageAdmin({super.key});
 
   @override
@@ -39,7 +39,7 @@ class LoginPageAdmin extends StatelessWidget {
         right: 20,
         child: InkWell(
           onTap: () {
-            _authServiceAdmin.loginAdmin(
+            _logincontrollerAdmin.loginAdmin(
                 context,
                 _logincontrollerAdmin.emailC.text,
                 _logincontrollerAdmin.passwordC.text);

@@ -6,51 +6,44 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
-class MainPageCustomerController {
+class mainPageAdmin {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-  final storage = FirebaseStorage.instance;
+  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> streamUserCustomer() async* {
-    // String uid = _auth.currentUser!.uid;
-    // yield* _firebaseFirestore.collection("customer").doc(uid).snapshots();
-    // String? uid = credential.user?.uid;
-    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    //   if (user != null) {
-    //     print(user.uid);
-    //   }
-    // });
-    String uid = _auth.currentUser!.uid;
-    CollectionReference customers = _firebaseFirestore.collection("customers");
-    customers.doc(uid);
-    yield* _firebaseFirestore.collection("customers").doc(uid).snapshots();
+  Stream<DocumentSnapshot<Map<String, dynamic>>> streamAdmin() async* {
+    String? uid = _auth.currentUser?.uid;
+    CollectionReference adminReference = _firebaseFirestore.collection("admin");
+    yield* _firebaseFirestore
+        .collection("admin")
+        .doc(uid)
+        .snapshots(); // coba menggunakan variabel.
   }
 
-  Future<void> pickAndUploadFileCustomer(BuildContext context) async {
+  void pickAndUploadFileCustomer(BuildContext context) async {
     try {
+      // code yang akan di eksekusi
       var result = await FilePicker.platform.pickFiles();
       print("ini adalah hasil result : ${result}");
 
       if (result != null) {
-        //dapatkan file yang dipilih
-        // print("ini adalah hasil result $result");
         var file = result.files.first;
         print("ini adalah file yang di pilih ${file.name}");
         print("ini adalah path file tersebut ${file.path}");
 
         //Dapatkan UID pengguna yang terautentikasi.
-        String? uid = _auth.currentUser!.uid;
+        var uid = _auth.currentUser?.uid;
         //Jika UID pengguna tidak ada (null), tampilkan pesan error dan hentikan eksekusi
         if (uid == null) {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Pengguna tidak ditemukan")));
-          return; //Hentikan eksekusi fungsi
+          return;
         }
 
         //Buat referensi ke Firebase Storage berdasarkan UID
-        Reference ref = storage.ref().child("upload/${uid}/${file.name}");
+        Reference ref =
+            _firebaseStorage.ref().child("upload/${uid}/${file.name}");
 
         //unggah file ke Firebase Storage
         try {
@@ -58,22 +51,16 @@ class MainPageCustomerController {
           await ref.putFile(File(file.path!));
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text("File berhasil di unggah")));
-          //belum berhasil menampilkan gambar. ini batas atas codenya
-          // var imageUrl = await ref.getDownloadURL();
-          // print("ini adalah image url $imageUrl");
-          final imageUrl = await storage
+
+          final imageUrl = await _firebaseStorage
               .ref()
               .child("upload/${uid}/${file.name}")
               .getDownloadURL();
           var profileImageUrl = imageUrl;
           print("ini ada image url test $imageUrl");
-          _firebaseFirestore.collection("customers").doc(uid).update({
+          _firebaseFirestore.collection("admin").doc(uid).update({
             "profile": profileImageUrl,
           });
-
-          // setState(() {
-          //   this.imageUrl = imageUrl;
-          // });
 
           // ini batas bawah codenya
         } catch (e) {
@@ -81,11 +68,10 @@ class MainPageCustomerController {
               SnackBar(content: Text("Gagal mengunggah file ${e}")));
         }
       } else {
-        print("membatalkan pemilihan file");
+        print("Membatalkan pemilihan file");
       }
     } catch (e) {
-      print("terjadi kesalahan saat memilih file ${e}");
+      print("Tidak dapat memilih ${e}");
     }
-    //pilih file menggunakan file_picker
   }
 }

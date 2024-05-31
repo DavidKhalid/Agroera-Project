@@ -50,7 +50,7 @@ class AgroEraApp extends StatelessWidget {
               // initialRoute: snapshot.data == null
               //     ? SplashScreen().toString()
               //     : MainPageCustomer().toString(),
-              home: snapshot.data != null ? MainPageCustomer() : SplashScreen(),
+              home: snapshot.data != null ? AdminPage() : SplashScreen(),
               routes: {
                 "SplashScreen": (context) => SplashScreen(),
                 "LandingPage": (context) => LandingPage(),

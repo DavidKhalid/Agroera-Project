@@ -1,6 +1,9 @@
 import 'package:agroera_project/admin/datacustomer/datacustomer.dart';
 import 'package:agroera_project/admin/dataseller/dataseller.dart';
+import 'package:agroera_project/controller/controller_admin/controller_login_admin.dart';
+import 'package:agroera_project/controller/controller_admin/controller_mainpage_admin.dart';
 import 'package:agroera_project/services/auth_service_admin.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +19,9 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   int indexbuttomNavigationBar = 0;
-  AuthServiceAdmin _authServiceAdmin = AuthServiceAdmin();
+  // AuthServiceAdmin _authServiceAdmin = AuthServiceAdmin();
+  loginControllerAdmin _controllerAdmin = loginControllerAdmin();
+  mainPageAdmin _mainPageAdmin = mainPageAdmin();
 
   @override
   Widget build(BuildContext context) {
@@ -35,41 +40,190 @@ class _AdminPageState extends State<AdminPage> {
           ],
         ),
       ),
-      SafeArea(
-          child: Stack(
-        children: [
-          _appbar(mediaqueryWidth),
-          _username(),
-          _password(),
-          Positioned(
-            top: 690,
-            bottom: 20,
-            left: 90,
-            right: 90,
-            child: GestureDetector(
-              onTap: () {
-                _authServiceAdmin.logout(context);
-              },
-              child: Container(
-                height: 60,
-                width: 200,
-                decoration: BoxDecoration(
-                    color: Colors.green.shade800,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Center(
-                  child: Text(
-                    "Logout",
-                    style: GoogleFonts.roboto(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800),
-                  ),
+      StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          stream: _mainPageAdmin.streamAdmin(),
+          builder: (context, snapshot) {
+            print("ini isi snapshot ${snapshot}");
+            if (snapshot.connectionState == ConnectionState.active) {
+              print("cek data snapshot ${snapshot.data}");
+              var snapshotresult = snapshot.data;
+              print("cek lebih dalam data snapshot ${snapshotresult?.data()}");
+              Map<String, dynamic> finalsnapshotresult =
+                  snapshotresult?.data() as Map<String, dynamic>;
+              var imageProfileUrl = finalsnapshotresult["profile"];
+              print("ini adalah image profile url ${imageProfileUrl}");
+              print("buat cek profile di db ${finalsnapshotresult["profile"]}");
+              return SafeArea(
+                child: Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _mainPageAdmin.pickAndUploadFileCustomer(context);
+                      },
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 20),
+                          // color: Colors.blue,
+                          width: 100,
+                          height: 100,
+                          child: CircleAvatar(
+                            backgroundImage: imageProfileUrl == ""
+                                ? NetworkImage(
+                                    "https://ui-avatars.com/api/?background=random&color=fff&name=${finalsnapshotresult["username"]}")
+                                : NetworkImage(imageProfileUrl),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment(0, -0.6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "Email",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "${finalsnapshotresult["email"]}",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment(0, -0.4),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "Username",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "${finalsnapshotresult["username"]}",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment(0, -0.2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "Password",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "${finalsnapshotresult["password"]}",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment(0, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "UID",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "${finalsnapshotresult["uid"]}",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      top: 690,
+                      bottom: 20,
+                      left: 90,
+                      right: 90,
+                      child: GestureDetector(
+                        onTap: () {
+                          _controllerAdmin.logout(context);
+                        },
+                        child: Container(
+                          height: 60,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              color: Colors.green.shade800,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Center(
+                            child: Text(
+                              "Logout",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ),
-        ],
-      ))
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          })
     ];
 
     return Scaffold(
@@ -102,81 +256,6 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   /// ------> End Profile Admin <------ ///
-  Align _password() {
-    return Align(
-      alignment: Alignment(0, -0.7),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Password",
-              style: GoogleFonts.roboto(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Admin",
-              style: GoogleFonts.roboto(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Align _username() {
-    return Align(
-      alignment: Alignment(0, -0.8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Email",
-              style: GoogleFonts.roboto(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Admin",
-              style: GoogleFonts.roboto(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container _appbar(double mediaqueryWidth) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      height: 60,
-      width: mediaqueryWidth,
-      color: Colors.green.shade800,
-      child: Text(
-        "Admin",
-        style: GoogleFonts.alegreya(
-            fontSize: 25, color: Colors.white, fontWeight: FontWeight.w900),
-      ),
-    );
-  }
 
   /// ------> Start Profie Admin <------ ///
 

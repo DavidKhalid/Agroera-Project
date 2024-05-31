@@ -206,6 +206,8 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
           if (snapshot.connectionState == ConnectionState.active) {
             var users = snapshot.data!.data();
             Map<String, dynamic> finaldata = users as Map<String, dynamic>;
+            var profileImageUrl = finaldata["profile"];
+            print("ini adalah profile image url customer ${profileImageUrl}");
             return SafeArea(
               child: Stack(
                 children: [
@@ -215,19 +217,21 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
                     right: 160,
                     child: GestureDetector(
                       onTap: () {
-                        _mainPageCustomerController.updateprofilePicture();
+                        _mainPageCustomerController
+                            .pickAndUploadFileCustomer(context);
                       },
-                      child: ClipOval(
-                        child: Container(
-                          // height: 100,
-                          // width: 100,
-                          child: Image.network(
-                              fit: BoxFit.cover,
-                              "https://ui-avatars.com/api/?name=${finaldata["username"]}"),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                          ),
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        child: CircleAvatar(
+                          backgroundImage: profileImageUrl == "no-pictures-yet"
+                              ? NetworkImage(
+                                  "https://ui-avatars.com/api/?background=random&color=fff&name=${finaldata["username"]}}")
+                              : NetworkImage(profileImageUrl),
                         ),
+                        decoration: BoxDecoration(
+                            // color: Colors.green,
+                            ),
                       ),
                     ),
                   ),
@@ -288,8 +292,35 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
                           ),
                         ],
                       ),
+                      Row(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          //
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50, left: 20),
+                            child: Text(
+                              "UID",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50, right: 20),
+                            child: Text(
+                              "${finaldata["uid"]}",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
+                      ),
                       SizedBox(
-                        height: 450,
+                        height: 380,
                       ),
                       GestureDetector(
                         onTap: () {
