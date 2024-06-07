@@ -54,6 +54,11 @@ class signupControllerSeller {
           "uid": uid,
           "role": "seller",
           "profile": "",
+          "status": "don't have a store",
+          "storeName": "",
+          "addressStore": "",
+          "storeDescription" : "",
+          "storeImage" : "",
           "createAt": DateTime.now().toIso8601String(),
         });
 

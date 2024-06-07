@@ -1,8 +1,13 @@
+import 'package:agroera_project/controller/controller_seller/controller_addpage_productseller.dart';
+import 'package:agroera_project/controller/controller_seller/controller_imageproduct_seller.dart';
 import 'package:agroera_project/controller/controller_seller/controller_mainpage_seller.dart';
 import 'package:agroera_project/seller/addproduct_seller/addpage_productseller.dart';
 import 'package:agroera_project/seller/createpage_store_seller/createpage_store_seller.dart';
 import 'package:agroera_project/seller/detail_orderhistory_seller/detail_orderhistory_seller.dart';
+import 'package:agroera_project/seller/image_product_seller/image_product_seller.dart';
 import 'package:agroera_project/services/auth_services_seller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -22,6 +27,8 @@ class _MainPageSellerState extends State<MainPageSeller> {
   AuthServicesSeller _authServicesSeller = AuthServicesSeller();
   MainPageSellerController _mainPageSellerController =
       MainPageSellerController();
+  ImageProductControllerSeller _imageProductControllerSeller =
+      ImageProductControllerSeller();
   @override
   Widget build(BuildContext context) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
@@ -35,13 +42,261 @@ class _MainPageSellerState extends State<MainPageSeller> {
       // "1", dimana state akan berubah dan menampilkan online store si seller.
       // Cara ini dilakukan untuk merubah state pada halaman yang sama tergantung
       // dari kondisi yang diperlukan, dimana kondisi ini contohnya adalah "status."
-      // SafeArea(
-      //   child: Stack(children: [
-      //     _imagestore(),
-      //     _text_haveastore(),
-      //     _button_createstore(mediaqueryHeight, mediaqueryWidth),
-      //   ]),
-      // ),
+
+      StreamBuilder<DocumentSnapshot<Object?>>(
+        stream: _mainPageSellerController.streamuserSeller(),
+        builder: (context, snapshot) {
+          print(snapshot);
+          if (snapshot.connectionState == ConnectionState.active) {
+            print(snapshot.data?.data());
+            var snapshotResult = snapshot.data?.data() as Map<String, dynamic>;
+            print(snapshotResult["status"]);
+            var imageStoreSeller = snapshotResult["storeImage"];
+            print("ini adalah image store seller ${imageStoreSeller}");
+            var storeName = snapshotResult["storeName"];
+            print("ini adalah store name ${storeName}");
+            print("Test ajaaaaa ${snapshotResult}");
+            // var firstStatus = snapshotResult["firststatus"];
+            // print("ini adalah first status ${firstStatus}");
+            // var secondStatus = snapshotResult["secondstatus"];
+            // print("ini adalah second status ${secondStatus}");
+            // var thirdStatus = snapshotResult["thirdstatus"];
+            // print("ini adalah third status ${thirdStatus}");
+            var resultStatus = snapshotResult["status"];
+            if (resultStatus == "don't have a store") {
+              print("retrun sesuatu sesuai ${resultStatus}");
+              return SafeArea(
+                child: Stack(children: [
+                  _imagestore(),
+                  _text_haveastore(),
+                  Align(
+                    alignment: Alignment(0, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return CreatePageStoreSeller();
+                          },
+                        ));
+                      },
+                      child: Container(
+                        height: mediaqueryHeight / 15,
+                        width: mediaqueryWidth / 1.5,
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade900,
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                          child: Text(
+                            "Create Store",
+                            style: GoogleFonts.roboto(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+              );
+            } else if (resultStatus == "already have a store") {
+              print("retrun sesuatu sesuai ${resultStatus}");
+              return SafeArea(
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "My Store",
+                        style: GoogleFonts.alegreya(
+                            fontSize: 28,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment(0, -0.73),
+                      child: Container(
+                        height: 180,
+                        width: mediaqueryWidth,
+                        // color: Colors.blueGrey,
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _mainPageSellerController
+                                    .pickImageStoreSeller(context);
+                              },
+                              child: CircleAvatar(
+                                radius: 50,
+                                backgroundImage: imageStoreSeller == ""
+                                    ? AssetImage(
+                                            "assets/images/default-storeimage.png")
+                                        as ImageProvider
+                                    : NetworkImage(imageStoreSeller),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                storeName == "" ? "Store Name" : storeName,
+                                style: GoogleFonts.roboto(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    _bodycontent(mediaqueryWidth)
+                  ],
+                ),
+              );
+            } else if (resultStatus == "already have store and product") {
+              print("return sesuatu sesuai ${resultStatus}");
+              return SafeArea(
+                child: Stack(
+                  children: [
+                    _textMyStore(),
+                    Align(
+                      alignment: Alignment(0, -0.73),
+                      child: Container(
+                        height: 180,
+                        width: mediaqueryWidth,
+                        // color: Colors.grey.shade100,
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundImage: NetworkImage(imageStoreSeller),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                storeName,
+                                style: GoogleFonts.roboto(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    _textproduct(),
+                    StreamBuilder<DocumentSnapshot<Object?>>(
+                        stream:
+                            _imageProductControllerSeller.streamProductseller(),
+                        builder: (context, snapshot) {
+                          print("ini koneksi snapshot $snapshot");
+                          print("ini hash data ${snapshot.data?.data()}");
+                          var snapshotproduct =
+                              snapshot.data?.data() as Map<String, dynamic>;
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.active) {
+                            if (snapshot.hasData && snapshot.data != null) {
+                              return Positioned(
+                                top: 300,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: GridView.builder(
+                                  itemCount: 1,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisSpacing: 0,
+                                          mainAxisSpacing: 10,
+                                          crossAxisCount: 2),
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          height: 200,
+                                          width: 200,
+                                          // color: Colors.green.shade100,
+                                          decoration: BoxDecoration(
+                                            color: Colors.green.shade100,
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                  snapshotproduct[
+                                                      "firstimageproduct"]),
+                                            ),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                snapshotproduct["productname"],
+                                                style: GoogleFonts.roboto(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              Text(
+                                                "Rp. ${snapshotproduct["price"]}",
+                                                style: GoogleFonts.roboto(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        //
+                                      ],
+                                    );
+                                  },
+                                ),
+                              );
+                            } else {
+                              print("hastdata dan snapshot.data bermasalah");
+                              return Center(
+                                child: Text(
+                                    "hastdata dan snapshot.data bermasalah"),
+                              );
+                            }
+                          } else {
+                            print("Tidak dapat memuat data product");
+                            return Center(
+                              child: Text("Tidak dapat memuat data product"),
+                            );
+                          }
+                        }),
+                  ],
+                ),
+              );
+            } else {
+              print("Terjadi kesalahan pada kondisi");
+              return Text("Terjadi kesalahan pada kondisi");
+            }
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return Center(
+              child: Text("Terjadi kesalahan"),
+            );
+          }
+        },
+      ),
       // <--- End Store Page Status "0"--->
 
       // <--- Start Store Page Status "1"--->
@@ -57,16 +312,16 @@ class _MainPageSellerState extends State<MainPageSeller> {
       // <--- End Store Page Status "1"--->
 
       // <--- Start Store Page Status "2"--->
-      SafeArea(
-        child: Stack(
-          children: [
-            _textMyStore(),
-            _logoandNameStore(mediaqueryWidth),
-            _textproduct(),
-            _bodycontentproducts()
-          ],
-        ),
-      ),
+      // SafeArea(
+      //   child: Stack(
+      //     children: [
+      //       _textMyStore(),
+      //       _logoandNameStore(mediaqueryWidth),
+      //       _textproduct(),
+      //       _bodycontentproducts()
+      //     ],
+      //   ),
+      // ),
       // <--- End Store Page Status "2"--->
 
       // <--- Start Order Histrory Page--->
@@ -457,59 +712,59 @@ class _MainPageSellerState extends State<MainPageSeller> {
   }
 
 // <--- End Store Page Status "2"--->
-  Positioned _bodycontentproducts() {
-    return Positioned(
-      top: 300,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: GridView.builder(
-        itemCount: 50,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: 0, mainAxisSpacing: 10, crossAxisCount: 2),
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 10, right: 10),
-                height: 200,
-                width: 200,
-                // color: Colors.green.shade100,
-                decoration: BoxDecoration(
-                  color: Colors.green.shade100,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage("https://picsum.photos/id/26/200/300"),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Nama Produk",
-                      style: GoogleFonts.roboto(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      "Harga : Rp 100.000",
-                      style: GoogleFonts.roboto(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
-              //
-            ],
-          );
-        },
-      ),
-    );
-  }
+  // Positioned _bodycontentproducts() {
+  //   return Positioned(
+  //     top: 300,
+  //     left: 0,
+  //     right: 0,
+  //     bottom: 0,
+  //     child: GridView.builder(
+  //       itemCount: 50,
+  //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //           crossAxisSpacing: 0, mainAxisSpacing: 10, crossAxisCount: 2),
+  //       itemBuilder: (context, index) {
+  //         return Column(
+  //           children: [
+  //             Container(
+  //               margin: EdgeInsets.only(left: 10, right: 10),
+  //               height: 200,
+  //               width: 200,
+  //               // color: Colors.green.shade100,
+  //               decoration: BoxDecoration(
+  //                 color: Colors.green.shade100,
+  //                 image: DecorationImage(
+  //                   fit: BoxFit.cover,
+  //                   image: NetworkImage("https://picsum.photos/id/26/200/300"),
+  //                 ),
+  //               ),
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 mainAxisAlignment: MainAxisAlignment.end,
+  //                 children: [
+  //                   Text(
+  //                     "Nama Produk",
+  //                     style: GoogleFonts.roboto(
+  //                         fontSize: 18,
+  //                         color: Colors.white,
+  //                         fontWeight: FontWeight.w500),
+  //                   ),
+  //                   Text(
+  //                     "Harga : Rp 100.000",
+  //                     style: GoogleFonts.roboto(
+  //                         fontSize: 18,
+  //                         color: Colors.white,
+  //                         fontWeight: FontWeight.w500),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             //
+  //           ],
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   Align _textproduct() {
     return Align(
@@ -521,35 +776,35 @@ class _MainPageSellerState extends State<MainPageSeller> {
         ));
   }
 
-  Align _logoandNameStore(double mediaqueryWidth) {
-    return Align(
-      alignment: Alignment(0, -0.73),
-      child: Container(
-        height: 180,
-        width: mediaqueryWidth,
-        // color: Colors.grey.shade100,
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage:
-                  NetworkImage("https://picsum.photos/seed/picsum/200/300"),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Text(
-                "Store Name",
-                style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w800),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Align _logoandNameStore(double mediaqueryWidth) {
+  //   return Align(
+  //     alignment: Alignment(0, -0.73),
+  //     child: Container(
+  //       height: 180,
+  //       width: mediaqueryWidth,
+  //       // color: Colors.grey.shade100,
+  //       child: Column(
+  //         children: [
+  //           CircleAvatar(
+  //             radius: 50,
+  //             backgroundImage:
+  //                 NetworkImage("https://picsum.photos/seed/picsum/200/300"),
+  //           ),
+  //           Padding(
+  //             padding: const EdgeInsets.symmetric(vertical: 20),
+  //             child: Text(
+  //               "Store Name",
+  //               style: GoogleFonts.roboto(
+  //                   fontSize: 20,
+  //                   color: Colors.black,
+  //                   fontWeight: FontWeight.w800),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Padding _textMyStore() {
     return Padding(
@@ -613,34 +868,33 @@ class _MainPageSellerState extends State<MainPageSeller> {
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Align _logoandnamestore(double mediaqueryWidth) {
-    return Align(
-      alignment: Alignment(0, -0.73),
-      child: Container(
-        height: 180,
-        width: mediaqueryWidth,
-        // color: Colors.grey.shade100,
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage:
-                  NetworkImage("https://picsum.photos/seed/picsum/200/300"),
+            SizedBox(
+              height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Text(
-                "Store Name",
-                style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w800),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return ImageProdutSeller();
+                  },
+                ));
+              },
+              child: Container(
+                height: 50,
+                width: mediaqueryWidth / 1.7,
+                decoration: BoxDecoration(
+                    color: Colors.green.shade800,
+                    borderRadius: BorderRadius.all(Radius.elliptical(30, 30))),
+                child: Center(
+                  child: Text(
+                    "Add Image Product",
+                    style: GoogleFonts.roboto(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
@@ -649,50 +903,80 @@ class _MainPageSellerState extends State<MainPageSeller> {
     );
   }
 
-  Padding _textmystore() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Text(
-        "My Store",
-        style: GoogleFonts.alegreya(
-            fontSize: 28, color: Colors.black, fontWeight: FontWeight.w800),
-      ),
-    );
-  }
+  // Align _logoandnamestore(double mediaqueryWidth) {
+  //   return Align(
+  //     alignment: Alignment(0, -0.73),
+  //     child: Container(
+  //       height: 180,
+  //       width: mediaqueryWidth,
+  //       // color: Colors.grey.shade100,
+  //       child: Column(
+  //         children: [
+  //           CircleAvatar(
+  //             radius: 50,
+  //             backgroundImage:
+  //                 NetworkImage("https://picsum.photos/seed/picsum/200/300"),
+  //           ),
+  //           Padding(
+  //             padding: const EdgeInsets.symmetric(vertical: 20),
+  //             child: Text(
+  //               "Store Name",
+  //               style: GoogleFonts.roboto(
+  //                   fontSize: 20,
+  //                   color: Colors.black,
+  //                   fontWeight: FontWeight.w800),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Padding _textmystore() {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 20),
+  //     child: Text(
+  //       "My Store",
+  //       style: GoogleFonts.alegreya(
+  //           fontSize: 28, color: Colors.black, fontWeight: FontWeight.w800),
+  //     ),
+  //   );
+  // }
 // <--- Start Store Page Status "1"--->
 
   //<--- End Store Page Status "0"--->
-  Align _button_createstore(double mediaqueryHeight, double mediaqueryWidth) {
-    return Align(
-      alignment: Alignment(0, 0),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) {
-              return CreatePageStoreSeller();
-            },
-          ));
-        },
-        child: Container(
-          height: mediaqueryHeight / 15,
-          width: mediaqueryWidth / 1.5,
-          decoration: BoxDecoration(
-              color: Colors.green.shade900,
-              borderRadius: BorderRadius.circular(30)),
-          child: Center(
-            child: Text(
-              "Create Store",
-              style: GoogleFonts.roboto(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Align _button_createstore(double mediaqueryHeight, double mediaqueryWidth) {
+  //   return Align(
+  //     alignment: Alignment(0, 0),
+  //     child: GestureDetector(
+  //       onTap: () {
+  //         Navigator.of(context).push(MaterialPageRoute(
+  //           builder: (context) {
+  //             return CreatePageStoreSeller();
+  //           },
+  //         ));
+  //       },
+  //       child: Container(
+  //         height: mediaqueryHeight / 15,
+  //         width: mediaqueryWidth / 1.5,
+  //         decoration: BoxDecoration(
+  //             color: Colors.green.shade900,
+  //             borderRadius: BorderRadius.circular(30)),
+  //         child: Center(
+  //           child: Text(
+  //             "Create Store",
+  //             style: GoogleFonts.roboto(
+  //               fontSize: 20,
+  //               color: Colors.white,
+  //               fontWeight: FontWeight.w800,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Align _text_haveastore() {
     return Align(

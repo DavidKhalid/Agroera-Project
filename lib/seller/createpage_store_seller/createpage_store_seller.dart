@@ -1,12 +1,14 @@
-import 'package:agroera_project/seller/createpage_store_seller/controllerstore_seller.dart';
+import 'package:agroera_project/controller/controller_seller/controller_mainpage_seller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CreatePageStoreSeller extends StatelessWidget {
   static const nameRoutes = "CreatePageStoreSeller";
-  controllerStoreSeller namatokoController = controllerStoreSeller();
-  controllerStoreSeller alamatController = controllerStoreSeller();
-  controllerStoreSeller deskripsitokoController = controllerStoreSeller();
+  // controllerStoreSeller namatokoController = controllerStoreSeller();
+  // controllerStoreSeller alamatController = controllerStoreSeller();
+  // controllerStoreSeller deskripsitokoController = controllerStoreSeller();
+  MainPageSellerController _mainPageSellerController =
+      MainPageSellerController();
   CreatePageStoreSeller({super.key});
 
   @override
@@ -62,7 +64,7 @@ class CreatePageStoreSeller extends StatelessWidget {
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(10)),
                     child: TextField(
-                      controller: namatokoController.namatoko,
+                      controller: _mainPageSellerController.storeNameC,
                       maxLines: 3,
                       decoration: InputDecoration(
                           hintText: "Nama Toko",
@@ -82,7 +84,7 @@ class CreatePageStoreSeller extends StatelessWidget {
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(10)),
                     child: TextField(
-                      controller: alamatController.alamat,
+                      controller: _mainPageSellerController.addressStoreC,
                       maxLines: 3,
                       decoration: InputDecoration(
                           hintText: "Alamat",
@@ -102,7 +104,7 @@ class CreatePageStoreSeller extends StatelessWidget {
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(10)),
                     child: TextField(
-                      controller: deskripsitokoController.deskripsitoko,
+                      controller: _mainPageSellerController.storeDescriptionC,
                       maxLines: 3,
                       decoration: InputDecoration(
                           hintText: "Deskripsi Toko",
@@ -123,21 +125,30 @@ class CreatePageStoreSeller extends StatelessWidget {
             bottom: 20,
             left: 20,
             right: 20,
-            child: Container(
-              // height: 100,
-              // width: 200,
-              child: Center(
-                child: Text(
-                  "Submit",
-                  style: GoogleFonts.roboto(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w800),
+            child: GestureDetector(
+              onTap: () {
+                _mainPageSellerController.createstoreSeller(
+                    _mainPageSellerController.storeNameC.text,
+                    _mainPageSellerController.addressStoreC.text,
+                    _mainPageSellerController.storeDescriptionC.text,
+                    context);
+              },
+              child: Container(
+                // height: 100,
+                // width: 200,
+                child: Center(
+                  child: Text(
+                    "Submit",
+                    style: GoogleFonts.roboto(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800),
+                  ),
                 ),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.green.shade800,
-                borderRadius: BorderRadius.circular(20),
+                decoration: BoxDecoration(
+                  color: Colors.green.shade800,
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
             ),
           )

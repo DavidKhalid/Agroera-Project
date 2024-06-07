@@ -1,63 +1,26 @@
 import 'dart:io';
 
 import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class MainPageSellerController {
-  // late final String uid;
-  // late final String username;
-  // late final String email;
-  // late final String password;
-  // late final String role;
-  // late final String createAt;
-
-  // MainPageSellerController (
-  //   this.uid,
-  //   this.username,
-  //   this.email,
-  //   this.password,
-  //   this.role,
-  //   this.createAt,
-  // )
-
-  // factory MainPageSellerController.fromSnapshot(DocumentSnapshot snapshot) {
-  //   final data = snapshot.data() as Map<String, dynamic>;
-  //   return MainPageSellerController(
-  //     "uid": snapshot.id,
-  //     "name": data['name'] ?? '',
-  //     "email": data['email'] ?? '',
-  //   );
-  TextEditingController storeNameC = TextEditingController();
-  TextEditingController addressStoreC = TextEditingController();
-  TextEditingController storeDescriptionC = TextEditingController();
-
-  void dispose() {
-    storeNameC.dispose();
-    addressStoreC.dispose();
-    storeDescriptionC.dispose();
-  }
-
+class ImageProductControllerSeller {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-  final storage = FirebaseStorage.instance;
-  String? imageUrl;
+  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-  Stream<DocumentSnapshot<Object?>> streamuserSeller() async* {
+  Stream<DocumentSnapshot<Object?>> streamProductseller() async* {
     String? uid = _auth.currentUser?.uid;
     CollectionReference collectionreferenceSeller =
-        _firebaseFirestore.collection("sellers");
+        _firebaseFirestore.collection("product");
 
     yield* collectionreferenceSeller.doc(uid).snapshots();
-    // }
   }
 
-  Future<void> pickAndUploadFileSeller(BuildContext context) async {
+  void pickImageFirstProduct(BuildContext context) async {
     try {
       var result = await FilePicker.platform.pickFiles();
       print("ini adalah hasil result : ${result}");
@@ -79,7 +42,8 @@ class MainPageSellerController {
         }
 
         //Buat referensi ke Firebase Storage berdasarkan UID
-        Reference ref = storage.ref().child("upload/${uid}/${file.name}");
+        Reference ref =
+            _firebaseStorage.ref().child("upload/${uid}/${file.name}");
 
         //unggah file ke Firebase Storage
         try {
@@ -90,15 +54,18 @@ class MainPageSellerController {
           //belum berhasil menampilkan gambar. ini batas atas codenya
           // var imageUrl = await ref.getDownloadURL();
           // print("ini adalah image url $imageUrl");
-          final imageUrl = await storage
+          final imageUrl = await _firebaseStorage
               .ref()
               .child("upload/${uid}/${file.name}")
               .getDownloadURL();
-          var profileImageUrl = imageUrl;
+          var imageUrlProduct = imageUrl;
           print("ini ada image url test $imageUrl");
-          _firebaseFirestore.collection("sellers").doc(uid).update({
-            "profile": profileImageUrl,
+          _firebaseFirestore.collection("product").doc(uid).update({
+            "firstimageproduct": imageUrlProduct,
           });
+          // _firebaseFirestore.collection("product").doc(uid).update({
+          //   "firstimageproduct": firstimageProduct,
+          // });
 
           // setState(() {
           //   this.imageUrl = imageUrl;
@@ -115,61 +82,9 @@ class MainPageSellerController {
     } catch (e) {
       print("terjadi kesalahan saat memilih file ${e}");
     }
-    //pilih file menggunakan file_picker
   }
 
-  Future<void> createstoreSeller(String storeName, String addressStore,
-      String storeDescription, BuildContext context) async {
-    try {
-      var productCollection = _firebaseFirestore.collection("product");
-      var uid = _auth.currentUser?.uid;
-      print("ini user yang sedang login ${uid}");
-      if (uid != null) {
-        _firebaseFirestore.collection("sellers").doc(uid).update({
-          "storeName": storeName,
-          "addressStore": addressStore,
-          "storeDescription": storeDescription,
-          "status": "already have a store",
-        });
-        final materialBanner = MaterialBanner(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          forceActionsBelow: true,
-          content: AwesomeSnackbarContent(
-            title: "Succes",
-            message: "congratulation Success Submite Data Store",
-            contentType: ContentType.success,
-            inMaterialBanner: true,
-          ),
-          actions: const [SizedBox.shrink()],
-        );
-        ScaffoldMessenger.of(context)
-          ..hideCurrentMaterialBanner()
-          ..showMaterialBanner(materialBanner);
-        Navigator.pushReplacementNamed(context, MainPageSeller.nameRoutes);
-      } else {
-        final materialBanner = MaterialBanner(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          forceActionsBelow: true,
-          content: AwesomeSnackbarContent(
-            title: "Failed",
-            message: "Current User not Found",
-            contentType: ContentType.success,
-            inMaterialBanner: true,
-          ),
-          actions: const [SizedBox.shrink()],
-        );
-        ScaffoldMessenger.of(context)
-          ..hideCurrentMaterialBanner()
-          ..showMaterialBanner(materialBanner);
-      }
-    } catch (e) {
-      print("Gagal submit data store");
-    }
-  }
-
-  void pickImageStoreSeller(BuildContext context) async {
+  void pickImageSecondProduct(BuildContext context) async {
     try {
       var result = await FilePicker.platform.pickFiles();
       print("ini adalah hasil result : ${result}");
@@ -191,7 +106,8 @@ class MainPageSellerController {
         }
 
         //Buat referensi ke Firebase Storage berdasarkan UID
-        Reference ref = storage.ref().child("upload/${uid}/${file.name}");
+        Reference ref =
+            _firebaseStorage.ref().child("upload/${uid}/${file.name}");
 
         //unggah file ke Firebase Storage
         try {
@@ -202,15 +118,18 @@ class MainPageSellerController {
           //belum berhasil menampilkan gambar. ini batas atas codenya
           // var imageUrl = await ref.getDownloadURL();
           // print("ini adalah image url $imageUrl");
-          final imageUrl = await storage
+          final imageUrl = await _firebaseStorage
               .ref()
               .child("upload/${uid}/${file.name}")
               .getDownloadURL();
-          var storeImage = imageUrl;
+          var imageUrlProduct = imageUrl;
           print("ini ada image url test $imageUrl");
-          _firebaseFirestore.collection("sellers").doc(uid).update({
-            "storeImage": storeImage,
+          _firebaseFirestore.collection("product").doc(uid).update({
+            "secondimageproduct": imageUrlProduct,
           });
+          // _firebaseFirestore.collection("product").doc(uid).update({
+          //   "firstimageproduct": firstimageProduct,
+          // });
 
           // setState(() {
           //   this.imageUrl = imageUrl;
@@ -228,7 +147,26 @@ class MainPageSellerController {
       print("terjadi kesalahan saat memilih file ${e}");
     }
   }
+
+  ////fsdfsdfsdfas
+  void submit(BuildContext context) async {
+    try {
+      //Dapatkan UID pengguna yang terautentikasi.
+      String? uid = _auth.currentUser!.uid;
+      //Jika UID pengguna tidak ada (null), tampilkan pesan error dan hentikan eksekusi
+      if (uid == null) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Pengguna tidak ditemukan")));
+        return; //Hentikan eksekusi fungsi
+      }
+      _firebaseFirestore.collection("sellers").doc(uid).update({
+        "status": "already have store and product",
+      });
+      Navigator.of(context).pushReplacementNamed(MainPageSeller.nameRoutes);
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Gagal mengunggah file ${e}")));
+    }
+  }
+  //sdfasdfsafsadfasdfasd
 }
-
-// void setState(Null Function() param0) {
-// }

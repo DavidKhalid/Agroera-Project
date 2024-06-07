@@ -1,18 +1,36 @@
+import 'package:agroera_project/controller/controller_seller/controller_addpage_productseller.dart';
 import 'package:agroera_project/models/model_category_product.dart';
-import 'package:agroera_project/seller/addproduct_seller/controlleraddproduct_seller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
-class ProductSellerPage extends StatelessWidget {
+class ProductSellerPage extends StatefulWidget {
   static const nameRoutes = "ProductSellerPage";
-  addproductControllerSeller productnameController =
-      addproductControllerSeller();
-  addproductControllerSeller priceController = addproductControllerSeller();
-  addproductControllerSeller storedescriptionController =
-      addproductControllerSeller();
+
   ProductSellerPage({super.key});
+
+  @override
+  State<ProductSellerPage> createState() => _ProductSellerPageState();
+}
+
+class _ProductSellerPageState extends State<ProductSellerPage> {
+  AddProductSeller _addProductSeller = AddProductSeller();
+
+  var categoryProdutItem = [
+    "Bibit",
+    "Pupuk",
+    "Sprayer",
+    "Alat Pertanian",
+    "Racun Hama"
+  ];
+  var selectedCategory;
+  var imageproduct1;
+  var imageproduct2;
 
   @override
   Widget build(BuildContext context) {
@@ -30,44 +48,10 @@ class ProductSellerPage extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Stack(children: [
-        Container(
-          height: 200,
-          width: mediaqueryWidth,
-          color: Colors.grey.shade200,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(color: Colors.green.shade100),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(FeatherIcons.plus),
-                    Text("Add Photos"),
-                  ],
-                ),
-              ),
-              Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(color: Colors.blue.shade100),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(FeatherIcons.plus),
-                    Text("Add Photos"),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
         Align(
-          alignment: Alignment(0, 0.38),
+          alignment: Alignment(0, 0),
           child: Container(
-            height: mediaqueryHeight / 1.9,
+            height: mediaqueryHeight,
             width: mediaqueryWidth,
             // color: Colors.pink.shade100,
             child: ListView(
@@ -80,7 +64,7 @@ class ProductSellerPage extends StatelessWidget {
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
-                    controller: productnameController.productnameC,
+                    controller: _addProductSeller.productnameC,
                     maxLines: 3,
                     decoration: InputDecoration(
                         hintText: "Product Name",
@@ -105,21 +89,27 @@ class ProductSellerPage extends StatelessWidget {
                         showSelectedItems: true,
                         disabledItemFn: (String s) => s.startsWith('I'),
                       ),
-                      items: [
-                        "Bibit",
-                        "Pupuk",
-                        "Sprayer",
-                        "Alat Pertanian",
-                        "Racun Hama"
-                      ],
+                      items: categoryProdutItem,
                       dropdownDecoratorProps: DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(
                           labelText: "Category Product",
                           hintText: "selected",
                         ),
                       ),
-                      onChanged: print,
+                      onChanged: (value) {
+                        // nanti disini akan di panggil function dari class
+                        // AddProductSeller. Setelah itu data yang telah dipilih
+                        // di simpan ke database
+                        setState(() {
+                          selectedCategory = value!;
+                          print(
+                              "ini product yang telah dipilih ${selectedCategory}");
+                        });
+                        // var productSelected = value;
+                      },
+
                       clearButtonProps: ClearButtonProps(isVisible: true),
+
                       // selectedItem: "Bibit",
                     )),
                 SizedBox(
@@ -133,7 +123,7 @@ class ProductSellerPage extends StatelessWidget {
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
-                    controller: priceController.priceC,
+                    controller: _addProductSeller.priceC,
                     maxLines: 3,
                     decoration: InputDecoration(
                         hintText: "Price",
@@ -153,7 +143,7 @@ class ProductSellerPage extends StatelessWidget {
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
-                    controller: storedescriptionController.storedescriptionC,
+                    controller: _addProductSeller.productdescriptionC,
                     maxLines: 3,
                     decoration: InputDecoration(
                         hintText: "Product Description",
@@ -174,17 +164,33 @@ class ProductSellerPage extends StatelessWidget {
           bottom: 20,
           left: 20,
           right: 20,
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.green.shade800,
-                borderRadius: BorderRadius.circular(20)),
-            child: Center(
-              child: Text(
-                "Add Product",
-                style: GoogleFonts.roboto(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800,
+          child: GestureDetector(
+            onTap: () {
+              _addProductSeller.submitAddProduct(
+                  _addProductSeller.productnameC.text,
+                  selectedCategory ?? "",
+                  _addProductSeller.priceC.text,
+                  _addProductSeller.productdescriptionC.text,
+                  context);
+              // _addProductSeller.submitAddProduct(
+              //     _addProductSeller.productnameC.text,
+              //     selectedCategory ?? "",
+              //     _addProductSeller.priceC.text,
+              //     _addProductSeller.productdescriptionC.text,
+              //     context);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.green.shade800,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Center(
+                child: Text(
+                  "Submit Add Product",
+                  style: GoogleFonts.roboto(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
             ),
