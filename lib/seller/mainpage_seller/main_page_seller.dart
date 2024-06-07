@@ -265,7 +265,7 @@ class _MainPageSellerState extends State<MainPageSeller> {
                                   },
                                 ),
                               );
-                            } else {
+                            } else{
                               print("hastdata dan snapshot.data bermasalah");
                               return Center(
                                 child: Text(

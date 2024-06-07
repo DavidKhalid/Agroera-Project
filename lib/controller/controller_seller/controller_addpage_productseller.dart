@@ -59,13 +59,14 @@ class AddProductSeller {
         // secondImageUrl != null
         ) {
       //semua blok code dibawah ini akan dijalankan
-      productReference.doc(uid).set({
+      productReference.doc().set({
         "productname": productname,
         "price": price,
         "categoryproduct": categoryproduct,
         "productdescription": productdescription,
         "firstimageproduct": "",
         "secondimageproduct": "",
+        "seller_id": uid,
         "createAt": DateTime.now().toIso8601String(),
       });
       ScaffoldMessenger.of(context)

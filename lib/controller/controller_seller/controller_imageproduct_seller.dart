@@ -13,11 +13,16 @@ class ImageProductControllerSeller {
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   Stream<DocumentSnapshot<Object?>> streamProductseller() async* {
-    String? uid = _auth.currentUser?.uid;
+    String uid = _auth.currentUser!.uid;
+
     CollectionReference collectionreferenceSeller =
         _firebaseFirestore.collection("product");
 
-    yield* collectionreferenceSeller.doc(uid).snapshots();
+    yield* collectionreferenceSeller
+        .where("seller_id", isEqualTo: uid)
+        .limit(1)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.first);
   }
 
   void pickImageFirstProduct(BuildContext context) async {
@@ -60,8 +65,18 @@ class ImageProductControllerSeller {
               .getDownloadURL();
           var imageUrlProduct = imageUrl;
           print("ini ada image url test $imageUrl");
-          _firebaseFirestore.collection("product").doc(uid).update({
-            "firstimageproduct": imageUrlProduct,
+          _firebaseFirestore
+              .collection("product")
+              .where("seller_id", isEqualTo: uid)
+              .limit(1)
+              .get()
+              .then((querySnapshot) {
+            if (querySnapshot.docs.isNotEmpty) {
+              var doc = querySnapshot.docs.first;
+              _firebaseFirestore.collection("product").doc(doc.id).update({
+                "firstimageproduct": imageUrlProduct,
+              });
+            }
           });
           // _firebaseFirestore.collection("product").doc(uid).update({
           //   "firstimageproduct": firstimageProduct,
@@ -124,8 +139,18 @@ class ImageProductControllerSeller {
               .getDownloadURL();
           var imageUrlProduct = imageUrl;
           print("ini ada image url test $imageUrl");
-          _firebaseFirestore.collection("product").doc(uid).update({
-            "secondimageproduct": imageUrlProduct,
+          _firebaseFirestore
+              .collection("product")
+              .where("seller_id", isEqualTo: uid)
+              .limit(1)
+              .get()
+              .then((querySnapshot) {
+            if (querySnapshot.docs.isNotEmpty) {
+              var doc = querySnapshot.docs.first;
+              _firebaseFirestore.collection("product").doc(doc.id).update({
+                "secondimageproduct": imageUrlProduct,
+              });
+            }
           });
           // _firebaseFirestore.collection("product").doc(uid).update({
           //   "firstimageproduct": firstimageProduct,
