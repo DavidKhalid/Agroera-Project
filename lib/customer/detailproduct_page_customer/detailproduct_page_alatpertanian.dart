@@ -1,4 +1,10 @@
+import 'package:agroera_project/controller/controller_customer/controller_pageproduct_customer.dart';
+import 'package:agroera_project/controller/controller_seller/controller_productpage_bibit.dart';
+import 'package:agroera_project/controller/controller_seller/controller_productpage_pupuk.dart';
+import 'package:agroera_project/controller/controller_seller/controller_productpage_alatpertanian.dart';
+import 'package:agroera_project/controller/controller_seller/controller_productpage_sprayer.dart';
 import 'package:agroera_project/models/model_category_product.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,19 +12,22 @@ import '../cart_page_customer/cart_page_customer.dart';
 
 bool isFavorite = false;
 
-class DetailProductPageCustomer extends StatefulWidget {
-  final CategoryProduct categoryP;
+class DetailProductPageAlatPertanian extends StatefulWidget {
+  String category;
   //  final List<Map<String, String>> products;
 
-  static const nameRoutes = "DetailProductPageCustomer";
-  const DetailProductPageCustomer({super.key, required this.categoryP});
+  static const nameRoutes = "DetailProductPageAlatPertanian";
+  DetailProductPageAlatPertanian({super.key, required this.category});
 
   @override
-  State<DetailProductPageCustomer> createState() =>
-      _DetailProductPageCustomerState();
+  State<DetailProductPageAlatPertanian> createState() =>
+      _DetailProductPageAlatPertanianState();
 }
 
-class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
+class _DetailProductPageAlatPertanianState
+    extends State<DetailProductPageAlatPertanian> {
+  ProductPageAlatPertanianC _productPageAlatPertanianC =
+      ProductPageAlatPertanianC();
   @override
   Widget build(BuildContext context) {
     // final categoryproduct =
@@ -40,30 +49,57 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
           ),
         ),
       ),
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: SizedBox(
-          height: mediaqueryHeight,
-          width: mediaqueryWidth,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              //_arrowBack(context),
-              _contentImage(mediaqueryHeight, mediaqueryWidth),
-              _favoritebutton(),
-              _productname(),
-              _price(),
-              _description(),
-              const Divider(
-                indent: 20,
-                endIndent: 20,
-                color: Colors.black,
-              ),
-              _fillDescription(mediaqueryHeight, mediaqueryWidth, context)
-            ],
-          ),
-        ),
-      )),
+      body: StreamBuilder<DocumentSnapshot<Object?>>(
+          stream: _productPageAlatPertanianC.streamProductseller(widget.category),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData && snapshot.data != null) {
+                print("This is snapshot ${snapshot.data?.data()}");
+                var snapshotResult = snapshot.data?.data();
+                return SafeArea(
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      height: mediaqueryHeight,
+                      width: mediaqueryWidth,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          //_arrowBack(context),
+                          _contentImage(mediaqueryHeight, mediaqueryWidth,
+                              snapshotResult),
+                          _favoritebutton(),
+                          _productname(snapshotResult),
+                          _price(snapshotResult),
+                          _description(),
+                          const Divider(
+                            indent: 20,
+                            endIndent: 20,
+                            color: Colors.black,
+                          ),
+                          _fillDescription(mediaqueryHeight, mediaqueryWidth,
+                              context, snapshotResult)
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                print("hasData false and snapshot bernilai null");
+                return Center(
+                  child: Text("Tidak dapat memuat data"),
+                );
+              }
+            } else {
+              print("Terjadi Kesalahan");
+              return Center(
+                child: Text("Terjadi Kesalahan"),
+              );
+            }
+          }),
     );
   }
 
@@ -87,8 +123,9 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
     );
   }
 
-  Expanded _fillDescription(
-      double mediaqueryHeight, double mediaqueryWidth, BuildContext context) {
+  Expanded _fillDescription(double mediaqueryHeight, double mediaqueryWidth,
+      BuildContext context, dynamic snapshotResult) {
+    var finalSnapshotResult = snapshotResult;
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -104,7 +141,7 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _textfilldescription(),
+              _textfilldescription(finalSnapshotResult),
               _buttoncart_andiconshoppingbag(mediaqueryHeight, mediaqueryWidth),
               SizedBox(
                 height: 20,
@@ -153,13 +190,13 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
     );
   }
 
-  Expanded _textfilldescription() {
+  Expanded _textfilldescription(dynamic finalSnapshotResult) {
     return Expanded(
       child: Text(
         textAlign: TextAlign.justify,
         overflow: TextOverflow.ellipsis,
         maxLines: 3,
-        widget.categoryP.description.toString(),
+        "${finalSnapshotResult["productdescription"]}",
         style: GoogleFonts.alegreya(fontWeight: FontWeight.w500, fontSize: 16),
       ),
     );
@@ -183,7 +220,7 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
     );
   }
 
-  Row _price() {
+  Row _price(dynamic snapshotResult) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -200,7 +237,7 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
                 ),
                 Text(
                   overflow: TextOverflow.ellipsis,
-                  widget.categoryP.price.toString(),
+                  "Rp. ${snapshotResult["price"]}",
                   style: GoogleFonts.alegreya(
                       fontSize: 16, fontWeight: FontWeight.w500),
                 ),
@@ -212,7 +249,7 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
     );
   }
 
-  Row _productname() {
+  Row _productname(dynamic snapshotResult) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -220,7 +257,7 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
           child: Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Text(
-              widget.categoryP.categoryname.toString(),
+              "${snapshotResult["productname"]}",
               style: GoogleFonts.alegreya(
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
@@ -232,7 +269,8 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
     );
   }
 
-  Expanded _contentImage(double mediaqueryHeight, double mediaqueryWidth) {
+  Expanded _contentImage(
+      double mediaqueryHeight, double mediaqueryWidth, dynamic snapshotResult) {
     return Expanded(
       flex: 4,
       child: Container(
@@ -242,7 +280,7 @@ class _DetailProductPageCustomerState extends State<DetailProductPageCustomer> {
         decoration: BoxDecoration(
           color: Colors.grey.shade400,
           image: DecorationImage(
-              image: AssetImage(widget.categoryP.image.toString()),
+              image: NetworkImage(snapshotResult["firstimageproduct"]),
               fit: BoxFit.cover),
           borderRadius: BorderRadius.circular(25),
         ),

@@ -3,9 +3,17 @@ import 'package:agroera_project/admin/dataseller/dataseller.dart';
 import 'package:agroera_project/admin/mainpage_admin/mainpage_admin.dart';
 import 'package:agroera_project/customer/cart_page_customer/cart_page_customer.dart';
 import 'package:agroera_project/customer/deliverypage_status_customer/deliverypage_status_customer.dart';
-import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_customer.dart';
+import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_alatpertanian.dart';
+import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_bibit.dart';
+import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_pupuk.dart';
+import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_racunhama.dart';
+import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_sprayer.dart';
 import 'package:agroera_project/customer/payment_page_customer/payment_page_customer.dart';
-import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_bibit%20copy.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_pupuk%20copy.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_alatpertanian.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_racunhama.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_sprayer%20copy%202.dart';
 import 'package:agroera_project/landing_page/landing_page.dart';
 import 'package:agroera_project/customer/login_page_customer/login_page_customer.dart';
 import 'package:agroera_project/customer/main_page_customer.dart/main_page_customer.dart';
@@ -57,9 +65,27 @@ class AgroEraApp extends StatelessWidget {
                 "LoginPageCustomer": (context) => LoginPageCustomer(),
                 "SignupPageCustomer": (context) => SignupPageCustomer(),
                 "MainPageCustomer": (context) => MainPageCustomer(),
-                "ProductForCustomer": (context) => ProductForCustomer(),
-                "DetailProductPageCustomer": (context) =>
-                    DetailProductPageCustomer(categoryP: CategoryProduct()),
+                "ProductForCustomerBibit": (context) =>
+                    ProductForCustomerBibit(category: "Bibit"),
+                "ProductForCustomerPupuk": (context) =>
+                    ProductForCustomerPupuk(category: "Pupuk"),
+                "ProductForCustomerSprayer": (context) =>
+                    ProductForCustomerSprayer(category: "Sprayer"),
+                "ProductForCustomerAlatPertanian": (context) =>
+                    ProductForCustomerAlatPertanian(category: "Alat Pertanian"),
+                "ProductForCustomerRacunHama": (context) =>
+                    ProductForCustomerRacunHama(category: "Racun Hama"),
+                "DetailProductPagePupuk": (context) => DetailProductPagePupuk(
+                      category: "Pupuk",
+                    ),
+                "DetailProductPageBibit": (context) =>
+                    DetailProductPageBibit(category: "Bibit"),
+                "DetailProductPageSprayer": (context) =>
+                    DetailProductPageSprayer(category: "Sprayer"),
+                "DetailProductPageAlatPertanian": (context) =>
+                    DetailProductPageAlatPertanian(category: "Alat Pertanian"),
+                "DetailProductPageRacunHama": (context) =>
+                    DetailProductPageRacunHama(category: "Racun Hama"),
                 "CartPageCustomer": (context) => CartPageCustomer(),
                 "PaymentPageCustomer": (context) => PaymentPageCustomer(),
                 "DeliveryPageStatusCustomer": (context) =>

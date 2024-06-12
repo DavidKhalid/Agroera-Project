@@ -1,7 +1,11 @@
 import 'package:agroera_project/controller/controller_customer/controller_signup_customer.dart';
 import 'package:agroera_project/controller/controller_customer/controller_homepage_customer.dart';
 import 'package:agroera_project/customer/payment_page_customer/payment_page_customer.dart';
-import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_bibit%20copy.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_pupuk%20copy.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_alatpertanian.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_racunhama.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_sprayer%20copy%202.dart';
 import 'package:agroera_project/models/model_category_product.dart';
 import 'package:agroera_project/services/auth_services_customer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -52,7 +56,229 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
               ],
             ),
             _search(mediaqueryHeight, mediaqueryWidth),
-            _categoryproduct(mediaqueryHeight, mediaqueryWidth)
+            Positioned(
+              top: 200,
+              bottom: 5,
+              left: 5,
+              right: 5,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, ProductForCustomerBibit.nameRoutes);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        height: mediaqueryHeight / 6,
+                        width: mediaqueryWidth,
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: ShaderMask(
+                              shaderCallback: (bounds) {
+                                return LinearGradient(
+                                  colors: [Colors.white, Colors.white],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ).createShader(bounds);
+                              },
+                              child: Text(
+                                "Bibit",
+                                style: GoogleFonts.robotoSerif(
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.white
+                                    // gradien
+                                    ),
+                              ),
+                            )),
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage("assets/images/bibit.png")),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                color: Colors.green.shade800, width: 2)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, ProductForCustomerPupuk.nameRoutes);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        height: mediaqueryHeight / 6,
+                        width: mediaqueryWidth,
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: ShaderMask(
+                              shaderCallback: (bounds) {
+                                return LinearGradient(
+                                  colors: [Colors.white, Colors.white],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ).createShader(bounds);
+                              },
+                              child: Text(
+                                "Pupuk",
+                                style: GoogleFonts.robotoSerif(
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.white
+                                    // gradien
+                                    ),
+                              ),
+                            )),
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage("assets/images/pupuk.png")),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                color: Colors.green.shade800, width: 2)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, ProductForCustomerSprayer.nameRoutes);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        height: mediaqueryHeight / 6,
+                        width: mediaqueryWidth,
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: ShaderMask(
+                              shaderCallback: (bounds) {
+                                return LinearGradient(
+                                  colors: [Colors.white, Colors.white],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ).createShader(bounds);
+                              },
+                              child: Text(
+                                "Sprayer",
+                                style: GoogleFonts.robotoSerif(
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.white
+                                    // gradien
+                                    ),
+                              ),
+                            )),
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage("assets/images/sprayer.png")),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                color: Colors.green.shade800, width: 2)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context,
+                            ProductForCustomerAlatPertanian.nameRoutes);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        height: mediaqueryHeight / 6,
+                        width: mediaqueryWidth,
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: ShaderMask(
+                              shaderCallback: (bounds) {
+                                return LinearGradient(
+                                  colors: [Colors.white, Colors.white],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ).createShader(bounds);
+                              },
+                              child: Text(
+                                "Alat Pertanian",
+                                style: GoogleFonts.robotoSerif(
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.white
+                                    // gradien
+                                    ),
+                              ),
+                            )),
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    "assets/images/alatpertanian.png")),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                color: Colors.green.shade800, width: 2)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, ProductForCustomerRacunHama.nameRoutes);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        height: mediaqueryHeight / 6,
+                        width: mediaqueryWidth,
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: ShaderMask(
+                              shaderCallback: (bounds) {
+                                return LinearGradient(
+                                  colors: [Colors.white, Colors.white],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ).createShader(bounds);
+                              },
+                              child: Text(
+                                "Racun Hama",
+                                style: GoogleFonts.robotoSerif(
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.white
+                                    // gradien
+                                    ),
+                              ),
+                            )),
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage("assets/images/poison.png")),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                color: Colors.green.shade800, width: 2)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
@@ -738,65 +964,65 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
 // <--- Start shopping Cart Page --->
 
   // <--- End Home Page --->
-  Positioned _categoryproduct(double mediaqueryHeight, double mediaqueryWidth) {
-    return Positioned(
-      top: 200,
-      bottom: 5,
-      left: 5,
-      right: 5,
-      child: ListView.builder(
-        itemCount: categoryProduct.length,
-        itemBuilder: (context, index) {
-          final CategoryProduct categoryproduct = categoryProduct[index];
-          return Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, ProductForCustomer.nameRoutes);
-                },
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  height: mediaqueryHeight / 6,
-                  width: mediaqueryWidth,
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: ShaderMask(
-                        shaderCallback: (bounds) {
-                          return LinearGradient(
-                            colors: [Colors.black, Colors.black],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ).createShader(bounds);
-                        },
-                        child: Text(
-                          categoryproduct.categoryname.toString(),
-                          style: GoogleFonts.roboto(
-                              fontSize: 35,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white
-                              // gradien
-                              ),
-                        ),
-                      )),
-                  decoration: BoxDecoration(
-                      color: Colors.green.shade100,
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(categoryproduct.image.toString())),
-                      borderRadius: BorderRadius.circular(20),
-                      border:
-                          Border.all(color: Colors.green.shade800, width: 2)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
+  // Positioned _categoryproduct(double mediaqueryHeight, double mediaqueryWidth) {
+  //   return Positioned(
+  //     top: 200,
+  //     bottom: 5,
+  //     left: 5,
+  //     right: 5,
+  //     child: ListView.builder(
+  //       itemCount: categoryProduct.length,
+  //       itemBuilder: (context, index) {
+  //         final CategoryProduct categoryproduct = categoryProduct[index];
+  //         return Column(
+  //           children: [
+  //             GestureDetector(
+  //               onTap: () {
+  //                 Navigator.pushNamed(context, ProductForCustomerBibit.nameRoutes);
+  //               },
+  //               child: Container(
+  //                 margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+  //                 height: mediaqueryHeight / 6,
+  //                 width: mediaqueryWidth,
+  //                 child: Align(
+  //                     alignment: Alignment.center,
+  //                     child: ShaderMask(
+  //                       shaderCallback: (bounds) {
+  //                         return LinearGradient(
+  //                           colors: [Colors.black, Colors.black],
+  //                           begin: Alignment.topCenter,
+  //                           end: Alignment.bottomCenter,
+  //                         ).createShader(bounds);
+  //                       },
+  //                       child: Text(
+  //                         categoryproduct.categoryname.toString(),
+  //                         style: GoogleFonts.roboto(
+  //                             fontSize: 35,
+  //                             fontWeight: FontWeight.w900,
+  //                             color: Colors.white
+  //                             // gradien
+  //                             ),
+  //                       ),
+  //                     )),
+  //                 decoration: BoxDecoration(
+  //                     color: Colors.green.shade100,
+  //                     image: DecorationImage(
+  //                         fit: BoxFit.cover,
+  //                         image: AssetImage(categoryproduct.image.toString())),
+  //                     borderRadius: BorderRadius.circular(20),
+  //                     border:
+  //                         Border.all(color: Colors.green.shade800, width: 2)),
+  //               ),
+  //             ),
+  //             SizedBox(
+  //               height: 20,
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   Stack _search(double mediaqueryHeight, double mediaqueryWidth) {
     return Stack(

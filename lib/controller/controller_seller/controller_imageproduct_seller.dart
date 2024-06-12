@@ -11,15 +11,22 @@ class ImageProductControllerSeller {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  late String uidSeller;
+
+  ImageProductControllerSeller() {
+    uidSeller = _auth.currentUser!.uid;
+  }
+
+  String get uid => uidSeller;
 
   Stream<DocumentSnapshot<Object?>> streamProductseller() async* {
-    String uid = _auth.currentUser!.uid;
+    // String uid = _auth.currentUser!.uid;
 
     CollectionReference collectionreferenceSeller =
         _firebaseFirestore.collection("product");
 
     yield* collectionreferenceSeller
-        .where("seller_id", isEqualTo: uid)
+        .where("seller_id", isEqualTo: uidSeller)
         .limit(1)
         .snapshots()
         .map((snapshot) => snapshot.docs.first);
