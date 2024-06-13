@@ -1,10 +1,13 @@
 import 'package:agroera_project/controller/controller_seller/controller_addpage_productseller.dart';
 import 'package:agroera_project/controller/controller_seller/controller_imageproduct_seller.dart';
 import 'package:agroera_project/controller/controller_seller/controller_mainpage_seller.dart';
+import 'package:agroera_project/controller/controller_seller/controller_productseller_dynamic.dart';
+// import 'package:agroera_project/controller/controller_seller/controller_product_dynamic.dart';
 import 'package:agroera_project/seller/addproduct_seller/addpage_productseller.dart';
 import 'package:agroera_project/seller/createpage_store_seller/createpage_store_seller.dart';
 import 'package:agroera_project/seller/detail_orderhistory_seller/detail_orderhistory_seller.dart';
 import 'package:agroera_project/seller/image_product_seller/image_product_seller.dart';
+// import 'package:agroera_project/seller/image_product_seller/image_productseller_dynamic.dart';
 import 'package:agroera_project/services/auth_services_seller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,6 +32,7 @@ class _MainPageSellerState extends State<MainPageSeller> {
       MainPageSellerController();
   ImageProductControllerSeller _imageProductControllerSeller =
       ImageProductControllerSeller();
+  dynamicproductC productDynamicC = dynamicproductC();
   @override
   Widget build(BuildContext context) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
@@ -161,6 +165,35 @@ class _MainPageSellerState extends State<MainPageSeller> {
                 child: Stack(
                   children: [
                     _textMyStore(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                  context, ProductSellerPage.nameRoutes);
+                            },
+                            icon: Icon(
+                              FeatherIcons.plus,
+                              color: Colors.black,
+                              size: 25,
+                            )),
+                        IconButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return ImageProdutSeller();
+                                },
+                              ));
+                            },
+                            icon: Icon(
+                              FeatherIcons.image,
+                              color: Colors.black,
+                              size: 25,
+                            ))
+                        //
+                      ],
+                    ),
                     Align(
                       alignment: Alignment(0, -0.73),
                       child: Container(
@@ -188,14 +221,12 @@ class _MainPageSellerState extends State<MainPageSeller> {
                       ),
                     ),
                     _textproduct(),
-                    StreamBuilder<DocumentSnapshot<Object?>>(
-                        stream:
-                            _imageProductControllerSeller.streamProductseller(),
+                    StreamBuilder<QuerySnapshot<Object?>>(
+                        stream: productDynamicC.streamDynamicProductC(),
                         builder: (context, snapshot) {
                           print("ini koneksi snapshot $snapshot");
-                          print("ini hash data ${snapshot.data?.data()}");
-                          var snapshotproduct =
-                              snapshot.data?.data() as Map<String, dynamic>;
+                          print("ini hash data ${snapshot.data?.docs}");
+                          var snapshotproduct = snapshot.data?.docs;
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Center(
@@ -210,13 +241,25 @@ class _MainPageSellerState extends State<MainPageSeller> {
                                 right: 0,
                                 bottom: 0,
                                 child: GridView.builder(
-                                  itemCount: 1,
+                                  itemCount: snapshotproduct?.length,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisSpacing: 0,
                                           mainAxisSpacing: 10,
                                           crossAxisCount: 2),
                                   itemBuilder: (context, index) {
+                                    var finalDataDynamic =
+                                        snapshotproduct?[index].data()
+                                            as Map<String, dynamic>;
+                                    String imageUrl =
+                                        finalDataDynamic["firstimageproduct"] ??
+                                            '';
+                                    String productName =
+                                        finalDataDynamic["productname"] ?? '';
+                                    String productPrice =
+                                        finalDataDynamic["price"]?.toString() ??
+                                            '';
+
                                     return Column(
                                       children: [
                                         Container(
@@ -229,9 +272,11 @@ class _MainPageSellerState extends State<MainPageSeller> {
                                             color: Colors.green.shade100,
                                             image: DecorationImage(
                                               fit: BoxFit.cover,
-                                              image: NetworkImage(
-                                                  snapshotproduct[
-                                                      "firstimageproduct"]),
+                                              image: NetworkImage(imageUrl),
+                                              onError: (exception, stackTrace) {
+                                                print(
+                                                    "Failed to load image: $exception");
+                                              },
                                             ),
                                           ),
                                           child: Column(
@@ -241,7 +286,7 @@ class _MainPageSellerState extends State<MainPageSeller> {
                                                 MainAxisAlignment.end,
                                             children: [
                                               Text(
-                                                snapshotproduct["productname"],
+                                                productName,
                                                 style: GoogleFonts.roboto(
                                                     fontSize: 18,
                                                     color: Colors.white,
@@ -249,7 +294,7 @@ class _MainPageSellerState extends State<MainPageSeller> {
                                                         FontWeight.w500),
                                               ),
                                               Text(
-                                                "Rp. ${snapshotproduct["price"]}",
+                                                "Rp. ${productPrice}",
                                                 style: GoogleFonts.roboto(
                                                     fontSize: 18,
                                                     color: Colors.white,

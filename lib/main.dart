@@ -45,6 +45,32 @@ void main() async {
 class AgroEraApp extends StatelessWidget {
   final AuthServices _authServices = AuthServices();
   AgroEraApp({super.key});
+  Future<String?> _getUserRole(String uid) async {
+    print("Checking role for UID: $uid");
+    DocumentSnapshot userDoc;
+    userDoc =
+        await FirebaseFirestore.instance.collection('customers').doc(uid).get();
+    if (userDoc.exists) {
+      print("user found in customers${userDoc.exists}");
+      return 'customers';
+    }
+
+    userDoc =
+        await FirebaseFirestore.instance.collection('sellers').doc(uid).get();
+    if (userDoc.exists) {
+      print("user found in sellers ${userDoc.exists}");
+      return 'sellers';
+    }
+
+    userDoc =
+        await FirebaseFirestore.instance.collection('admin').doc(uid).get();
+    if (userDoc.exists) {
+      print("user found in admin ${userDoc.exists}");
+      return 'admin';
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,56 +79,144 @@ class AgroEraApp extends StatelessWidget {
         builder: (context, snapshot) {
           print(snapshot.data);
           if (snapshot.connectionState == ConnectionState.active) {
-            print("this is ${snapshot.data}");
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              // initialRoute: snapshot.data == null
-              //     ? SplashScreen().toString()
-              //     : MainPageCustomer().toString(),
-              home: snapshot.data != null ? MainPageCustomer() : SplashScreen(),
-              routes: {
-                "SplashScreen": (context) => SplashScreen(),
-                "LandingPage": (context) => LandingPage(),
-                "LoginPageCustomer": (context) => LoginPageCustomer(),
-                "SignupPageCustomer": (context) => SignupPageCustomer(),
-                "MainPageCustomer": (context) => MainPageCustomer(),
-                "ProductForCustomerBibit": (context) =>
-                    ProductForCustomerBibit(category: "Bibit"),
-                "ProductForCustomerPupuk": (context) =>
-                    ProductForCustomerPupuk(category: "Pupuk"),
-                "ProductForCustomerSprayer": (context) =>
-                    ProductForCustomerSprayer(category: "Sprayer"),
-                "ProductForCustomerAlatPertanian": (context) =>
-                    ProductForCustomerAlatPertanian(category: "Alat Pertanian"),
-                "ProductForCustomerRacunHama": (context) =>
-                    ProductForCustomerRacunHama(category: "Racun Hama"),
-                "DetailProductPagePupuk": (context) => DetailProductPagePupuk(
-                      category: "Pupuk",
-                    ),
-                "DetailProductPageBibit": (context) =>
-                    DetailProductPageBibit(category: "Bibit"),
-                "DetailProductPageSprayer": (context) =>
-                    DetailProductPageSprayer(category: "Sprayer"),
-                "DetailProductPageAlatPertanian": (context) =>
-                    DetailProductPageAlatPertanian(category: "Alat Pertanian"),
-                "DetailProductPageRacunHama": (context) =>
-                    DetailProductPageRacunHama(category: "Racun Hama"),
-                "CartPageCustomer": (context) => CartPageCustomer(),
-                "PaymentPageCustomer": (context) => PaymentPageCustomer(),
-                "DeliveryPageStatusCustomer": (context) =>
-                    DeliveryPageStatusCustomer(),
-                "AdminPage": (context) => AdminPage(),
-                "DataCustomer": (context) => DataCustomer(),
-                "DataSeller": (context) => DataSeller(),
-                "SignupPageSeller": (context) => SignupPageSeller(),
-                "LoginPageSeller": (context) => LoginPageSeller(),
-                "MainPageSeller": (context) => MainPageSeller(),
-                "CreatePageStoreSeller": (context) => CreatePageStoreSeller(),
-                "ProductSellerPage": (context) => ProductSellerPage(),
-                "DetailOrderHistorySeller": (context) =>
-                    DetailOrderHistorySeller(),
-              },
-            );
+            if (snapshot.data != null) {
+              print("User is authenticated: ${snapshot.data!.uid}");
+              return FutureBuilder(
+                  future: _getUserRole(snapshot.data!.uid),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return LoadingView();
+                    } else if (snapshot.hasError) {
+                      print("${snapshot.hasError}");
+                      return Center(
+                        child: Text("Error : ${snapshot.error}"),
+                      );
+                    } else if (snapshot.hasData) {
+                      //return sesuatu ketika hasdata bernilai True. Code dibawah
+                      // akan dijalankan
+                      try {
+                        String? role = snapshot.data;
+                        if (role == "customers") {
+                          return MaterialApp(
+                            debugShowCheckedModeBanner: false,
+                            home: MainPageCustomer(),
+                            routes: {
+                              "MainPageCustomer": (context) =>
+                                  MainPageCustomer(),
+                              "SplashScreen": (context) => SplashScreen(),
+                              "LandingPage": (context) => LandingPage(),
+                              "LoginPageCustomer": (context) =>
+                                  LoginPageCustomer(),
+                              "SignupPageCustomer": (context) =>
+                                  SignupPageCustomer(),
+                              "MainPageCustomer": (context) =>
+                                  MainPageCustomer(),
+                              "ProductForCustomerBibit": (context) =>
+                                  ProductForCustomerBibit(category: "Bibit"),
+                              "ProductForCustomerPupuk": (context) =>
+                                  ProductForCustomerPupuk(category: "Pupuk"),
+                              "ProductForCustomerSprayer": (context) =>
+                                  ProductForCustomerSprayer(
+                                      category: "Sprayer"),
+                              "ProductForCustomerAlatPertanian": (context) =>
+                                  ProductForCustomerAlatPertanian(
+                                      category: "Alat Pertanian"),
+                              "ProductForCustomerRacunHama": (context) =>
+                                  ProductForCustomerRacunHama(
+                                      category: "Racun Hama"),
+                              "DetailProductPagePupuk": (context) =>
+                                  DetailProductPagePupuk(category: "Pupuk"),
+                              "DetailProductPageBibit": (context) =>
+                                  DetailProductPageBibit(category: "Bibit"),
+                              "DetailProductPageSprayer": (context) =>
+                                  DetailProductPageSprayer(category: "Sprayer"),
+                              "DetailProductPageAlatPertanian": (context) =>
+                                  DetailProductPageAlatPertanian(
+                                      category: "Alat Pertanian"),
+                              "DetailProductPageRacunHama": (context) =>
+                                  DetailProductPageRacunHama(
+                                      category: "Racun Hama"),
+                              "CartPageCustomer": (context) =>
+                                  CartPageCustomer(),
+                              "PaymentPageCustomer": (context) =>
+                                  PaymentPageCustomer(),
+                              "DeliveryPageStatusCustomer": (context) =>
+                                  DeliveryPageStatusCustomer(),
+                            },
+                          );
+                        } else if (role == "sellers") {
+                          return MaterialApp(
+                            debugShowCheckedModeBanner: false,
+                            home: MainPageSeller(),
+                            routes: {
+                              "DataSeller": (context) => DataSeller(),
+                              "SignupPageSeller": (context) =>
+                                  SignupPageSeller(),
+                              "LoginPageSeller": (context) => LoginPageSeller(),
+                              "MainPageSeller": (context) => MainPageSeller(),
+                              "CreatePageStoreSeller": (context) =>
+                                  CreatePageStoreSeller(),
+                              "ProductSellerPage": (context) =>
+                                  ProductSellerPage(),
+                              "DetailOrderHistorySeller": (context) =>
+                                  DetailOrderHistorySeller(),
+                            },
+                          );
+                        } else if (role == "admin") {
+                          return MaterialApp(
+                            debugShowCheckedModeBanner: false,
+                            home: AdminPage(),
+                            routes: {
+                              "AdminPage": (context) => AdminPage(),
+                              "DataCustomer": (context) => DataCustomer(),
+                              "DataSeller": (context) => DataSeller(),
+                            },
+                          );
+                        } else {
+                          return MaterialApp(
+                            debugShowCheckedModeBanner: false,
+                            home: SplashScreen(),
+                            routes: {
+                              "SplashScreen": (context) => SplashScreen(),
+                              "LandingPage": (context) => LandingPage(),
+                              "LoginPageCustomer": (context) =>
+                                  LoginPageCustomer(),
+                              "SignupPageCustomer": (context) =>
+                                  SignupPageCustomer(),
+                            },
+                          );
+                        }
+                      } catch (e) {
+                        print(e);
+                        return Center(
+                          child: Text("Terjadi kesalahan"),
+                        );
+                      }
+                    } else {
+                      return Center(
+                        child: Text("User role not found"),
+                      );
+                    }
+                  });
+            } else {
+              print("No authenticated user found");
+              // return Center(
+              //   child: Text("No authenticated user found"),
+              // );
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                home: SplashScreen(),
+                routes: {
+                  "SplashScreen": (context) => SplashScreen(),
+                  "LandingPage": (context) => LandingPage(),
+                  "LoginPageCustomer": (context) => LoginPageCustomer(),
+                  "SignupPageCustomer": (context) => SignupPageCustomer(),
+                  "LoginPageSeller": (context) => LoginPageSeller(),
+                  "MainPageSeller": (context) => MainPageSeller(),
+                  "AdminPage": (context) => AdminPage(),
+                },
+              );
+            }
           } else {
             return LoadingView();
           }
