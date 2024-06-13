@@ -28,6 +28,7 @@ import 'package:agroera_project/seller/signup_page_seller/signup_page_seller.dar
 import 'package:agroera_project/services/auth_services_customer.dart';
 import 'package:agroera_project/splash_screen/splash_screen.dart';
 import 'package:agroera_project/utils/loadingview.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';

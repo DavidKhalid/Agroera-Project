@@ -1,3 +1,7 @@
+import 'dart:ffi';
+
+import 'package:agroera_project/controller/controller_admin/controller_datacustomer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +15,7 @@ class DataCustomer extends StatefulWidget {
 }
 
 class _DataCustomerState extends State<DataCustomer> {
+  DataCustomerC _dataCustomerC = DataCustomerC();
   @override
   Widget build(BuildContext context) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
@@ -27,112 +32,134 @@ class _DataCustomerState extends State<DataCustomer> {
         ),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: 50,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Container(
-                height: mediaqueryHeight / 6,
-                width: mediaqueryWidth,
-                decoration: BoxDecoration(color: Colors.green.shade100),
-                child: ListTile(
-                  isThreeLine: true,
-                  leading: CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(
-                        "https://picsum.photos/id/${index + 1}/200/300"),
-                  ),
-                  title: _namecustomer(),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _email(),
-                      _handphone(),
-                    ],
-                  ),
-                  trailing: _icondelete(),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              )
-            ],
-          );
-        },
-      ),
+      body: StreamBuilder<QuerySnapshot<Object?>>(
+          stream: _dataCustomerC.dataCustomerStream(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData && snapshot.data != null) {
+                //code ini dijalankan ketika data ada pada database
+                print("This is ${snapshot.data}");
+                var snapshotResult = snapshot.data?.docs;
+                print(snapshotResult);
+                try {
+                  return ListView.builder(
+                    itemCount: snapshotResult?.length,
+                    itemBuilder: (context, index) {
+                      var finalData =
+                          snapshotResult?[index].data() as Map<String, dynamic>;
+                      return Column(
+                        children: [
+                          Container(
+                            height: mediaqueryHeight / 6,
+                            width: mediaqueryWidth,
+                            decoration:
+                                BoxDecoration(color: Colors.green.shade100),
+                            child: ListTile(
+                              isThreeLine: true,
+                              leading: CircleAvatar(
+                                radius: 25,
+                                backgroundImage:
+                                    NetworkImage(finalData["profile"]),
+                              ),
+                              title: _namecustomer(finalData),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _email(finalData),
+                                  _role(finalData),
+                                ],
+                              ),
+                              trailing: _icondelete(),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      );
+                    },
+                  );
+                } catch (e) {
+                  //jika data tidak ditemukan pada database, kode error ini yang
+                  //akan dijalankan
+                  print("This is error ${e}");
+                  return Text("This is error ${e}");
+                }
+              } else {
+                print("Data tidak ditemukan, tidak dapat memuat data");
+                return Text("Data tidak ditemukan, tidak dapat memuat data");
+              }
+            } else {
+              print("Terjadi kesalahan, tidak dapat memuat data");
+              return Text("Terjadi kesalahan, tidak dapat memuat data");
+            }
+          }),
     );
   }
 
   GestureDetector _icondelete() {
     return GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30),
-                    child: Icon(
-                      FeatherIcons.trash2,
-                      color: Colors.black,
-                      fill: 1,
-                    ),
-                  ),
-                );
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: Icon(
+          FeatherIcons.trash2,
+          color: Colors.black,
+          fill: 1,
+        ),
+      ),
+    );
   }
 
-  Row _handphone() {
+  Row _role(Map<String, dynamic> finalData) {
     return Row(
-                      children: [
-                        Text(
-                          "Handphone : ",
-                          style: GoogleFonts.roboto(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "082246516632",
-                          style: GoogleFonts.roboto(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                      ],
-                    );
+      children: [
+        Text(
+          "Role : ",
+          style: GoogleFonts.roboto(
+              fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          finalData["role"],
+          style: GoogleFonts.roboto(
+              fontSize: 16, color: Colors.black, fontWeight: FontWeight.normal),
+        ),
+      ],
+    );
   }
 
-  Row _email() {
+  Row _email(Map<String, dynamic> finalData) {
     return Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            "Email : ",
-                            style: GoogleFonts.roboto(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Text(
-                          "alberto@gmail.com",
-                          style: GoogleFonts.roboto(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                      ],
-                    );
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+            "Email : ",
+            style: GoogleFonts.roboto(
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Text(
+          finalData["email"],
+          style: GoogleFonts.roboto(
+              fontSize: 16, color: Colors.black, fontWeight: FontWeight.normal),
+        ),
+      ],
+    );
   }
 
-  Padding _namecustomer() {
+  Padding _namecustomer(Map<String, dynamic> finalData) {
     return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    "Nama Customer",
-                    style: GoogleFonts.roboto(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
-                );
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Text(
+        finalData["username"],
+        style: GoogleFonts.roboto(
+            fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+      ),
+    );
   }
 }

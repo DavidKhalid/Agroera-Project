@@ -36,7 +36,7 @@ class _AdminPageState extends State<AdminPage> {
             _appbarcontent(mediaqueryHeight, mediaqueryWidth),
             _datacustomer(),
             _dataseller(),
-            _datarequest(),
+            // _datarequest(),
           ],
         ),
       ),
@@ -341,7 +341,7 @@ class _AdminPageState extends State<AdminPage> {
 
   Align _dataseller() {
     return Align(
-      alignment: Alignment(0.8, 0),
+      alignment: Alignment(0.8, 0.6),
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
@@ -351,7 +351,7 @@ class _AdminPageState extends State<AdminPage> {
           ));
         },
         child: Container(
-          height: 200,
+          height: 400,
           width: 170,
           decoration: BoxDecoration(
               boxShadow: [
@@ -398,7 +398,7 @@ class _AdminPageState extends State<AdminPage> {
 
   Align _datacustomer() {
     return Align(
-      alignment: Alignment(-0.8, 0),
+      alignment: Alignment(-0.8, 0.6),
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
@@ -408,7 +408,7 @@ class _AdminPageState extends State<AdminPage> {
           ));
         },
         child: Container(
-          height: 200,
+          height: 400,
           width: 170,
           decoration: BoxDecoration(
               boxShadow: [
@@ -422,7 +422,7 @@ class _AdminPageState extends State<AdminPage> {
               border: Border.all(color: Colors.blue.shade100, width: 2),
               image: DecorationImage(
                   alignment: Alignment.topCenter,
-                  scale: 0.8,
+                  scale: 0.7,
                   image: AssetImage("assets/images/customerlogo.png")),
               borderRadius: BorderRadius.circular(20)),
           child: Column(
