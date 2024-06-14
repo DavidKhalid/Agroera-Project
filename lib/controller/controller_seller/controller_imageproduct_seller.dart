@@ -12,6 +12,8 @@ class ImageProductControllerSeller {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   late String uidSeller;
+  late String temporaryImageFirst;
+  late String temporaryImageSecond;
 
   ImageProductControllerSeller() {
     uidSeller = _auth.currentUser!.uid;
@@ -28,11 +30,12 @@ class ImageProductControllerSeller {
     yield* collectionreferenceSeller
         .where("seller_id", isEqualTo: uidSeller)
         .limit(1)
+        // .orderBy("createAt", descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs.first);
   }
 
-  void pickImageFirstProduct(BuildContext context) async {
+  Future<void> pickImageFirstProduct(BuildContext context) async {
     try {
       var result = await FilePicker.platform.pickFiles();
       print("ini adalah hasil result : ${result}");
@@ -71,20 +74,24 @@ class ImageProductControllerSeller {
               .child("upload/${uid}/${file.name}")
               .getDownloadURL();
           var imageUrlProduct = imageUrl;
+          var temporaryImageFirst = imageUrlProduct;
           print("ini ada image url test $imageUrl");
           _firebaseFirestore
               .collection("product")
               .where("seller_id", isEqualTo: uid)
+              .where("secondimageproduct", isEqualTo: "")
+              // .orderBy("createAt", descending: true)
               .limit(1)
               .get()
               .then((querySnapshot) {
             if (querySnapshot.docs.isNotEmpty) {
               var doc = querySnapshot.docs.first;
               _firebaseFirestore.collection("product").doc(doc.id).update({
-                "firstimageproduct": imageUrlProduct,
+                "firstimageproduct": temporaryImageFirst,
               });
             }
           });
+
           // _firebaseFirestore.collection("product").doc(uid).update({
           //   "firstimageproduct": firstimageProduct,
           // });
@@ -106,7 +113,7 @@ class ImageProductControllerSeller {
     }
   }
 
-  void pickImageSecondProduct(BuildContext context) async {
+  Future<void> pickImageSecondProduct(BuildContext context) async {
     try {
       var result = await FilePicker.platform.pickFiles();
       print("ini adalah hasil result : ${result}");
@@ -145,20 +152,24 @@ class ImageProductControllerSeller {
               .child("upload/${uid}/${file.name}")
               .getDownloadURL();
           var imageUrlProduct = imageUrl;
+          var temporaryImageSecond = imageUrlProduct;
           print("ini ada image url test $imageUrl");
           _firebaseFirestore
               .collection("product")
               .where("seller_id", isEqualTo: uid)
+              .where("secondimageproduct", isEqualTo: "")
+              // .orderBy('creatAt', descending: true)
               .limit(1)
               .get()
               .then((querySnapshot) {
             if (querySnapshot.docs.isNotEmpty) {
               var doc = querySnapshot.docs.first;
               _firebaseFirestore.collection("product").doc(doc.id).update({
-                "secondimageproduct": imageUrlProduct,
+                "secondimageproduct": temporaryImageSecond,
               });
             }
           });
+
           // _firebaseFirestore.collection("product").doc(uid).update({
           //   "firstimageproduct": firstimageProduct,
           // });
@@ -181,7 +192,7 @@ class ImageProductControllerSeller {
   }
 
   ////fsdfsdfsdfas
-  void submit(BuildContext context) async {
+  Future<void> submit(BuildContext context) async {
     try {
       //Dapatkan UID pengguna yang terautentikasi.
       String? uid = _auth.currentUser!.uid;
@@ -194,11 +205,30 @@ class ImageProductControllerSeller {
       _firebaseFirestore.collection("sellers").doc(uid).update({
         "status": "already have store and product",
       });
+
       Navigator.of(context).pushReplacementNamed(MainPageSeller.nameRoutes);
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Gagal mengunggah file ${e}")));
     }
   }
-  //sdfasdfsafsadfasdfasd
+
+  void deleteOldImages(
+      String imageUrl1, String imageUrl2, BuildContext context) {
+    try {
+      if (imageUrl1.isNotEmpty) {
+        _firebaseStorage.refFromURL(imageUrl1).delete();
+      }
+      if (imageUrl2.isNotEmpty) {
+        _firebaseStorage.refFromURL(imageUrl2).delete();
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Old images deleted successfully")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to delete old images: $e")),
+      );
+    }
+  }
 }

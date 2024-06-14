@@ -1,5 +1,6 @@
 import 'package:agroera_project/controller/controller_seller/controller_addpage_productseller.dart';
 import 'package:agroera_project/models/model_category_product.dart';
+import 'package:agroera_project/seller/mainpage_seller/main_page_seller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -44,6 +45,11 @@ class _ProductSellerPageState extends State<ProductSellerPage> {
               fontSize: 25, color: Colors.white, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.popAndPushNamed(context, MainPageSeller.nameRoutes);
+            },
+            icon: Icon(FeatherIcons.arrowLeft)),
         backgroundColor: Colors.green.shade800,
         iconTheme: IconThemeData(color: Colors.white),
       ),
