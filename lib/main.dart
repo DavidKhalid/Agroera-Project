@@ -2,7 +2,7 @@ import 'package:agroera_project/admin/datacustomer/datacustomer.dart';
 import 'package:agroera_project/admin/dataseller/dataseller.dart';
 import 'package:agroera_project/admin/mainpage_admin/mainpage_admin.dart';
 import 'package:agroera_project/customer/cart_page_customer/cart_page_customer.dart';
-import 'package:agroera_project/customer/deliverypage_status_customer/deliverypage_status_customer.dart';
+import 'package:agroera_project/customer/purchasepage_status_customer/purchasepage_status_customer.dart';
 import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_alatpertanian.dart';
 import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_bibit.dart';
 import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_pupuk.dart';

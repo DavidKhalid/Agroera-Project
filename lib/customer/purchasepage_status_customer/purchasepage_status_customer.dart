@@ -32,7 +32,7 @@ class DeliveryPageStatusCustomer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(20),
             child: Text(
-              "Delivery Status",
+              "Purchase Status",
               style: GoogleFonts.roboto(
                   fontSize: 25,
                   color: Colors.black,
@@ -42,7 +42,7 @@ class DeliveryPageStatusCustomer extends StatelessWidget {
           Align(
             alignment: Alignment(0, -0.7),
             child: Container(
-              height: mediaqueryHeight / 4,
+              height: mediaqueryHeight / 5,
               width: mediaqueryWidth,
               decoration: BoxDecoration(
                 //color: Colors.amber,
@@ -57,26 +57,26 @@ class DeliveryPageStatusCustomer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(20, 10, 0, 10),
+                    //   child: RichText(
+                    //       text: TextSpan(
+                    //           text: "Order ID : ",
+                    //           style: GoogleFonts.alegreya(
+                    //               fontSize: 20,
+                    //               color: Colors.black,
+                    //               fontWeight: FontWeight.bold),
+                    //           children: <TextSpan>[
+                    //         TextSpan(
+                    //           text: "12345678",
+                    //           style: TextStyle(
+                    //               color: Colors.black,
+                    //               fontWeight: FontWeight.w100),
+                    //         )
+                    //       ])),
+                    // ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 0, 10),
-                      child: RichText(
-                          text: TextSpan(
-                              text: "Order ID : ",
-                              style: GoogleFonts.alegreya(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                              children: <TextSpan>[
-                            TextSpan(
-                              text: "12345678",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w100),
-                            )
-                          ])),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+                      padding: const EdgeInsets.fromLTRB(20, 20, 0, 10),
                       child: RichText(
                           text: TextSpan(
                               text: "Product Name : ",
@@ -86,7 +86,7 @@ class DeliveryPageStatusCustomer extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                               children: <TextSpan>[
                             TextSpan(
-                              text: "Bibit 1",
+                              text: "Benih Padi MR219 5 kg",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w100),
@@ -104,7 +104,7 @@ class DeliveryPageStatusCustomer extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                             TextSpan(
-                              text: "3",
+                              text: "1",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w100),
@@ -124,7 +124,7 @@ class DeliveryPageStatusCustomer extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                             TextSpan(
-                              text: "Rp. 300.000",
+                              text: "Rp. 115.000",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w100),
@@ -133,26 +133,26 @@ class DeliveryPageStatusCustomer extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Status : ",
-                          style: GoogleFonts.alegreya(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "Belum Dibayar",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w100),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+                    //   child: RichText(
+                    //     text: TextSpan(
+                    //       text: "Status : ",
+                    //       style: GoogleFonts.alegreya(
+                    //           fontSize: 20,
+                    //           color: Colors.black,
+                    //           fontWeight: FontWeight.bold),
+                    //       children: <TextSpan>[
+                    //         TextSpan(
+                    //           text: "Belum Dibayar",
+                    //           style: TextStyle(
+                    //               color: Colors.black,
+                    //               fontWeight: FontWeight.w100),
+                    //         )
+                    //       ],
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ),

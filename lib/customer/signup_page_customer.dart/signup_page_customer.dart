@@ -135,7 +135,7 @@ class SignupPageCustomer extends StatelessWidget {
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
         decoration: const InputDecoration(
-          icon: Icon(FeatherIcons.mail, color: Colors.grey),
+          icon: Icon(FeatherIcons.key, color: Colors.grey),
           hintText: "PASSWORD",
           border: UnderlineInputBorder(),
           hintStyle: TextStyle(
@@ -162,7 +162,7 @@ class SignupPageCustomer extends StatelessWidget {
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
         ],
         decoration: const InputDecoration(
-          icon: Icon(FeatherIcons.user, color: Colors.grey),
+          icon: Icon(FeatherIcons.mail, color: Colors.grey),
           hintText: "EMAIL",
           border: UnderlineInputBorder(),
           hintStyle: TextStyle(
@@ -186,10 +186,10 @@ class SignupPageCustomer extends StatelessWidget {
         autocorrect: false,
         textInputAction: TextInputAction.next,
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
+          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*(). ]'))
         ],
         decoration: const InputDecoration(
-          icon: Icon(FeatherIcons.mail, color: Colors.grey),
+          icon: Icon(FeatherIcons.user, color: Colors.grey),
           hintText: "USERNAME",
           border: UnderlineInputBorder(),
           hintStyle: TextStyle(

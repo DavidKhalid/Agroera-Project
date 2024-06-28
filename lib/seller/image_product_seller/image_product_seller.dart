@@ -56,11 +56,14 @@ class _ImageProdutSellerState extends State<ImageProdutSeller> {
                       _imageProductControllerSeller
                           .pickImageSecondProduct(context);
                     },
-                    child: Container(
-                      height: 200,
-                      width: 200,
-                      color: Colors.amber,
+                    child: Center(
+                      child: Text("Data tidak ditemukan"),
                     ),
+                    // child: Container(
+                    //   height: 200,
+                    //   width: 200,
+                    //   color: Colors.amber,
+                    // ),
                   ),
                 );
               } else if (snapshot.hasData && snapshot.data != null) {

@@ -1,5 +1,6 @@
 import 'package:agroera_project/customer/payment_page_customer/payment_page_customer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -87,33 +88,39 @@ class _CartPageCustomerState extends State<CartPageCustomer> {
                           decoration: BoxDecoration(
                               // color: Colors.amber,
                               image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                      "https://picsum.photos/id/1/200/300"))),
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                "https://firebasestorage.googleapis.com/v0/b/agroera-project.appspot.com/o/upload%2F5VYzPiPcjdNT6RzZ4flMfwI0wgW2%2FFirst%20Image.jpeg?alt=media&token=fe936871-8d7a-419e-8b94-40484392976a"),
+                          )),
                         ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                              child: Text(
-                                "Product Namelllll",
-                                style: GoogleFonts.roboto(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                child: Text(
+                                  // overflow: TextOverflow.ellipsis,
+                                  "Benih Padi MR219 5 kg",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 40, 0, 10),
-                              child: Text(
-                                "Price",
-                                style: GoogleFonts.roboto(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 40, 0, 10),
+                                child: Text(
+                                  "Rp. 115.000",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(
                           width: 20,
@@ -178,7 +185,7 @@ class _CartPageCustomerState extends State<CartPageCustomer> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  "Rp. 500.000",
+                  "Rp. 115.000",
                   style: GoogleFonts.roboto(
                       fontSize: 20, fontWeight: FontWeight.w800),
                 ),

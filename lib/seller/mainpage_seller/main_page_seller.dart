@@ -141,14 +141,17 @@ class _MainPageSellerState extends State<MainPageSeller> {
                                     : NetworkImage(imageStoreSeller),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Text(
-                                storeName == "" ? "Store Name" : storeName,
-                                style: GoogleFonts.roboto(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Text(
+                                  storeName == "" ? "Store Name" : storeName,
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w800),
+                                ),
                               ),
                             ),
                           ],
@@ -194,29 +197,39 @@ class _MainPageSellerState extends State<MainPageSeller> {
                         //
                       ],
                     ),
-                    Align(
-                      alignment: Alignment(0, -0.73),
-                      child: Container(
-                        height: 180,
-                        width: mediaqueryWidth,
-                        // color: Colors.grey.shade100,
-                        child: Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(imageStoreSeller),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Text(
-                                storeName,
-                                style: GoogleFonts.roboto(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment(0, -0.73),
+                        child: Expanded(
+                          child: Container(
+                            height: 180,
+                            width: mediaqueryWidth,
+                            // color: Colors.blue,
+                            child: Expanded(
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage:
+                                        NetworkImage(imageStoreSeller),
+                                  ),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Text(
+                                        storeName,
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
@@ -293,13 +306,15 @@ class _MainPageSellerState extends State<MainPageSeller> {
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
-                                              Text(
-                                                "Rp. ${productPrice}",
-                                                style: GoogleFonts.roboto(
-                                                    fontSize: 18,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              Expanded(
+                                                child: Text(
+                                                  "Rp. ${productPrice}",
+                                                  style: GoogleFonts.roboto(
+                                                      fontSize: 18,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -659,37 +674,37 @@ class _MainPageSellerState extends State<MainPageSeller> {
                               ),
                             ],
                           ),
-                          Row(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              //
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 50, left: 20),
-                                child: Text(
-                                  "UID",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 50, right: 20),
-                                child: Text(
-                                  "${finalDataseller["uid"]}",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   // crossAxisAlignment: CrossAxisAlignment.start,
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     //
+                          //     Padding(
+                          //       padding:
+                          //           const EdgeInsets.only(top: 50, left: 20),
+                          //       child: Text(
+                          //         "UID",
+                          //         style: GoogleFonts.roboto(
+                          //             fontSize: 16,
+                          //             color: Colors.black,
+                          //             fontWeight: FontWeight.w500),
+                          //       ),
+                          //     ),
+                          //     Padding(
+                          //       padding:
+                          //           const EdgeInsets.only(top: 50, right: 20),
+                          //       child: Text(
+                          //         "${finalDataseller["uid"]}",
+                          //         style: GoogleFonts.roboto(
+                          //             fontSize: 16,
+                          //             color: Colors.black,
+                          //             fontWeight: FontWeight.w500),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           SizedBox(
-                            height: 380,
+                            height: 450,
                           ),
                           GestureDetector(
                             onTap: () {
@@ -811,14 +826,16 @@ class _MainPageSellerState extends State<MainPageSeller> {
   //   );
   // }
 
-  Align _textproduct() {
-    return Align(
-        alignment: Alignment(-0.94, -0.3),
-        child: Text(
-          "Products",
-          style: GoogleFonts.roboto(
-              fontSize: 25, color: Colors.black, fontWeight: FontWeight.w800),
-        ));
+  Expanded _textproduct() {
+    return Expanded(
+      child: Align(
+          alignment: Alignment(-0.94, -0.3),
+          child: Text(
+            "Products",
+            style: GoogleFonts.roboto(
+                fontSize: 25, color: Colors.black, fontWeight: FontWeight.w800),
+          )),
+    );
   }
 
   // Align _logoandNameStore(double mediaqueryWidth) {

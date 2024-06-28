@@ -1,4 +1,4 @@
-import 'package:agroera_project/customer/deliverypage_status_customer/deliverypage_status_customer.dart';
+import 'package:agroera_project/customer/purchasepage_status_customer/purchasepage_status_customer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -180,7 +180,7 @@ class PaymentPageCustomer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Submit and Delivery Status",
+                        "Submit and Purchase Status",
                         style: GoogleFonts.roboto(
                             fontSize: 18,
                             color: Colors.white,

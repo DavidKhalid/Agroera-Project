@@ -15,7 +15,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../deliverypage_status_customer/deliverypage_status_customer.dart';
+import '../purchasepage_status_customer/purchasepage_status_customer.dart';
 
 final List<CategoryProduct> categoryproduct = categoryProduct;
 
@@ -292,7 +292,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Text(
-                "Delivery Status",
+                "Purchase Status",
                 style: GoogleFonts.roboto(
                     fontSize: 25,
                     color: Colors.black,
@@ -393,26 +393,26 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
-                        child: RichText(
-                          text: TextSpan(
-                            text: "Status : ",
-                            style: GoogleFonts.alegreya(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: "Belum Dibayar",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w100),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+                      //   child: RichText(
+                      //     text: TextSpan(
+                      //       text: "Status : ",
+                      //       style: GoogleFonts.alegreya(
+                      //           fontSize: 20,
+                      //           color: Colors.black,
+                      //           fontWeight: FontWeight.bold),
+                      //       children: <TextSpan>[
+                      //         TextSpan(
+                      //           text: "Belum Dibayar",
+                      //           style: TextStyle(
+                      //               color: Colors.black,
+                      //               fontWeight: FontWeight.w100),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                 ),
@@ -450,7 +450,7 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
                         height: 100,
                         width: 100,
                         child: CircleAvatar(
-                          backgroundImage: profileImageUrl == "no-pictures-yet"
+                          backgroundImage: profileImageUrl == ""
                               ? NetworkImage(
                                   "https://ui-avatars.com/api/?background=random&color=fff&name=${finaldata["username"]}}")
                               : NetworkImage(profileImageUrl),
@@ -518,35 +518,35 @@ class _MainPageCustomerState extends State<MainPageCustomer> {
                           ),
                         ],
                       ),
-                      Row(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          //
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50, left: 20),
-                            child: Text(
-                              "UID",
-                              style: GoogleFonts.roboto(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50, right: 20),
-                            child: Text(
-                              "${finaldata["uid"]}",
-                              style: GoogleFonts.roboto(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   // crossAxisAlignment: CrossAxisAlignment.start,
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     //
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(top: 50, left: 20),
+                      //       child: Text(
+                      //         "UID",
+                      //         style: GoogleFonts.roboto(
+                      //             fontSize: 16,
+                      //             color: Colors.black,
+                      //             fontWeight: FontWeight.w500),
+                      //       ),
+                      //     ),
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(top: 50, right: 20),
+                      //       child: Text(
+                      //         "${finaldata["uid"]}",
+                      //         style: GoogleFonts.roboto(
+                      //             fontSize: 16,
+                      //             color: Colors.black,
+                      //             fontWeight: FontWeight.w500),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       SizedBox(
-                        height: 380,
+                        height: 450,
                       ),
                       GestureDetector(
                         onTap: () {

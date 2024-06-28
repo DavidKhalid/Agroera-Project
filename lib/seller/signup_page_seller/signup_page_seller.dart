@@ -161,14 +161,14 @@ class SignupPageSeller extends StatelessWidget {
 
   Positioned _inputusername() {
     return Positioned(
-      left: 30,
+      left: 30,       
       right: 65,
       top: 380,
       child: TextField(
         obscureText: false,
         controller: _signupcontrollerSeller.usernameC,
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*().]'))
+          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9!@#\$%^&*(). ]'))
         ],
         decoration: const InputDecoration(
           icon: Icon(FeatherIcons.mail, color: Colors.grey),
