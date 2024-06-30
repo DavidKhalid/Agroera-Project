@@ -17,7 +17,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ProductForCustomerBibit extends StatefulWidget {
   static const nameRoutes = "ProductForCustomerBibit";
-  final String category; // add category parameter
+  final String category;
+  late String sellerID; // add category parameter
   //final List<CategoryProduct> categoryProducts;
   ProductForCustomerBibit({super.key, required this.category});
 
@@ -29,6 +30,7 @@ class ProductForCustomerBibit extends StatefulWidget {
 class _ProductForCustomerBibitState extends State<ProductForCustomerBibit> {
   ProductForCustomerController _productForCustomerController =
       ProductForCustomerController();
+
   @override
   Widget build(BuildContext context) {
     final mediaqueryHeight = MediaQuery.of(context).size.height;
@@ -71,6 +73,10 @@ class _ProductForCustomerBibitState extends State<ProductForCustomerBibit> {
                   itemBuilder: (context, index) {
                     var finalproducts =
                         products?[index].data() as Map<String, dynamic>;
+                    var idProduct = products?[index];
+                    var sellerID = finalproducts;
+                    print(
+                        "This is snapshot for Seller ID : ${sellerID["seller_id"]}");
 
                     return SafeArea(
                         child: Column(
@@ -89,8 +95,17 @@ class _ProductForCustomerBibitState extends State<ProductForCustomerBibit> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(
-                                  context, DetailProductPageBibit.nameRoutes);
+                              // Navigator.pushReplacementNamed(
+                              //     context, DetailProductPageBibit.nameRoutes);
+                              print("fgdfgdfgdf   ${products?[index].id}");
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  return DetailProductPageBibit(
+                                    category: "Bibit",
+                                    productId: idProduct?.id,
+                                  );
+                                },
+                              ));
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),

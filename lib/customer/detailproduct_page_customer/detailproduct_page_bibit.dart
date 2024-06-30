@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:agroera_project/controller/controller_customer/controller_pageproduct_customer.dart';
 import 'package:agroera_project/controller/controller_seller/controller_productpage_bibit.dart';
 import 'package:agroera_project/controller/controller_seller/controller_productpage_pupuk.dart';
@@ -12,10 +14,16 @@ bool isFavorite = false;
 
 class DetailProductPageBibit extends StatefulWidget {
   String category;
+  var productId;
+
   //  final List<Map<String, String>> products;
 
   static const nameRoutes = "DetailProductPageBibit";
-  DetailProductPageBibit({super.key, required this.category});
+  DetailProductPageBibit({
+    super.key,
+    required this.category,
+    required this.productId,
+  });
 
   @override
   State<DetailProductPageBibit> createState() => _DetailProductPageBibitState();
@@ -45,7 +53,9 @@ class _DetailProductPageBibitState extends State<DetailProductPageBibit> {
         ),
       ),
       body: StreamBuilder<DocumentSnapshot<Object?>>(
-          stream: _productPageBibitC.streamProductseller(widget.category),
+          stream: _productPageBibitC.streamProductseller(widget.productId
+              // widget.seller_id,
+              ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -55,6 +65,8 @@ class _DetailProductPageBibitState extends State<DetailProductPageBibit> {
               if (snapshot.hasData && snapshot.data != null) {
                 print("This is snapshot ${snapshot.data?.data()}");
                 var snapshotResult = snapshot.data?.data();
+                var snapshotSellerId = snapshotResult as Map<String, dynamic>;
+                print(snapshotSellerId["seller_id"]);
                 return SafeArea(
                   child: SingleChildScrollView(
                     child: SizedBox(

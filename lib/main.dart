@@ -1,6 +1,8 @@
 import 'package:agroera_project/admin/datacustomer/datacustomer.dart';
 import 'package:agroera_project/admin/dataseller/dataseller.dart';
 import 'package:agroera_project/admin/mainpage_admin/mainpage_admin.dart';
+import 'package:agroera_project/controller/controller_seller/controller_imageproduct_seller.dart';
+import 'package:agroera_project/controller/controller_seller/controller_productpage_bibit.dart';
 import 'package:agroera_project/customer/cart_page_customer/cart_page_customer.dart';
 import 'package:agroera_project/customer/purchasepage_status_customer/purchasepage_status_customer.dart';
 import 'package:agroera_project/customer/detailproduct_page_customer/detailproduct_page_alatpertanian.dart';
@@ -43,6 +45,7 @@ void main() async {
 }
 
 class AgroEraApp extends StatelessWidget {
+  var testsnap = ProductPageBibitC;
   final AuthServices _authServices = AuthServices();
   AgroEraApp({super.key});
   Future<String?> _getUserRole(String uid) async {
@@ -97,6 +100,7 @@ class AgroEraApp extends StatelessWidget {
                       try {
                         String? role = snapshot.data;
                         if (role == "customers") {
+                          print("This is testsnap${testsnap}");
                           return MaterialApp(
                             debugShowCheckedModeBanner: false,
                             home: MainPageCustomer(),
@@ -126,8 +130,11 @@ class AgroEraApp extends StatelessWidget {
                                       category: "Racun Hama"),
                               "DetailProductPagePupuk": (context) =>
                                   DetailProductPagePupuk(category: "Pupuk"),
-                              "DetailProductPageBibit": (context) =>
-                                  DetailProductPageBibit(category: "Bibit"),
+                              // "DetailProductPageBibit": (context) =>
+                              //     DetailProductPageBibit(
+                              //       category: "Bibit",
+                              //       // seller_id: " k8PBkE6SHzROWqFH8jnmtXMe44L2",
+                              //     ),
                               "DetailProductPageSprayer": (context) =>
                                   DetailProductPageSprayer(category: "Sprayer"),
                               "DetailProductPageAlatPertanian": (context) =>
