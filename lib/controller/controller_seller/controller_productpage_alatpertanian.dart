@@ -15,16 +15,12 @@ class ProductPageAlatPertanianC {
   String get uid => uidSeller;
 
   Stream<DocumentSnapshot<Object?>> streamProductseller(
-      String category) async* {
+      String docProductId) async* {
     // String uid = _auth.currentUser!.uid;
 
     CollectionReference collectionreferenceSeller =
         _firebaseFirestore.collection("product");
 
-    yield* collectionreferenceSeller
-        .where("categoryproduct", isEqualTo: category)
-        .limit(1)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.first);
+    yield* collectionreferenceSeller.doc(docProductId).snapshots();
   }
 }

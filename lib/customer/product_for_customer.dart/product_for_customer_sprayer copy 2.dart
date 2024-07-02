@@ -38,7 +38,8 @@ class _ProductForCustomerSprayerState extends State<ProductForCustomerSprayer> {
         backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.pushReplacementNamed(
+                context, MainPageCustomer.nameRoutes);
           },
           child: Icon(
             FeatherIcons.arrowLeftCircle,
@@ -71,6 +72,7 @@ class _ProductForCustomerSprayerState extends State<ProductForCustomerSprayer> {
                   itemBuilder: (context, index) {
                     var finalproducts =
                         products?[index].data() as Map<String, dynamic>;
+                    var idProduct = products?[index];
 
                     return SafeArea(
                         child: Column(
@@ -89,8 +91,16 @@ class _ProductForCustomerSprayerState extends State<ProductForCustomerSprayer> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(
-                                  context, DetailProductPageSprayer.nameRoutes);
+                              // Navigator.pushReplacementNamed(
+                              //     context, DetailProductPageSprayer.nameRoutes,
+                              //     arguments: idProduct);
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return DetailProductPageSprayer(
+                                      category: "Sprayer",
+                                      productId: idProduct?.id);
+                                },
+                              ));
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),

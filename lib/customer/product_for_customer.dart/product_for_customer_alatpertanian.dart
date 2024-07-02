@@ -72,6 +72,7 @@ class _ProductForCustomerAlatPertanianState
                   itemBuilder: (context, index) {
                     var finalproducts =
                         products?[index].data() as Map<String, dynamic>;
+                    var idProduct = products?[index];
 
                     return SafeArea(
                         child: Column(
@@ -90,8 +91,15 @@ class _ProductForCustomerAlatPertanianState
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(context,
-                                  DetailProductPageAlatPertanian.nameRoutes);
+                              // Navigator.pushReplacementNamed(context,
+                              //     DetailProductPageAlatPertanian.nameRoutes);
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return DetailProductPageAlatPertanian(
+                                      category: "Alat Pertanian",
+                                      productId: idProduct?.id);
+                                },
+                              ));
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),

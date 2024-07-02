@@ -97,7 +97,7 @@ class _ProductForCustomerBibitState extends State<ProductForCustomerBibit> {
                             onTap: () {
                               // Navigator.pushReplacementNamed(
                               //     context, DetailProductPageBibit.nameRoutes);
-                              print("fgdfgdfgdf   ${products?[index].id}");
+                              print("Product id : ${products?[index].id}");
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) {
                                   return DetailProductPageBibit(

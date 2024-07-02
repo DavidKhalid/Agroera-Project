@@ -11,10 +11,12 @@ bool isFavorite = false;
 
 class DetailProductPagePupuk extends StatefulWidget {
   String category;
+  var productId;
   //  final List<Map<String, String>> products;
 
   static const nameRoutes = "DetailProductPagePupuk";
-  DetailProductPagePupuk({super.key, required this.category});
+  DetailProductPagePupuk(
+      {super.key, required this.category, required this.productId});
 
   @override
   State<DetailProductPagePupuk> createState() => _DetailProductPagePupukState();
@@ -44,7 +46,7 @@ class _DetailProductPagePupukState extends State<DetailProductPagePupuk> {
         ),
       ),
       body: StreamBuilder<DocumentSnapshot<Object?>>(
-          stream: _productPagePupukC.streamProductseller(widget.category),
+          stream: _productPagePupukC.streamProductseller(widget.productId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(

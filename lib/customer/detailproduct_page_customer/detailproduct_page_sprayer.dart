@@ -2,6 +2,7 @@ import 'package:agroera_project/controller/controller_customer/controller_pagepr
 import 'package:agroera_project/controller/controller_seller/controller_productpage_bibit.dart';
 import 'package:agroera_project/controller/controller_seller/controller_productpage_pupuk.dart';
 import 'package:agroera_project/controller/controller_seller/controller_productpage_sprayer.dart';
+import 'package:agroera_project/customer/product_for_customer.dart/product_for_customer_sprayer%20copy%202.dart';
 import 'package:agroera_project/models/model_category_product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,12 @@ bool isFavorite = false;
 
 class DetailProductPageSprayer extends StatefulWidget {
   String category;
+  var productId;
   //  final List<Map<String, String>> products;
 
   static const nameRoutes = "DetailProductPageSprayer";
-  DetailProductPageSprayer({super.key, required this.category});
+  DetailProductPageSprayer(
+      {super.key, required this.category, required this.productId});
 
   @override
   State<DetailProductPageSprayer> createState() =>
@@ -37,7 +40,8 @@ class _DetailProductPageSprayerState extends State<DetailProductPageSprayer> {
         backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.pushReplacementNamed(
+                context, ProductForCustomerSprayer.nameRoutes);
           },
           child: Icon(
             FeatherIcons.arrowLeftCircle,
@@ -47,7 +51,7 @@ class _DetailProductPageSprayerState extends State<DetailProductPageSprayer> {
         ),
       ),
       body: StreamBuilder<DocumentSnapshot<Object?>>(
-          stream: _productPageSprayerC.streamProductseller(widget.category),
+          stream: _productPageSprayerC.streamProductseller(widget.productId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(

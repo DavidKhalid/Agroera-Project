@@ -16,7 +16,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ProductForCustomerPupuk extends StatefulWidget {
   static const nameRoutes = "ProductForCustomerPupuk";
-  final String category; // add category parameter
+  final String category;
+  // add category parameter
   //final List<CategoryProduct> categoryProducts;
   ProductForCustomerPupuk({super.key, required this.category});
 
@@ -70,6 +71,7 @@ class _ProductForCustomerPupukState extends State<ProductForCustomerPupuk> {
                   itemBuilder: (context, index) {
                     var finalproducts =
                         products?[index].data() as Map<String, dynamic>;
+                    var idProduct = products?[index];
 
                     return SafeArea(
                         child: Column(
@@ -88,8 +90,15 @@ class _ProductForCustomerPupukState extends State<ProductForCustomerPupuk> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(
-                                  context, DetailProductPagePupuk.nameRoutes);
+                              // Navigator.pushReplacementNamed(
+                              //     context, DetailProductPagePupuk.nameRoutes);
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return DetailProductPagePupuk(
+                                      category: "Pupuk",
+                                      productId: idProduct?.id);
+                                },
+                              ));
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),

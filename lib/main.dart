@@ -128,21 +128,21 @@ class AgroEraApp extends StatelessWidget {
                               "ProductForCustomerRacunHama": (context) =>
                                   ProductForCustomerRacunHama(
                                       category: "Racun Hama"),
-                              "DetailProductPagePupuk": (context) =>
-                                  DetailProductPagePupuk(category: "Pupuk"),
+                              // "DetailProductPagePupuk": (context) =>
+                              //     DetailProductPagePupuk(category: "Pupuk"),
                               // "DetailProductPageBibit": (context) =>
                               //     DetailProductPageBibit(
                               //       category: "Bibit",
                               //       // seller_id: " k8PBkE6SHzROWqFH8jnmtXMe44L2",
                               //     ),
-                              "DetailProductPageSprayer": (context) =>
-                                  DetailProductPageSprayer(category: "Sprayer"),
-                              "DetailProductPageAlatPertanian": (context) =>
-                                  DetailProductPageAlatPertanian(
-                                      category: "Alat Pertanian"),
-                              "DetailProductPageRacunHama": (context) =>
-                                  DetailProductPageRacunHama(
-                                      category: "Racun Hama"),
+                              // "DetailProductPageSprayer": (context) =>
+                              //     DetailProductPageSprayer(category: "Sprayer"),
+                              // "DetailProductPageAlatPertanian": (context) =>
+                              //     DetailProductPageAlatPertanian(
+                              //         category: "Alat Pertanian"),
+                              // "DetailProductPageRacunHama": (context) =>
+                              //     DetailProductPageRacunHama(
+                              //         category: "Racun Hama"),
                               "CartPageCustomer": (context) =>
                                   CartPageCustomer(),
                               "PaymentPageCustomer": (context) =>

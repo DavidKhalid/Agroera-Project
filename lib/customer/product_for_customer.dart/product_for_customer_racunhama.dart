@@ -72,6 +72,7 @@ class _ProductForCustomerRacunHamaState
                   itemBuilder: (context, index) {
                     var finalproducts =
                         products?[index].data() as Map<String, dynamic>;
+                    var idProduct = products?[index];
 
                     return SafeArea(
                         child: Column(
@@ -90,8 +91,15 @@ class _ProductForCustomerRacunHamaState
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(context,
-                                  DetailProductPageRacunHama.nameRoutes);
+                              // Navigator.pushReplacementNamed(context,
+                              //     DetailProductPageRacunHama.nameRoutes);
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return DetailProductPageRacunHama(
+                                      category: "Racun Hama",
+                                      productId: idProduct?.id);
+                                },
+                              ));
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 10),
